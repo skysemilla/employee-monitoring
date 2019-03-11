@@ -13,7 +13,7 @@
         <!-- Styles -->
         <style>
             html, body {
-                background-color: #39db9b;
+                background-color: #247f5b;;
                 color: #636b6f;
                 font-family: 'Raleway', sans-serif;
                 font-weight: 100;
@@ -50,7 +50,7 @@
             }
 
             .links > a {
-                color: #636b6f;
+                color: #fff;
                 padding: 0 25px;
                 font-size: 12px;
                 font-weight: 600;
@@ -79,12 +79,12 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    DoReMa
+                    <font color="white">DOREMA</font>
                 </div>
 
                 <div>
                     <h1>
-                    DOST IV-A Report Maker
+                    <font color="white">DOST IV-A Report Maker</font>
                 </h1>
                 </div>
 
