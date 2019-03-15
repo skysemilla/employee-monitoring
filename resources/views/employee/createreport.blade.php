@@ -10,7 +10,7 @@
                         </div>
                     @endif -->
                         
-                        @include('employee.viewreport')
+                        @include('employee.layoutcreatereport')
                 </div>
             </div>
         </div>

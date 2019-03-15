@@ -115,6 +115,41 @@
 </div> -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
 
+<div>
+  <!-- Modal -->
+  <div class="modal fade" id="reportDurationModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Report Duration</h4>
+        </div>
+
+        
+
+            <div class="form">
+            <form method="post" action="{{url('employee/create-report')}}">
+               {{csrf_field()}}
+              <label for="lgFormGroupInput">Start</label>
+              <input type="date" id="lgFormGroupInput" name="start_date" placeholder="Start Date">
+
+              <label for="lgFormGroupInput">End</label>
+              <input type="date" id="lgFormGroupInput" name="end_date" placeholder="End Date">
+
+         
+              
+              <hr>
+              <input type="submit" value="Submit">
+            </form>
+          </div>      
+
+
+    </div>
+  </div>
+</div>
+
 <div class="table-div" style="float: center">
 <div class="panel panel-default" >
 <div class="panel-heading" style="background-color: #88a097;"><h3><strong>Individual Performance Commitment Review (IPCR)</strong></h3>

@@ -19,6 +19,20 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 /*Route::resource('employee', 'EmployeeController');*/
+
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
+Route::group(['middleware' => 'auth:api'], function() {
+  
+    Route::post('tasks', 'TaskController@store');
+
+});
+
 Route::get('/employee/home', function () {
     return view('employee.home');
+});
+
+Route::get('/employee/create-report', function () {
+    return view('employee.createreport');
 });

@@ -58,8 +58,13 @@
                         @else
 
                             <div class="collapse navbar-collapse">
-                              <ul class="nav navbar-nav">
-                                
+                            
+                            <ul class="nav navbar-nav">
+                            <li>
+                               <a style="background-color:#247f5b;" href="/employee/create-report">
+                                  <font color="white">  Create new report </font> </span>
+                                </a>
+                            </li>     
                             <li class="dropdown">
                                 <a style="background-color:#247f5b;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
                                   <font color="white">  Notifications </font> <span class="caret"></span>

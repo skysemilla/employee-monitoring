@@ -10,6 +10,10 @@ class EmployeeController extends Controller
     //
     public function index()
     {
+        return view('employee.home');
+    }
+  /*  public function index()
+    {
         $employees = Employee::all()->toArray();
         
         return view('employee.index', compact('employees'));
@@ -68,6 +72,6 @@ class EmployeeController extends Controller
 		$employee->delete();
 
 		return redirect('/employee');
-    }
+    }*/
 
 }

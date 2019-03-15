@@ -6,3 +6,7 @@
                     $(this).parents("tbody").find(".fa-plus-circle").addClass("fa-minus-circle");
                 });
             });
+
+ $(document).ready(function() {
+  $('#reportDurationModal').modal('show');
+});
