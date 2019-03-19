@@ -17,22 +17,27 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/home', 'HomeController@index')->name('home');
 /*Route::resource('employee', 'EmployeeController');*/
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+/*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
-});
-Route::group(['middleware' => 'auth:api'], function() {
+});*/
+/*Route::group(['middleware' => 'auth:api'], function() {
   
     Route::post('tasks', 'TaskController@store');
 
-});
+});*/
 
-Route::get('/employee/home', function () {
+/*Route::get('/employee/home', function () {
     return view('employee.home');
 });
 
 Route::get('/employee/create-report', function () {
     return view('employee.createreport');
-});
+});*/
+
+Route::get('admin/home', 'AdminController@admin')->middleware('admin');
+
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/employee/home', 'EmployeeController@index')->name('employee');

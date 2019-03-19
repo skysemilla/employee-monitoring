@@ -78,9 +78,32 @@
       </div>
     
         <div class="form">
-        <form action="/action_page.php">
+        <!-- <form action="/action_page.php">
           <label for="fname">First Name</label>
           <input type="text" id="fname" name="firstname" placeholder="Your name..">
+          <label for="mname">Middle Initial</label>
+          <input type="text" id="mname" name="middlename" placeholder="Your middle initial..">
+          <label for="lname">Last Name</label>
+          <input type="text" id="lname" name="lastname" placeholder="Your last name..">
+
+          <label for="position">Position</label>
+          <select id="position" name="position">
+            <option value="permanent">Permanent</option>
+            <option value="nonpermanent">Non-permanent</option>
+          </select>
+
+          <label for="functional_unit">Functional Unit</label>
+          <select id="functional_unit" name="functional_unit">
+            <option value="u1">Unit 1</option>
+            <option value="u2">Unit 2</option>
+          </select>
+          <hr>
+          <input type="submit" value="Submit">
+        </form> -->
+        <form  method="post" action="{{url('user')}}">
+            {{csrf_field()}}
+          <label for="lgFormGroupInput" >Name</label>
+          <input type="text" id="lgFormGroupInput" placeholder="fname" name="fname">
           <label for="mname">Middle Initial</label>
           <input type="text" id="mname" name="middlename" placeholder="Your middle initial..">
           <label for="lname">Last Name</label>

@@ -52,6 +52,23 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="form-group{{ $errors->has('isAdmin') ? ' has-error' : '' }}">
+                            <label for="isAdmin" class="col-md-4 control-label">Admin</label>
+
+                            <div class="col-md-6">
+                                <select id="isAdmin" name="isAdmin" class="form-control" required>
+                                    <option value="1">Admin</option>
+                                    <option value="0">Employee</option>
+                                  </select>
+                              <!--   <input id="isAdmin" type="number" class="form-control" name="isAdmin" value="{{ old('isAdmin') }}" required> -->
+
+                                @if ($errors->has('isAdmin'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('isAdmin') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
 
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label for="password" class="col-md-4 control-label">Password</label>
