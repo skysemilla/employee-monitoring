@@ -37,7 +37,11 @@ Route::get('/employee/create-report', function () {
     return view('employee.createreport');
 });*/
 
-Route::get('admin/home', 'AdminController@admin')->middleware('admin');
-
+//Route::get('admin/home', 'AdminController@index')->middleware('admin');
+//Route::get('admin/home', 'Auth\RegisterController@index')->name('admin');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/employee/home', 'EmployeeController@index')->name('employee');
+
+Route::get('admin/home', 'UserController@index')->name('admin');
+
+Route::get('/employee/add-task', 'EmployeeController@index')->name('add-task');

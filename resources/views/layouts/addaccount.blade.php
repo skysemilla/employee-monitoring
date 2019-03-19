@@ -62,76 +62,12 @@
 <div style="width: 100%; float: right; padding-left: 0px;" >
 <input id="myInput" type="text" placeholder="Search.." style=" width: 60%; ">
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-<button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" ><strong>Create Account</strong></button>
+<!-- <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" ><strong>Create Account</strong></button> -->
+
+<button type="button" class="btn" ><a href="{{ route('register') }}"><font color="gray"><strong>Create Account</strong></font></a></button>
+
 </div>
 <hr>
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header" style="background-color: #88a097; ">
-        <h3 class="modal-title" id="exampleModalLabel"><strong>CREATE ACCOUNT</strong><button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true"><font size="8">×</font></span>
-        </button></h5>
-
-        
-      </div>
-    
-        <div class="form">
-        <!-- <form action="/action_page.php">
-          <label for="fname">First Name</label>
-          <input type="text" id="fname" name="firstname" placeholder="Your name..">
-          <label for="mname">Middle Initial</label>
-          <input type="text" id="mname" name="middlename" placeholder="Your middle initial..">
-          <label for="lname">Last Name</label>
-          <input type="text" id="lname" name="lastname" placeholder="Your last name..">
-
-          <label for="position">Position</label>
-          <select id="position" name="position">
-            <option value="permanent">Permanent</option>
-            <option value="nonpermanent">Non-permanent</option>
-          </select>
-
-          <label for="functional_unit">Functional Unit</label>
-          <select id="functional_unit" name="functional_unit">
-            <option value="u1">Unit 1</option>
-            <option value="u2">Unit 2</option>
-          </select>
-          <hr>
-          <input type="submit" value="Submit">
-        </form> -->
-        <form  method="post" action="{{url('user')}}">
-            {{csrf_field()}}
-          <label for="lgFormGroupInput" >Name</label>
-          <input type="text" id="lgFormGroupInput" placeholder="fname" name="fname">
-          <label for="mname">Middle Initial</label>
-          <input type="text" id="mname" name="middlename" placeholder="Your middle initial..">
-          <label for="lname">Last Name</label>
-          <input type="text" id="lname" name="lastname" placeholder="Your last name..">
-
-          <label for="position">Position</label>
-          <select id="position" name="position">
-            <option value="permanent">Permanent</option>
-            <option value="nonpermanent">Non-permanent</option>
-          </select>
-
-          <label for="functional_unit">Functional Unit</label>
-          <select id="functional_unit" name="functional_unit">
-            <option value="u1">Unit 1</option>
-            <option value="u2">Unit 2</option>
-          </select>
-          <hr>
-          <input type="submit" value="Submit">
-        </form>
-      </div>      
-     <!--  <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div> -->
-    </div>
-  </div>
-</div>
-
 
 <div class="table-div" style="float: center" >
 <div class="col-lg-12">
@@ -142,42 +78,26 @@
 
   <thead>
     <tr>
-      <th>Firstname</th>
-      <th>Lastname</th>
-      <th>Surname</th>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Email</th>
+
     </tr>
   </thead>
   <tbody id="myTable">
-    <tr class="notfirst">
-      <td>Raj</td>
-      <td>Girish</td>
-      <td>Parmar</td>
-    </tr>
-    <tr class="notfirst">
-      <td>Mohan</td>
-      <td>viraj</td>
-      <td>koli</td>
-    </tr>
-    <tr class="notfirst">
-      <td>Jainish</td>
-      <td>ratan</td>
-      <td>vyas</td>
-    </tr>
-    <tr class="notfirst">
-      <td>Tom</td>
-      <td>kim</td>
-      <td>zone</td>
-    </tr>
-    <tr class="notfirst">
-      <td>Rohan</td>
-      <td>Prithvi</td>
-      <td>koli</td>
-    </tr>
-    
+    @foreach($users as $user)
+      <tr class="notfirst">
+        <td>{{$user['id']}}</td>
+        <td>{{$user['name']}}</td>
+        <td>{{$user['email']}}</td>
+
+       
+       
+      </tr>
+      @endforeach
   </tbody>
 </table>
 
-<p>Note that we start the search in tbody, to prevent filtering the table headers.</p>
 </div>
 
 </html>

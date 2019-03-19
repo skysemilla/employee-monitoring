@@ -131,7 +131,7 @@
       </div>
     
         <div class="form">
-        <form method="post" action="{{url('employee/home')}}">
+        <form method="post" action="{{url('add-task')}}">
            {{csrf_field()}}
           <label for="lgFormGroupInput">Title</label>
           <input type="text" id="lgFormGroupInput" name="title" placeholder="Title">

@@ -27,16 +27,20 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/admin/home';
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+  /*  public function __construct()
     {
         $this->middleware('guest');
+    }*/
+    public function __construct()
+    {
+        $this->middleware('admin');
     }
 
     /**
@@ -70,4 +74,13 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
         ]);
     }
+
+    public function index()
+    {   
+   
+        $users = User::all()->toArray();
+        
+        return view('admin', compact('users'));
+    }
+   
 }
