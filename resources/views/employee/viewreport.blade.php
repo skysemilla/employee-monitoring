@@ -118,7 +118,29 @@
 <div class="table-div" style="float: center">
 <div class="panel panel-default" >
 <div class="panel-heading" style="background-color: #88a097;"><h3><strong>Individual Performance Commitment Review (IPCR)</strong></h3>
+  <button type="button" class="btn" data-toggle="modal" data-target="#categoryModal" style="float: right;margin-top: -50px;margin-right: 100px;" ><strong>Add category</strong></button>
   <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" style="float: right;margin-top: -50px;" ><strong>Add task</strong></button>
+
+  <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #88a097; ">
+        <h3 class="modal-title" id="exampleModalLabel" ><strong>ADD CATEGORY</strong><button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true"><font size="8">×</font></span>
+        </button></h5>
+
+      </div>
+      <div class="form">
+        <form method="POST" action="{{url('category')}}" >
+           {{csrf_field()}}
+            <input type="text" id="lgFormGroupInput" name="name" placeholder="If you want to add new category">
+            <input type="submit" value="Submit">
+          </form>
+      </div>      
+    </div>
+  </div>
+  </div>
+
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -131,25 +153,41 @@
       </div>
     
         <div class="form">
-        <form method="post" action="{{url('add-task')}}">
+    
+          <form method="POST" action="{{url('task')}}">
            {{csrf_field()}}
           <label for="lgFormGroupInput">Title</label>
-          <input type="text" id="lgFormGroupInput" name="title" placeholder="Title">
-
+          <input type="text" id="lgFormGroupInput" name="title" placeholder="Title" required>
+         
           <label for="lgFormGroupInput">Category</label>
-          <input type="text" id="lgFormGroupInput" name="category" placeholder="Category">
+      
+            <!-- <select id="lgFormGroupInput" name="category_id" class="form-control" required>
 
+                <option value="1">Category 1</option>
+                <option value="2">Category 2</option>
+                <option value="3">Category 3</option>
+
+             
+                
+              </select> -->
+              <select name="category_id" id="category_id" class="form-control">
+               @foreach($categories as $category)
+                <option value=" {{$category['id']}}"> {{$category['name']}}</option>
+                 
+                @endforeach
+           </select>
+      
           <label for="lgFormGroupInput">Target Accomplishments</label>
-          <input type="number" id="lgFormGroupInput" name="target_no" placeholder="Target Number of Accomplishments">
+          <input type="number" id="lgFormGroupInput" name="target_no" placeholder="Target Number of Accomplishments" required>
 
           <label for="lgFormGroupInput">Actual Accomplishments</label>
-          <input type="number" id="lgFormGroupInput" name="actual_no" placeholder="Actual Number of Accomplishments">
+          <input type="number" id="lgFormGroupInput" name="actual_no" placeholder="Actual Number of Accomplishments" disabled>
 
           <label for="lgFormGroupInput">Rating</label>
-          <input type="number" id="lgFormGroupInput" name="rating_quantity" placeholder="Quantity">
-          <input type="number" id="lgFormGroupInput" name="rating_effort" placeholder="Effort">
-          <input type="number" id="lgFormGroupInput" name="rating_timeliness" placeholder="Timeliness">
-          <input type="number" id="lgFormGroupInput" name="rating_average" placeholder="Average">
+          <input type="number" id="lgFormGroupInput" name="rating_quantity" placeholder="Quantity" required>
+          <input type="number" id="lgFormGroupInput" name="rating_effort" placeholder="Effort" required>
+          <input type="number" id="lgFormGroupInput" name="rating_timeliness" placeholder="Timeliness" required="">
+          <!-- <input type="number" id="lgFormGroupInput" name="rating_average" placeholder="Average"> -->
 
            <label for="lgFormGroupInput">Remarks</label>
           <input type="text" id="lgFormGroupInput" name="remarks" placeholder="Remarks">
@@ -194,52 +232,28 @@
                 <tr>
                   <td colspan="10" class="page-header"><button type="button" class="tbtn"><i class="fa fa-plus-circle fa-minus-circle"></i> &nbsp; III. Regional S & T Services</button> </td>
                 </tr>
+                @foreach($tasks as $task)
                 <tr class="toggler toggler1">
-                    <td rowspan="10">CF1: Technology Transfer (GIA and Roll-out Projects)</td>
-                    <td>hydromet station validated installed by June</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    
+              
+                     @foreach ($categories as $category)
+                        @if($category['id']==$task['category_id'])
+                            <td>{{$category['name']}}</td>
+                        @endif
+                    @endforeach
+                 
+                    <td>{{$task['title']}}</td>
+                    <td>{{$task['target_no']}}</td>
+                    <td>{{$task['actual_no']}}</td>
+                    <td>{{$task['rating_quantity']}}</td>
+                    <td>{{$task['rating_timeliness']}}</td>
+                    <td>{{$task['rating_effort']}}</td>
+                    <td>{{$task['rating_average']}}</td>
+                    <td>{{$task['remarks']}}</td>
+                 
                 </tr>
-                <tr class="toggler toggler1">
-                    <td>hydromet station validated installed by June</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>          
-                </tr>
-                <tr class="toggler toggler1">
-                    <td>pronamic-type rain gauges calibrated by June</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                </tr>
-                <tr class="toggler toggler1">
-                    <td>pronamic-type rain gauges calibrated by June</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                </tr>
-
-
-               
                 
+               @endforeach
+                          
             </tbody>
             <tbody>
                 <tr>

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Employee;
+use App\Task;
+
 
 class EmployeeController extends Controller
 {
@@ -12,10 +14,13 @@ class EmployeeController extends Controller
     {
         $this->middleware('auth');
     }
-    public function index()
+  /*  public function index()
     {
-        return view('employee.home');
-    }
+        $tasks = Task::all()->toArray();
+        
+        return view('employee.home', compact('tasks'));
+        /*return view('employee.home');*/
+    /*}*/
   /*  public function index()
     {
         $employees = Employee::all()->toArray();

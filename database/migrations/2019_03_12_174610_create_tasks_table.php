@@ -16,14 +16,16 @@ class CreateTasksTable extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
-            $table->string('category');
+            $table->string('category_id');
             $table->integer('target_no');
-            $table->integer('actual_no');
+            $table->integer('actual_no')->nullable();
             $table->integer('rating_quantity');
             $table->integer('rating_timeliness');
             $table->integer('rating_effort');
-            $table->string('remarks');
+            $table->integer('rating_average')->default('0');
 
+            $table->string('remarks')->nullable();
+            
             $table->timestamps();
         });
     }

@@ -58,7 +58,10 @@
                             <div class="col-md-6">
                                 <select id="isAdmin" name="isAdmin" class="form-control" required>
                                     <option value="1">Admin</option>
-                                    <option value="0">Employee</option>
+                                    <option value="0">Permanent Employee</option>
+                                    <option value="2">Non-permanent Employee</option>
+                                    <option value="3">Supervisor</option>
+                                    <option value="4">Head of Office</option>
                                   </select>
                               <!--   <input id="isAdmin" type="number" class="form-control" name="isAdmin" value="{{ old('isAdmin') }}" required> -->
 

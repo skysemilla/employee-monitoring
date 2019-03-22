@@ -55,7 +55,7 @@
                             <!-- Authentication Links -->
                             @guest
                                 <li><a href="{{ route('login') }}"><font color="white">Login</font></a></li>
-                                <li><a href="{{ route('register') }}"><font color="white">Register</font></a></li>
+                               <!--  <li><a href="{{ route('register') }}"><font color="white">Register</font></a></li> -->
                             @else
 
                                 <div class="collapse navbar-collapse">
@@ -66,7 +66,7 @@
                                     
                                 <li class="dropdown" >
                                     <a style="background-color:#247f5b;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
-                                      <font color="white">  {{ Auth::user()->name }}  </font> <span class="caret"></span>
+                                      <font color="white">  {{ Auth::user()->name }} </font> <span class="caret"></span>
                                     </a>
 
                                     <ul class="dropdown-menu" >

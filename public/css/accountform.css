@@ -56,3 +56,22 @@ div.form {
 .modal-footer .btn-group:last-child > button {
   border-right: 0;
 }
+
+.modal-dialog {
+
+          width: 500px;
+
+        }
+
+.modal-header {
+
+    background-color: #337AB7;
+
+    padding:16px 16px;
+
+    color:#FFF;
+
+    border-bottom:2px dashed #337AB7;
+
+ }
+

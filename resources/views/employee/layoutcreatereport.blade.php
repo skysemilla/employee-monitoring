@@ -130,7 +130,7 @@
         
 
             <div class="form">
-            <form method="post" action="{{url('employee/create-report')}}">
+            <form method="post" action="employee/create-report">
                {{csrf_field()}}
               <label for="lgFormGroupInput">Start</label>
               <input type="date" id="lgFormGroupInput" name="start_date" placeholder="Start Date">
