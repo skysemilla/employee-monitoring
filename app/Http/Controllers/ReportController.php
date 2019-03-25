@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Report;
+use Auth;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -32,7 +33,7 @@ class ReportController extends Controller
     public function create()
     {
         //
-        return view('employee.createreport');
+        return view('employee.home');
     }
 
     /**
@@ -45,10 +46,11 @@ class ReportController extends Controller
     {
         //
         $report = new Report([
-          'start_duration' => $request->get('start_duration'),
+            'start_duration' => $request->get('start_duration'),
             'end_duration' => $request->get('end_duration'),
+            'user_id' => $request->get('user_id'),
         ]);
-       
+        $report->user_id = Auth::user()->id;
         $report->save();
         return redirect('/employee/home');
 

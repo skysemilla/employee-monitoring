@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use Illuminate\Http\Request;
-
+use Auth;
 class CategoryController extends Controller
 {
     /**
@@ -49,7 +49,7 @@ class CategoryController extends Controller
           'name' => $request->get('name'),
          
         ]);
-       
+        $category->user_id = Auth::user()->id;
         $category->save();
         return redirect('/employee/home');
     }

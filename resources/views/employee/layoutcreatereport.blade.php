@@ -115,223 +115,56 @@
 </div> -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
 
-<div>
-  <!-- Modal -->
-  <div class="modal fade" id="reportDurationModal" role="dialog">
-    <div class="modal-dialog">
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="background-color:#88a097;">Create new report</div>
 
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Report Duration</h4>
+                <div class="panel-body">
+                    <form class="form-horizontal" method="POST" action="{{ route('report') }}">
+                        {{ csrf_field() }}
+
+                        <div class="form-group{{ $errors->has('start_duration') ? ' has-error' : '' }}">
+                            <label for="start_duration" class="col-md-4 control-label">Start Duration</label>
+
+                            <div class="col-md-6">
+                                <input id="start_duration" type="date" class="form-control" name="start_duration" value="{{ old('start_duration') }}" required autofocus>
+
+                                @if ($errors->has('start_duration'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('start_duration') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('end_duration') ? ' has-error' : '' }}">
+                            <label for="end_duration" class="col-md-4 control-label">End Duration</label>
+
+                            <div class="col-md-6">
+                                <input id="end_duration" type="date" class="form-control" name="end_duration" value="{{ old('end_duration') }}" required autofocus>
+
+                                @if ($errors->has('end_duration'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('end_duration') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
+                                <button type="submit" class="btn btn-primary">
+                                    Submit
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-
-        
-
-            <div class="form">
-            <form method="post" action="employee/create-report">
-               {{csrf_field()}}
-              <label for="lgFormGroupInput">Start</label>
-              <input type="date" id="lgFormGroupInput" name="start_date" placeholder="Start Date">
-
-              <label for="lgFormGroupInput">End</label>
-              <input type="date" id="lgFormGroupInput" name="end_date" placeholder="End Date">
-
-         
-              
-              <hr>
-              <input type="submit" value="Submit">
-            </form>
-          </div>      
-
-
     </div>
-  </div>
-</div>
-
-<div class="table-div" style="float: center">
-<div class="panel panel-default" >
-<div class="panel-heading" style="background-color: #88a097;"><h3><strong>Individual Performance Commitment Review (IPCR)</strong></h3>
-  <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" style="float: right;margin-top: -50px;" ><strong>Add task</strong></button>
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header" style="background-color: #88a097; ">
-        <h3 class="modal-title" id="exampleModalLabel" ><strong>ADD TASK</strong><button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true"><font size="8">×</font></span>
-        </button></h5>
-
-        
-      </div>
-    
-        <div class="form">
-        <form method="post" action="{{url('employee/home')}}">
-           {{csrf_field()}}
-          <label for="lgFormGroupInput">Title</label>
-          <input type="text" id="lgFormGroupInput" name="title" placeholder="Title">
-
-          <label for="lgFormGroupInput">Category</label>
-          <input type="text" id="lgFormGroupInput" name="category" placeholder="Category">
-
-          <label for="lgFormGroupInput">Target Accomplishments</label>
-          <input type="number" id="lgFormGroupInput" name="target_no" placeholder="Target Number of Accomplishments">
-
-          <label for="lgFormGroupInput">Actual Accomplishments</label>
-          <input type="number" id="lgFormGroupInput" name="actual_no" placeholder="Actual Number of Accomplishments">
-
-          <label for="lgFormGroupInput">Rating</label>
-          <input type="number" id="lgFormGroupInput" name="rating_quantity" placeholder="Quantity">
-          <input type="number" id="lgFormGroupInput" name="rating_effort" placeholder="Effort">
-          <input type="number" id="lgFormGroupInput" name="rating_timeliness" placeholder="Timeliness">
-          <input type="number" id="lgFormGroupInput" name="rating_average" placeholder="Average">
-
-           <label for="lgFormGroupInput">Remarks</label>
-          <input type="text" id="lgFormGroupInput" name="remarks" placeholder="Remarks">
-          
-          <hr>
-          <input type="submit" value="Submit">
-        </form>
-      </div>      
-     <!--  <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div> -->
-    </div>
-  </div>
-</div>
-</div>
-<div class="panel-body">
-        <table class="custom-table">
-            <thead>
-             
-                <tr>
-                    <th rowspan="2">MFO/PAP</th>
-                    <th rowspan="2">SUCCESS INDICATORS</th>
-                    <th rowspan="2">TARGET ACCOMPLISHMENTS</th>
-                    <th rowspan="2">ACTUAL ACCOMPLISHMENTS</th>
-                    <th colspan="4" rowspan="1">RATING</th>
-                    <th rowspan="2">REMARKS</th>
-                    
-                </tr>
-                <tr>
-                    
-                    <th>Quantity</th>
-                    <th>Effort</th>
-                    <th>Timeliness</th>
-                    <th>Average</th>
-                    
-                </tr>
-                
-            </thead>
-
-            <tbody>
-                <tr>
-                  <td colspan="10" class="page-header"><button type="button" class="tbtn"><i class="fa fa-plus-circle fa-minus-circle"></i> &nbsp; III. Regional S & T Services</button> </td>
-                </tr>
-                <tr class="toggler toggler1">
-                    <td rowspan="10">CF1: Technology Transfer (GIA and Roll-out Projects)</td>
-                    <td>hydromet station validated installed by June</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    
-                </tr>
-                <tr class="toggler toggler1">
-                    <td>hydromet station validated installed by June</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>          
-                </tr>
-                <tr class="toggler toggler1">
-                    <td>pronamic-type rain gauges calibrated by June</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                </tr>
-                <tr class="toggler toggler1">
-                    <td>pronamic-type rain gauges calibrated by June</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                </tr>
-
-
-               
-                
-            </tbody>
-            <tbody>
-                <tr>
-                    <td colspan="10" class="page-header"><button type="button" class="tbtn"><i class="fa fa-plus-circle fa-minus-circle"></i>&nbsp; Other S& T Activities</button> </td>
-                </tr>
-                <tr class="toggler toggler1">
-                    <td rowspan="10">CF1: Technology Transfer (GIA and Roll-out Projects)</td>
-                    <td>related activities</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>    
-                </tr>
-                <tr class="toggler toggler1">
-                    <td>ICT installation</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    
-                   
-                </tr>
-                <tr class="toggler toggler1">
-                    <td>ICT installation</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    
-                   
-                </tr>
-                <tr class="toggler toggler1">
-                    <td>ICT installation</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    
-                   
-                </tr>
-               
-            </tbody>
-            
-        </table>
-  </div>
 </div>
 
 </html>

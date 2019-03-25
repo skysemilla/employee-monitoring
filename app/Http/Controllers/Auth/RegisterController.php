@@ -6,7 +6,8 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-
+use App\Role;
+use App\Employee;
 class RegisterController extends Controller
 {
     /*
@@ -43,18 +44,42 @@ class RegisterController extends Controller
         $this->middleware('admin');
     }
 */
+     public function __construct() {
+        $this->middleware(['auth']); //isAdmin middleware lets only users with a //specific permission permission to access these resources
+    }
     /**
      * Get a validator for an incoming registration request.
      *
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
+  /*  public function __construct()
+      {
+        $this->middleware('auth');
+      }*/
+  /*  public function index(Request $request)
+      {
+        $request->user()->authorizeRoles(['admin']);
+        return view(‘home’);
+      }*/
+      public function index(Request $request)
+      {
+
+        $request->user()->authorizeRoles(['admin']);
+        $users = User::all()->toArray();
+        
+        return view('admin', compact('users'));
+        
+      }
     protected function validator(array $data)
     {
         return Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'isAdmin' => 'required|integer|max:1',
+            'username' => 'required|string|max:255|unique:users',
+            'functional_unit' => 'string|max:255',
+            'status' => 'string|max:255',
+            'type' => 'required|string|max:50',
             'password' => 'required|string|min:6|confirmed',
         ]);
     }
@@ -67,20 +92,34 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+      /*  return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'isAdmin' => $data['isAdmin'],
+            'type' => $data['type'],
             'password' => bcrypt($data['password']),
+        ]);*/
+        $user = User::create([
+          'name'     => $data['name'],
+          'email'    => $data['email'],
+          'username'    => $data['username'],
+          'functional_unit'    => $data['functional_unit'],
+          'status'    => $data['status'],
+          'type'       => $data['type'],
+          'password' => bcrypt($data['password']),
         ]);
+
+        $user
+           ->roles()
+           ->attach(Role::where('name', $user->type)->first());
+        return $user;
     }
 
-    public function index()
+ /*   public function index()
     {   
    
         $users = User::all()->toArray();
         
         return view('admin', compact('users'));
     }
-   
+   */
 }

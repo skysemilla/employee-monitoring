@@ -13,13 +13,23 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">Dashboard</div>
-
+                {{ Auth::user()->type }} 
                 <div class="panel-body">
                     <a href="{{url('admin/home')}}">Admin</a>
-                     {{ Auth::user()->isAdmin }} 
+                     
                 </div>
                 <div class="panel-body">
-                    <a href="{{url('employee/home')}}">Employee</a>
+                    <a href="{{url('employee/home')}}">Employee (Permanent/Nonpermanent)</a>
+          
+                </div>
+              
+                <div class="panel-body">
+                    <a href="{{url('supervisor/home')}}">Supervisor</a>
+          
+                </div>
+
+                <div class="panel-body">
+                    <a href="{{url('headofoffice/home')}}">Head of Office</a>
           
                 </div>
             </div>

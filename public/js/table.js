@@ -14,4 +14,11 @@ $(document).ready(function(){
                     $(this).parents("tbody").find(".fa-plus-circle").addClass("fa-minus-circle");
                 });
             });
- 
+/* 
+ $(document).ready(function handleSelect() {
+     if (document.getElementById('type').options[document.getElementById('type').selectedIndex].value== 'admin') {
+         document.getElementById('functional_unit').disabled = true;
+     } else {
+         document.getElementById('functional_unit').disabled = false;
+     }
+ });*/

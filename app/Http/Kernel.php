@@ -57,6 +57,13 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'admin' => \App\Http\Middleware\Admin::class,
+        /*'admin' => \App\Http\Middleware\Admin::class,
+        'head_of_office' => \App\Http\Middleware\HeadOfOffice::class,
+        'supervisor' => \App\Http\Middleware\Supervisor::class,
+        'nonpermanent' => \App\Http\Middleware\Nonpermanent::class,
+        'permanent' => \App\Http\Middleware\Permanent::class,*/
+        //'check-permission' => \App\Http\Middleware\CheckPermission::class
+        'prevent-back-history' => \App\Http\Middleware\PreventBackHistory::class,
+        //'revalidate' => \App\Http\Middleware\RevalidateBackHistory::class
     ];
 }

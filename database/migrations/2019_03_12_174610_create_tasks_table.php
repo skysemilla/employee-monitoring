@@ -15,6 +15,7 @@ class CreateTasksTable extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('header_id')->default('0');
             $table->string('title');
             $table->string('category_id');
             $table->integer('target_no');
@@ -25,7 +26,9 @@ class CreateTasksTable extends Migration
             $table->integer('rating_average')->default('0');
 
             $table->string('remarks')->nullable();
-            
+            $table->integer('report_id');
+            $table->integer('user_id');
+
             $table->timestamps();
         });
     }

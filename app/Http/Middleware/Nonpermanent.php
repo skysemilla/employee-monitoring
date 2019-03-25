@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class Admin
+class Nonpermanent
 {
     /**
      * Handle an incoming request.
@@ -15,9 +15,9 @@ class Admin
      */
     public function handle($request, Closure $next)
     {
-        if(auth()->user()->type == 'admin'){
+        if(auth()->user()->type == 'nonpermanent'){
         return $next($request);
       }
-        return redirect('home')->with('error','You have not admin access');
+        return redirect('home')->with('error','You have not nonpermanent employee access');
     }
 }

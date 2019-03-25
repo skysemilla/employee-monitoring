@@ -21,44 +21,7 @@
 
 
 </head>
-<!-- 
-<div  style="float:right; padding-top: 10px; position: relative;">
-  <button onclick="document.getElementById('id01').style.display='block'" ><strong> + </strong></button>
 
-  <div id="id01" class="modal">
-
-    <div style="max-width:600px;">
-      <div class="w3-center form-header"><br>
-        <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-xlarge w3-hover-red w3-display-top" title="Close Modal">&times;</span>
-        <h2 >CREATE ACCOUNT</h2>
-      </div>
-      <div class="form">
-        <form action="/action_page.php">
-          <label for="fname">First Name</label>
-          <input type="text" id="fname" name="firstname" placeholder="Your name..">
-          <label for="mname">Middle Initial</label>
-          <input type="text" id="mname" name="middlename" placeholder="Your middle initial..">
-          <label for="lname">Last Name</label>
-          <input type="text" id="lname" name="lastname" placeholder="Your last name..">
-
-          <label for="position">Position</label>
-          <select id="position" name="position">
-            <option value="permanent">Permanent</option>
-            <option value="nonpermanent">Non-permanent</option>
-          </select>
-
-          <label for="functional_unit">Functional Unit</label>
-          <select id="functional_unit" name="functional_unit">
-            <option value="u1">Unit 1</option>
-            <option value="u2">Unit 2</option>
-          </select>
-          <hr>
-          <input type="submit" value="Submit">
-        </form>
-      </div>
-    </div>
-  </div>
-</div> -->
 <div style="width: 100%; float: right; padding-left: 0px;" >
 <input id="myInput" type="text" placeholder="Search.." style=" width: 60%; ">
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
@@ -80,7 +43,13 @@
     <tr>
       <th>ID</th>
       <th>Name</th>
+
+      <th>Username</th>
       <th>Email</th>
+      <th>Type</th>
+      <th>Functional Unit</th>
+      <th>Status</th>
+
 
     </tr>
   </thead>
@@ -88,8 +57,30 @@
     @foreach($users as $user)
       <tr class="notfirst">
         <td>{{$user['id']}}</td>
-        <td>{{$user['name']}}</td>
+        <td><a href="/home">{{$user['name']}}</a></td>
+        <td>{{$user['username']}}</td>
+
         <td>{{$user['email']}}</td>
+        <td>{{$user['type']}}</td>
+        @if($user['functional_unit'] =="NULL")
+          <td> <i>-----</i></td>
+        
+        @else
+          <td>{{$user['functional_unit']}}</td>
+        
+        @endif
+
+
+        @if($user['status'] =="NULL")
+          <td> <i>-----</i></td>
+        
+        @else
+          <td>{{$user['status']}}</td>
+        
+        @endif        
+
+
+
 
        
        

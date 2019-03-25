@@ -11,11 +11,34 @@
 |
 */
 
-Route::get('/', function () {
+
+
+Route::group(['middleware' => 'prevent-back-history'],function(){
+  Auth::routes();
+ Route::get('/', function () {
     return view('welcome');
 });
+ Route::get('/employee/home', 'TaskController@index')->name('task');
 
-Auth::routes();
+
+Route::get('admin/home', 'UserController@index')->name('admin');
+
+//Route::resource('/employee/add-task', 'TaskController');
+/*Route::get('/employee/add-task', 'EmployeeController@store')->name('add-task');*/
+Route::resource('task', 'TaskController');
+Route::resource('category', 'CategoryController');
+Route::resource('report', 'ReportController');
+/*Route::resource('categories', 'TaskController@getCategories');*/
+Route::post('employee/create-report', 'ReportController@store');
+
+Route::get('employee/create-report', 'ReportController@index')->name('report');
+
+Route::get('/home', 'HomeController@index');
+
+
+Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
+
+});
 
 //Route::get('/home', 'HomeController@index')->name('home');
 /*Route::resource('employee', 'EmployeeController');*/
@@ -39,16 +62,4 @@ Route::get('/employee/create-report', function () {
 
 //Route::get('admin/home', 'AdminController@index')->middleware('admin');
 //Route::get('admin/home', 'Auth\RegisterController@index')->name('admin');
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/employee/home', 'TaskController@index')->name('task');
-
-
-Route::get('admin/home', 'UserController@index')->name('admin');
-
-//Route::resource('/employee/add-task', 'TaskController');
-/*Route::get('/employee/add-task', 'EmployeeController@store')->name('add-task');*/
-Route::resource('task', 'TaskController');
-Route::resource('category', 'CategoryController');
-Route::resource('report', 'ReportController');
-/*Route::resource('categories', 'TaskController@getCategories');*/
-Route::get('employee/create-report', 'ReportController@index')->name('create-report');
+//Route::get('/home', 'HomeController@index')->name('home');

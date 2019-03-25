@@ -7,5 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Report extends Model
 {
     //
-    protected $fillable = ['start_duration', 'end_duration'];
+    protected $fillable = ['start_duration', 'end_duration', 'user_id'];
+
+    public function tasks()
+    {
+        return $this->hasMany('App\Task');
+    }
 }
