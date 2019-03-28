@@ -20,10 +20,10 @@ class CreateTasksTable extends Migration
             $table->string('category_id');
             $table->integer('target_no');
             $table->integer('actual_no')->nullable();
-            $table->integer('rating_quantity');
-            $table->integer('rating_timeliness');
-            $table->integer('rating_effort');
-            $table->integer('rating_average')->default('0');
+            $table->integer('rating_quantity')->nullable();
+            $table->integer('rating_timeliness')->nullable();
+            $table->integer('rating_effort')->nullable();
+            $table->integer('rating_average')->nullable();
 
             $table->string('remarks')->nullable();
             $table->integer('report_id');

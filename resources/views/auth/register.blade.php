@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-
+<script src="/js/table.js"></script>
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -73,7 +73,7 @@
 
                             <div class="col-md-6">
 
-                                <select id="type" type="text" name="type" class="form-control" required onchange="handleChange()" }>
+                                <select id="type" type="text" name="type" class="form-control" required>
                                     <option value="" hidden selected>Choose here</option>
                                     <option value="admin">Admin</option>
                                     <option value="head_of_office">Head of Office</option>
@@ -93,6 +93,45 @@
                             </div>
                         </div>
                         
+          <!--           <div class="form-group">
+                        <label for="seeAnotherField">Do You Want To See Another Field?</label>
+                        <select class="form-control" id="seeAnotherField">
+                              <option value="no">No Way.</option>
+                              <option value="yes">Absolutely!</option>
+                        </select>
+                      </div> -->
+                  <!--     <div class="form-group" id="otherFieldDiv">
+                        <label class="col-md-4 control-label" for="otherField">Supervisor</label>
+                            <div class="col-md-6">
+                            <select name="supervisor_id" id="supervisor_id" type="number" class="form-control">
+                                <option value="NULL" hidden selected>Choose supervisor</option>
+                            @foreach($users as $user)
+                                @if($user['type']=="supervisor" )
+                                <option value="{{$user['id']}}"> {{$user['name']}}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+                      </div> -->
+                        <div class="form-group{{ $errors->has('supervisor_id') ? ' has-error' : '' }}" >
+                        <label class="col-md-4 control-label" for="supervisor_id">Supervisor</label>
+                            <div class="col-md-6">
+                            <select name="supervisor_id" id="supervisor_id" type="number" class="form-control">
+                                <option value="-1" hidden selected>Choose supervisor</option>
+                            @foreach($users as $user)
+                                @if($user['type']=="supervisor" )
+                                <option value="{{$user['id']}}"> {{$user['name']}}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                        @if ($errors->has('supervisor_id'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('supervisor_id') }}</strong>
+                                    </span>
+                                @endif
+                    </div>
+                      </div>
+
                 <!--        <script>
                             
                             function handleChange() {

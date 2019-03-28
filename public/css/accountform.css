@@ -8,7 +8,7 @@ input[type=text],input[type=number],input[type=date], select {
   box-sizing: border-box;
 }
 
-input[type=submit] {
+input[type=submit],button[type=submit] {
   width: 100%;
   background-color: #143a2b;
   color: white;
@@ -18,7 +18,9 @@ input[type=submit] {
   border-radius: 4px;
   cursor: pointer;
 }
-
+button[type=submit]:disabled, button[type=button]:disabled {
+  background-color: #abb2ae;
+}
 input[type=submit]:hover {
   background-color: #45a049;
 }

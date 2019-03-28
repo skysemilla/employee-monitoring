@@ -79,6 +79,7 @@ class RegisterController extends Controller
             'username' => 'required|string|max:255|unique:users',
             'functional_unit' => 'string|max:255',
             'status' => 'string|max:255',
+            'supervisor_id' => 'integer|max:255',
             'type' => 'required|string|max:50',
             'password' => 'required|string|min:6|confirmed',
         ]);
@@ -105,9 +106,11 @@ class RegisterController extends Controller
           'functional_unit'    => $data['functional_unit'],
           'status'    => $data['status'],
           'type'       => $data['type'],
+          'supervisor_id'       => $data['supervisor_id'],
+
           'password' => bcrypt($data['password']),
         ]);
-
+        $user->hasActiveReport=false;
         $user
            ->roles()
            ->attach(Role::where('name', $user->type)->first());

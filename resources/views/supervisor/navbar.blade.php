@@ -60,24 +60,7 @@
                             <div class="collapse navbar-collapse">
                             
                             <ul class="nav navbar-nav">
-                            @if(Auth::user()->hasActiveReport==false)
-                            <li>
-                               <a style="background-color:#247f5b;" href="/employee/create-report">
-                                  <font color="white">  Create new report </font> </span>
-                                </a>
-                            </li>  
-                            @else
-                            <li>
-                               <a style="background-color:#247f5b;" onclick="myFunction()" href="/employee/home" >
-                                  <font color="white">  Create new report </font> </span>
-                                </a>
-                            </li> 
-                            @endif
-                            <script>
-                                function myFunction() {
-                                alert("you still have an active report");
-                            }
-                            </script>   
+                           
                             <li class="dropdown">
                                 <a style="background-color:#247f5b;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
                                   <font color="white">  Notifications </font> <span class="caret"></span>

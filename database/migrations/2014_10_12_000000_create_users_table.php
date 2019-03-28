@@ -22,6 +22,9 @@ class CreateUsersTable extends Migration
             $table->string('status')->nullable();
             $table->string('type');
             $table->string('password');
+            $table->integer('supervisor_id')->nullable();
+            $table->boolean('hasActiveReport')->nullable();
+            $table->integer('latestReportId')->nullable();
             ///$table->integer('isAdmin');
             $table->rememberToken();
             $table->timestamps();

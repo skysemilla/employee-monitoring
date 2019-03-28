@@ -29,8 +29,14 @@
 </head>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
 
+  <!-- <p>You have to create report first</p>
+  <a href="/employee/create-report">Create report</a>
+
+ -->
 <div class="table-div" style="float: center">
+
 <div class="panel panel-default" >
+
 @if(Auth::user()->type=='permanent')
   <div class="panel-heading" style="background-color: #88a097;"><h3><strong>Individual Performance Commitment Review (IPCR)</strong> 
 
@@ -39,8 +45,15 @@
 
 @endif
 </h3>
-  <button type="button" class="btn" data-toggle="modal" data-target="#categoryModal" style="float: right;margin-top: -50px;margin-right: 100px;" ><strong>Add category</strong></button>
-  <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" style="float: right;margin-top: -50px;" ><strong>Add task</strong></button>
+
+@if($report->forApproval==true)
+ 
+  <button type="button" class="btn" data-toggle="modal" data-target="#categoryModal" style="float: right;margin-top: -50px;margin-right: 100px;" disabled="true"><strong>Add category</strong></button>
+  <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" style="float: right;margin-top: -50px;" disabled="true" ><strong>Add task</strong></button>
+@else
+  <button type="button" class="btn" data-toggle="modal" data-target="#categoryModal" style="float: right;margin-top: -50px;margin-right: 100px;"  ><strong>Add category</strong></button>
+  <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" style="float: right;margin-top: -50px;"><strong>Add task</strong></button>
+@endif
 
   <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -114,9 +127,9 @@
           <input type="number" id="lgFormGroupInput" name="actual_no" placeholder="Actual Number of Accomplishments" disabled>
 
           <label for="lgFormGroupInput">Rating</label>
-          <input type="number" id="lgFormGroupInput" name="rating_quantity" placeholder="Quantity" required>
-          <input type="number" id="lgFormGroupInput" name="rating_effort" placeholder="Effort" required>
-          <input type="number" id="lgFormGroupInput" name="rating_timeliness" placeholder="Timeliness" required="">
+          <input type="number" id="lgFormGroupInput" name="rating_quantity" placeholder="Quantity" required disabled>
+          <input type="number" id="lgFormGroupInput" name="rating_effort" placeholder="Effort" required disabled>
+          <input type="number" id="lgFormGroupInput" name="rating_timeliness" placeholder="Timeliness" required disabled>
           <!-- <input type="number" id="lgFormGroupInput" name="rating_average" placeholder="Average"> -->
 
            <label for="lgFormGroupInput">Remarks</label>
@@ -225,7 +238,56 @@
             </tbody>
                 
         </table>
+
+    @if($report->forApproval==false)
+    <button type="submit" data-toggle="modal" data-target="#submitModal"><strong>Submit</strong></button>
+    @else
+      <button type="submit"  data-toggle="modal" data-target="#submitModal" disabled><strong>Submit</strong></button>
+    @endif
+    <div class="modal fade" id="submitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #88a097; ">
+        <h3 class="modal-title" id="exampleModalLabel" ><strong>Are you sure you want to submit report?</strong><button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true"><font size="8">×</font></span>
+        </button></h5>
+
+      </div>
+      <div class="form">
+        <form method="post" action="{{action('ReportController@update', $report['id'])}}" >
+         
+             <div class="form-group row">
+              {{csrf_field()}}
+               <input name="_method" type="hidden" value="PATCH">
+              <label for="lgFormGroupInput" class="col-sm-2 col-form-label col-form-label-lg">Start</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control form-control-lg" id="lgFormGroupInput" placeholder="start_duration" name="start_duration" value="{{$report->start_duration}}" readonly>
+              </div>
+            </div>
+             <div class="form-group row">
+      
+               <input name="_method" type="hidden" value="PATCH">
+              <label for="lgFormGroupInput" class="col-sm-2 col-form-label col-form-label-lg">End</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control form-control-lg" id="lgFormGroupInput" placeholder="end_duration" name="end_duration" value="{{$report->end_duration}}" readonly>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-md-2"></div>
+              <button type="submit" class="btn btn-primary">SUBMIT</button>
+            </div>
+          </form>
+      </div>      
+    </div>
+  </div>
+  </div>
+  </div>
+
+</div>
+@if($report->forApproval==true)
+ <div class="alert alert-danger">
+    <strong>Can't edit!</strong> Your report is being reviewed by your supervisor.
   </div>
 </div>
-
+@endif
 </html>

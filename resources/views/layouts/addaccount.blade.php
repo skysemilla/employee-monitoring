@@ -48,6 +48,7 @@
       <th>Email</th>
       <th>Type</th>
       <th>Functional Unit</th>
+      <th>Supervisor</th>
       <th>Status</th>
 
 
@@ -62,11 +63,25 @@
 
         <td>{{$user['email']}}</td>
         <td>{{$user['type']}}</td>
+
         @if($user['functional_unit'] =="NULL")
           <td> <i>-----</i></td>
         
         @else
           <td>{{$user['functional_unit']}}</td>
+        
+        @endif
+
+        @if($user['supervisor_id'] ==NULL||$user['supervisor_id'] ==-1)
+          <td> <i>-----</i></td>
+        
+        @else
+          
+          @foreach($users as $user1)
+            @if($user1['id']== $user['supervisor_id'])
+              <td>{{$user1['name']}}</td>
+            @endif
+          @endforeach
         
         @endif
 
@@ -80,9 +95,6 @@
         @endif        
 
 
-
-
-       
        
       </tr>
       @endforeach

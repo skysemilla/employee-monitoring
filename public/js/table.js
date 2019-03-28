@@ -22,3 +22,22 @@ $(document).ready(function(){
          document.getElementById('functional_unit').disabled = false;
      }
  });*/
+/*
+$(document).ready(function () {
+    $("#type").change(function() {
+      if ($(this).val() == "permanent"||$(this).val() == "nonpermanent") {
+        document.getElementById('supervisor_id').disabled = false;
+       // $('#supervisor_id').disabled=false;
+        //$('#otherField').attr('required', '');
+        //$('#otherField').attr('data-error', 'This field is required.');
+      } else {
+        document.getElementById('supervisor_id').disabled = true;
+        //$('#otherFieldDiv').disabled=true;
+        ///$("#supervisor_id").val(2).;
+      
+      }
+    });
+    $("#type").trigger("change");
+
+   
+});*/

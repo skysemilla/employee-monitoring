@@ -19,13 +19,16 @@ class TaskController extends Controller
     {
       if($request->user()->authorizeRoles(['permanent', 'nonpermanent'])){
           $tasks = Task::all()->toArray();
+          $report= Report::find(Auth::user()->latestReportId);
+          
           $categories = Category::all()->toArray();
-          return view('employee.home', compact('tasks', 'categories'));
+          return view('employee.home', compact('tasks', 'categories','report'));
       }
         return redirect('home')->with('error','You have not employee access');
 
         
     }
+    
     /* public function getCategories()
     {   
 
@@ -78,8 +81,9 @@ class TaskController extends Controller
         //$tempId = $reports[$reportCount]->id;
         ///$latestReport =end($reports);
         
-        $task->report_id = $latestReport->id;
+        $task->report_id =Auth::user()->latestReportId;
         $task->rating_average = ($task->rating_quantity + $task->rating_timeliness + $task->rating_effort)/3;
+
         $task->save();
         return redirect('/employee/home');
     }
@@ -124,5 +128,12 @@ class TaskController extends Controller
 
       return redirect('/employee/home');
     }
+/*    public function checkReportExist(Request $request){
+      $reports = Report::all()->toArray();
+
+        return view('employee.home', compact('reports'));
+    }*/
+
+
 
 }
