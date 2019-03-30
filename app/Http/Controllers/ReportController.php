@@ -131,7 +131,7 @@ class ReportController extends Controller
         return view('employee.home', compact('reports'));
     }
     public function update(Request $request, $id){
-         echo 'hi';
+         ///echo 'hi';
         if($request->user()->authorizeRoles(['permanent', 'nonpermanent'])){
             $report = Report::find($id);
             $report->forApproval=true;
@@ -145,18 +145,52 @@ class ReportController extends Controller
     {   
         if($request->user()->authorizeRoles(['supervisor'])){
             $reports = Report::all()->toArray();
+            
             $reportsForApproval = Report::where([
-    ['forApproval', '=', true],
-    ['supervisor_id', '=', Auth::user()->id]
-])->get();
+                ['forApproval', '=', true],
+                ['supervisor_id', '=', Auth::user()->id]
+            ])->get();
             $users = User::where("hasActiveReport", true)->get();
           /*  foreach ($reportsForApproval as $report) {
                 echo $report->id;
             }*/
+
             return view('supervisor.home', compact('reportsForApproval', 'users'));
         }
         
         return redirect('home')->with('error','You do not have supervisor access');
        
     }
+    public function updateReportApproved(Request $request, $id)
+        {
+          if($request->user()->authorizeRoles(['supervisor'])){    
+                $report = Report::find($id);
+                $report->Approved=true;
+                $report->forApproval=false;
+
+
+               
+               /* $report->start_duration = $request->get('start_duration');
+                $report->end_duration = $request->get('end_duration');
+                $report->forApproval = $request->get('forApproval');
+                $report->Approved = true;*/
+                 $report->save();
+                
+             /* $user_id = $tasks->first()->user_id;*/
+           
+    /*          echo $user_id;*/
+          /*    foreach($tasks as $task)
+               echo $task->title;
+    */
+              /*$user = User::find($user_id);
+              $categories = Category::where([
+                    ['user_id', '=', $user_id]      
+              ])->get();*/
+             /// return view('supervisor.approvedview', compact('report'));
+              return redirect('/supervisor/home');
+          }
+            return redirect('home')->with('error','You have not employee access');
+
+            
+        }
 }

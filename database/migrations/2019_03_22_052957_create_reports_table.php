@@ -18,7 +18,7 @@ class CreateReportsTable extends Migration
             $table->date('start_duration');
             $table->date('end_duration');
             $table->boolean('forApproval')->nullable();
-            $table->boolean('Approved')->nullable();
+            $table->boolean('approved')->nullable();
             $table->integer('user_id');
             $table->text('comment')->nullable();
             $table->integer('supervisor_id')->nullable();

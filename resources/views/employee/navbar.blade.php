@@ -68,7 +68,7 @@
                             </li>  
                             @else
                             <li>
-                               <a style="background-color:#247f5b;" onclick="myFunction()" href="/employee/home" >
+                               <a style="background-color:#247f5b;" onclick="myFunction()" href="#" >
                                   <font color="white">  Create new report </font> </span>
                                 </a>
                             </li> 

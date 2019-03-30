@@ -8,6 +8,7 @@ use App\Category;
 use Auth;
 use App\Report;
 use DB;
+use App\User;
 class TaskController extends Controller
 {
     //
@@ -20,8 +21,15 @@ class TaskController extends Controller
       if($request->user()->authorizeRoles(['permanent', 'nonpermanent'])){
           $tasks = Task::all()->toArray();
           $report= Report::find(Auth::user()->latestReportId);
-          
-          $categories = Category::all()->toArray();
+
+          $categories = Category::where([
+            ['user_id', '=', Auth::user()->id]
+          ])->get();
+          $tasks = Task::where([
+                ['user_id', '=', Auth::user()->id]
+                
+            ])->get();
+          //$categories = Category::all()->toArray();
           return view('employee.home', compact('tasks', 'categories','report'));
       }
         return redirect('home')->with('error','You have not employee access');
@@ -133,6 +141,34 @@ class TaskController extends Controller
 
         return view('employee.home', compact('reports'));
     }*/
+    public function forSupervisorView(Request $request, $id)
+    {
+      if($request->user()->authorizeRoles(['supervisor'])){
+          
+          $tasks = Task::where([
+                ['report_id', '=', $id]      
+          ])->get();
+          $report = Report::find($id);
+     
+          $user_id = $tasks->first()->user_id;
+       
+/*          echo $user_id;*/
+      /*    foreach($tasks as $task)
+           echo $task->title;
+*/        //echo $report->id;
+          $user = User::find($user_id);
+          $categories = Category::where([
+                ['user_id', '=', $user_id]      
+          ])->get();
+
+          return view('supervisor.view', compact('tasks', 'user', 'categories','report'));
+      }
+        return redirect('home')->with('error','You have not employee access');
+
+        
+    }
+        
+    
 
 
 

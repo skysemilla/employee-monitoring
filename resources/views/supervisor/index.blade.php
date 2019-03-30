@@ -40,10 +40,10 @@
     </tr>
   </thead>
   <tbody id="myTable">
-  	
+	@if(count($reportsForApproval)!=0) 	
 	@foreach($reportsForApproval as $report)
 		 <tr class="notfirst">
-		<td>{{$report['id']}}</td>
+		<td><a href="/supervisor/report/{{$report['id']}}">{{$report['id']}}</a></td>
 		@foreach($users as $user)
 			@if($user['id'] == $report['user_id'])
 				<td>{{$user['name']}}</td>
@@ -51,12 +51,34 @@
 		@endforeach
 			<td>{{$report['start_duration']}}</td>
 			<td>{{$report['end_duration']}}</td>
-			<td><a  class="btn btn-info">View</a> &nbsp; <a  class="btn btn-success">Approve</a>&nbsp;  <a  class="btn btn-danger">Disapprove</a></td>
+			<td><a href="{{action('TaskController@forSupervisorView', $report['id'])}}"  class="btn btn-info">View</a>
+			 &nbsp;	<a  data-toggle="modal" data-target="#approveReportModal" class="btn btn-success">Approve</a>
+			 &nbsp; <a  class="btn btn-danger">Disapprove</a></td>
+ 		
+  				<div class="modal fade" id="approveReportModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		          <div class="modal-dialog" role="document">
+		            <div class="modal-content">
+		              <div class="modal-header" style="background-color: #88a097; ">
+                  <h3 class="modal-title" id="exampleModalLabel" ><strong>Approve Report?</strong><button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><font size="8">×</font></span>
+                  </button></h3>
+
+                  <div>
+                    <a  class="btn btn-success" href="{{action('ReportController@updateReportApproved', $report['id'])}}"   >YES</a>
+                    <a  class="btn btn-warning" data-dismiss="modal" aria-label="Close">NO</a>
+                   
+                  </div>
+                  </div>
+	            </div>
+
+	          </div>
+	        </div>
 
       
 		</tr>
 
 	@endforeach
+	@endif
 
   </tbody>
 </table>

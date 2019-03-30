@@ -29,15 +29,18 @@ Route::resource('task', 'TaskController');
 Route::get('register', 'UserController@forRegister')->name('register');
 Route::resource('category', 'CategoryController');
 Route::resource('report', 'ReportController');
+//Route::resource('supervisor', 'SupervisorController');
 /*Route::resource('categories', 'TaskController@getCategories');*/
 Route::post('employee/create-report', 'ReportController@store');
 
 /*Route::get('register', '\App\Http\Controllers\Auth\RegisterController@index');*/
 Route::get('employee/create-report', 'ReportController@index')->name('report');
-
+Route::get('supervisor/report/{id}', 'TaskController@forSupervisorView');
+Route::get('supervisor/approve/{id}', 'ReportController@updateReportApproved');
+Route::get('supervisor/home', 'ReportController@indexForSupervisor');
 Route::get('/home', 'HomeController@index');
 /*Route::get('/admin/home', 'UserController@getReports')->name('getReports');*/
-Route::get('supervisor/home', 'ReportController@indexForSupervisor');
+
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
 });

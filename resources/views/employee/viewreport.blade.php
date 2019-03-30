@@ -46,13 +46,20 @@
 @endif
 </h3>
 
-@if($report->forApproval==true)
- 
+@if($report->forApproval==true || $report->approved==true)
+  
   <button type="button" class="btn" data-toggle="modal" data-target="#categoryModal" style="float: right;margin-top: -50px;margin-right: 100px;" disabled="true"><strong>Add category</strong></button>
   <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" style="float: right;margin-top: -50px;" disabled="true" ><strong>Add task</strong></button>
 @else
+
   <button type="button" class="btn" data-toggle="modal" data-target="#categoryModal" style="float: right;margin-top: -50px;margin-right: 100px;"  ><strong>Add category</strong></button>
-  <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" style="float: right;margin-top: -50px;"><strong>Add task</strong></button>
+  @if(count($categories)==0)
+      <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" style="float: right;margin-top: -50px;" disabled="true"><strong>Add task</strong></button>
+  @else
+    <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" style="float: right;margin-top: -50px;"><strong>Add task</strong></button>
+  @endif
+
+  
 @endif
 
   <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -114,9 +121,9 @@
               </select> -->
               <select name="category_id" id="category_id" class="form-control">
                @foreach($categories as $category)
-                @if($category['user_id']==Auth::user()->id )
+               
                 <option value=" {{$category['id']}}"> {{$category['name']}}</option>
-                @endif
+             
                 @endforeach
            </select>
       
@@ -158,6 +165,7 @@
                     <th rowspan="2">ACTUAL ACCOMPLISHMENTS</th>
                     <th colspan="4" rowspan="1">RATING</th>
                     <th rowspan="2">REMARKS</th>
+                    <th rowspan="2"> ACTION</th>
                     
                 </tr>
                 <tr>
@@ -195,6 +203,27 @@
                             <td>{{$task['rating_effort']}}</td>
                             <td>{{$task['rating_average']}}</td>
                             <td>{{$task['remarks']}}</td>
+                            <td>  <a  data-toggle="modal" data-target="#approveReportModal" class="btn btn-success">Edit</a></td>
+                            <div class="modal fade" id="approveReportModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header" style="background-color: #88a097; ">
+                  <h3 class="modal-title" id="exampleModalLabel" ><strong>Approve Report?</strong><button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><font size="8">×</font></span>
+                  </button></h3>
+
+                  <div>
+                    <a  class="btn btn-success" href="{{action('ReportController@updateReportApproved', $report['id'])}}"   >YES</a>
+                    <a  class="btn btn-warning" data-dismiss="modal" aria-label="Close">NO</a>
+                   
+                  </div>
+                  </div>
+              </div>
+
+            </div>
+          </div>
+
+
 
                          
                         </tr>
@@ -239,10 +268,10 @@
                 
         </table>
 
-    @if($report->forApproval==false)
-    <button type="submit" data-toggle="modal" data-target="#submitModal"><strong>Submit</strong></button>
+    @if($report->forApproval==true || count($tasks)==0 || $report->approved==true)
+        <button type="submit"  data-toggle="modal" data-target="#submitModal" disabled><strong>Submit to supervisor</strong></button>
     @else
-      <button type="submit"  data-toggle="modal" data-target="#submitModal" disabled><strong>Submit</strong></button>
+        <button type="submit" data-toggle="modal" data-target="#submitModal"><strong>Submit</strong></button>
     @endif
     <div class="modal fade" id="submitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -272,6 +301,7 @@
                 <input type="text" class="form-control form-control-lg" id="lgFormGroupInput" placeholder="end_duration" name="end_duration" value="{{$report->end_duration}}" readonly>
               </div>
             </div>
+
             <div class="form-group row">
               <div class="col-md-2"></div>
               <button type="submit" class="btn btn-primary">SUBMIT</button>
