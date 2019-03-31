@@ -19,7 +19,6 @@ class TaskController extends Controller
     public function index(Request $request)
     {
       if($request->user()->authorizeRoles(['permanent', 'nonpermanent'])){
-          $tasks = Task::all()->toArray();
           $report= Report::find(Auth::user()->latestReportId);
 
           $categories = Category::where([
@@ -106,26 +105,24 @@ class TaskController extends Controller
         //
         $task = Task::find($id);
         
-        return view('employee.home', compact('task','id'));
+        return view('employee.editextension', compact('task','id'));
     }
 
     public function update(Request $request, $id)
     {
         //
         $task = Task::find($id);
-        $task->header_id = $request->get('header_id');
         $task->title = $request->get('title');
         $task->category_id = $request->get('category_id');
-       	$task->target_no = $request->get('target_no');
-       	$task->actual_no = $request->get('actual_no');
-       	$task->rating_quantity = $request->get('rating_quantity');
-       	$task->rating_timeliness = $request->get('rating_timeliness');
-       	$task->rating_effort = $request->get('rating_effort');
-       	
-        $task->rating_average = ($task->rating_quantity + $task->rating_timeliness + $task->rating_effort)/3;
+        $task->target_no = $request->get('target_no');
+        $task->actual_no = $request->get('actual_no');
+        $task->rating_quantity = $request->get('rating_quantity');
+        $task->rating_timeliness = $request->get('rating_timeliness');
+        $task->rating_effort = $request->get('rating_effort');
         $task->remarks = $request->get('remarks');
+        $task->rating_average = ($task->rating_quantity + $task->rating_timeliness + $task->rating_effort)/3;
         $task->save();
-        return redirect('/employee/home');
+        return redirect('/task');
     }
 
     public function destroy($id)
@@ -167,7 +164,7 @@ class TaskController extends Controller
 
         
     }
-        
+
     
 
 

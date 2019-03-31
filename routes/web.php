@@ -25,10 +25,13 @@ Route::get('admin/home', 'UserController@index')->name('admin');
 
 //Route::resource('/employee/add-task', 'TaskController');
 /*Route::get('/employee/add-task', 'EmployeeController@store')->name('add-task');*/
+Route::get('employee/edit/{id}', 'TaskController@updateApprovedTask');
+Route::put('employee/save', 'TaskController@saveUpdate');
 Route::resource('task', 'TaskController');
 Route::get('register', 'UserController@forRegister')->name('register');
 Route::resource('category', 'CategoryController');
 Route::resource('report', 'ReportController');
+
 //Route::resource('supervisor', 'SupervisorController');
 /*Route::resource('categories', 'TaskController@getCategories');*/
 Route::post('employee/create-report', 'ReportController@store');

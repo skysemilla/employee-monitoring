@@ -165,7 +165,9 @@
                     <th rowspan="2">ACTUAL ACCOMPLISHMENTS</th>
                     <th colspan="4" rowspan="1">RATING</th>
                     <th rowspan="2">REMARKS</th>
+                     @if ($report->approved == true)
                     <th rowspan="2"> ACTION</th>
+                    @endif
                     
                 </tr>
                 <tr>
@@ -185,10 +187,8 @@
                   <td colspan="10" class="page-header"><button type="button" class="tbtn"><i class="fa fa-plus-circle fa-minus-circle"></i> &nbsp; III. Regional S & T Services</button> </td>
                 </tr>
                 @foreach($tasks as $task)
-                  @if($task['user_id'] == Auth::user()->id )
                       @if($task['header_id']=="1")
                         <tr class="toggler toggler1">
-                          
                              @foreach ($categories as $category)
                                 @if($category['id']==$task['category_id'])
                                     <td>{{$category['name']}}</td>
@@ -203,33 +203,12 @@
                             <td>{{$task['rating_effort']}}</td>
                             <td>{{$task['rating_average']}}</td>
                             <td>{{$task['remarks']}}</td>
-                            <td>  <a  data-toggle="modal" data-target="#approveReportModal" class="btn btn-success">Edit</a></td>
-                            <div class="modal fade" id="approveReportModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header" style="background-color: #88a097; ">
-                  <h3 class="modal-title" id="exampleModalLabel" ><strong>Approve Report?</strong><button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true"><font size="8">×</font></span>
-                  </button></h3>
-
-                  <div>
-                    <a  class="btn btn-success" href="{{action('ReportController@updateReportApproved', $report['id'])}}"   >YES</a>
-                    <a  class="btn btn-warning" data-dismiss="modal" aria-label="Close">NO</a>
-                   
-                  </div>
-                  </div>
-              </div>
-
-            </div>
-          </div>
-
-
-
-                         
+                            @if ($report->approved == true)
+                             <td><a href="{{action('TaskController@edit', $task['id'])}}" class="btn btn-warning">Edit</a></td>
+                            
+                         @endif
                         </tr>
                       @endif
-                    @endif
-                
                @endforeach
                           
             </tbody>
@@ -239,7 +218,6 @@
                   <td colspan="10" class="page-header"><button type="button" class="tbtn"><i class="fa fa-plus-circle fa-minus-circle"></i> &nbsp; Other S & T Services</button> </td>
                 </tr>
                 @foreach($tasks as $task)
-                  @if($task['user_id'] == Auth::user()->id )
                     @if($task['header_id']=="2")
                       <tr class="toggler toggler1">
                         
@@ -260,8 +238,6 @@
                        
                       </tr>
                     @endif
-                  @endif
-                
                @endforeach
                           
             </tbody>
@@ -320,4 +296,7 @@
   </div>
 </div>
 @endif
+<!-- Modal -->
+                          
+
 </html>
