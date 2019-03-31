@@ -25,11 +25,17 @@ class TaskController extends Controller
             ['user_id', '=', Auth::user()->id]
           ])->get();
           $tasks = Task::where([
-                ['user_id', '=', Auth::user()->id]
+                ['user_id', '=', Auth::user()->id],
+                ['report_id', '=', Auth::user()->latestReportId]
                 
             ])->get();
+          $total_rating = DB::table('tasks')
+                  ->where('report_id',Auth::user()->latestReportId)
+                  ->groupBy('report_id')
+                  ->avg('rating_average');
           //$categories = Category::all()->toArray();
-          return view('employee.home', compact('tasks', 'categories','report'));
+          //echo $total_rating;
+          return view('employee.home', compact('tasks', 'categories','report', 'total_rating'));
       }
         return redirect('home')->with('error','You have not employee access');
 
@@ -104,8 +110,11 @@ class TaskController extends Controller
     {
         //
         $task = Task::find($id);
+       
+        $cat_id = $task->category_id;
+        $category =  Category::find($cat_id);
         
-        return view('employee.editextension', compact('task','id'));
+        return view('employee.editextension', compact('task','id', 'category'));
     }
 
     public function update(Request $request, $id)
@@ -113,7 +122,6 @@ class TaskController extends Controller
         //
         $task = Task::find($id);
         $task->title = $request->get('title');
-        $task->category_id = $request->get('category_id');
         $task->target_no = $request->get('target_no');
         $task->actual_no = $request->get('actual_no');
         $task->rating_quantity = $request->get('rating_quantity');
@@ -122,7 +130,7 @@ class TaskController extends Controller
         $task->remarks = $request->get('remarks');
         $task->rating_average = ($task->rating_quantity + $task->rating_timeliness + $task->rating_effort)/3;
         $task->save();
-        return redirect('/task');
+        return redirect('/employee/home');
     }
 
     public function destroy($id)
@@ -140,7 +148,7 @@ class TaskController extends Controller
     }*/
     public function forSupervisorView(Request $request, $id)
     {
-      if($request->user()->authorizeRoles(['supervisor'])){
+      if($request->user()->authorizeRoles(['supervisor', 'headofoffice'])){
           
           $tasks = Task::where([
                 ['report_id', '=', $id]      
@@ -157,8 +165,12 @@ class TaskController extends Controller
           $categories = Category::where([
                 ['user_id', '=', $user_id]      
           ])->get();
+           $total_rating = DB::table('tasks')
+                  ->where('report_id',$report->id)
+                  ->groupBy('report_id')
+                  ->avg('rating_average');
 
-          return view('supervisor.view', compact('tasks', 'user', 'categories','report'));
+          return view('supervisor.view', compact('tasks', 'user', 'categories','report', 'total_rating'));
       }
         return redirect('home')->with('error','You have not employee access');
 

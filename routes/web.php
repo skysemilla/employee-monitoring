@@ -18,15 +18,16 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
  Route::get('/', function () {
     return view('welcome');
 });
- Route::get('/employee/home', 'TaskController@index')->name('task');
+Route::get('/employee/home', 'TaskController@index')->name('task');
 
 
 Route::get('admin/home', 'UserController@index')->name('admin');
 
 //Route::resource('/employee/add-task', 'TaskController');
 /*Route::get('/employee/add-task', 'EmployeeController@store')->name('add-task');*/
-Route::get('employee/edit/{id}', 'TaskController@updateApprovedTask');
-Route::put('employee/save', 'TaskController@saveUpdate');
+/*Route::get('employee/edit/{id}', 'TaskController@updateApprovedTask');
+*/
+Route::get('employee/submit/{id}', 'ReportController@submitToHeadOffice');
 Route::resource('task', 'TaskController');
 Route::get('register', 'UserController@forRegister')->name('register');
 Route::resource('category', 'CategoryController');
@@ -40,7 +41,9 @@ Route::post('employee/create-report', 'ReportController@store');
 Route::get('employee/create-report', 'ReportController@index')->name('report');
 Route::get('supervisor/report/{id}', 'TaskController@forSupervisorView');
 Route::get('supervisor/approve/{id}', 'ReportController@updateReportApproved');
+Route::get('headofoffice/approve/{id}', 'ReportController@updateReportAssessed');
 Route::get('supervisor/home', 'ReportController@indexForSupervisor');
+Route::get('headofoffice/home', 'ReportController@indexForHeadOffice');
 Route::get('/home', 'HomeController@index');
 /*Route::get('/admin/home', 'UserController@getReports')->name('getReports');*/
 

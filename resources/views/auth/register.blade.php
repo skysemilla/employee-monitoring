@@ -76,7 +76,7 @@
                                 <select id="type" type="text" name="type" class="form-control" required>
                                     <option value="" hidden selected>Choose here</option>
                                     <option value="admin">Admin</option>
-                                    <option value="head_of_office">Head of Office</option>
+                                    <option value="headofoffice">Head of Office</option>
                                     <option value="nonpermanent">Non-permanent Employee</option>
                                     <option value="permanent">Permanent Employee</option>
                                     

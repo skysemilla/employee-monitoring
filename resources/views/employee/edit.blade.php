@@ -11,10 +11,10 @@
     </div>
 
      <div class="form-group row">
-       <input name="_method" type="hidden" value="PATCH">
+   
       <label for="lgFormGroupInput" class="col-sm-2 col-form-label col-form-label-lg">Category</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control form-control-lg" id="lgFormGroupInput" placeholder="category_id" name="category_id" value="{{$task->category_id}}" readonly>
+        <input type="text" class="form-control form-control-lg" id="lgFormGroupInput" placeholder="category_id" name="category_id" value="{{$category->name}}" readonly>
       </div>
     </div>
 

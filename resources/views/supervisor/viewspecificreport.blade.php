@@ -130,6 +130,17 @@
                @endforeach
                           
             </tbody>
+            <tbody>
+                <tr>
+                  <td colspan="7" class="page-header"><button type="button" class="tbtn" style="float: right"><b>TOTAL AVERAGE</b> </button> </td>
+                  
+                  <td colspan="2" class="page-header"><button type="button" class="tbtn"><b>{{$total_rating}}</b>  </button> </td>
+                
+                  </tr>
+         
+                          
+            </tbody>
+                
                 
         </table>
 

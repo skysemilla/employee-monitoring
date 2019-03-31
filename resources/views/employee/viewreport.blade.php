@@ -97,10 +97,10 @@
     
           <form method="POST" action="{{url('task')}}">
            {{csrf_field()}}
-          
-            <select name="header_id" id="header_id" class="form-control">
-                 <option value="0" selected disabled hidden>What service?</option>
-                <option value="1" >Regional S&T Services</option>
+          <label for="lgFormGroupInput">What service?</label>
+            <select required name="header_id" id="header_id" class="form-control" >
+               <!--   <option value="0" selected   disabled hidden>What service?</option> -->
+                <option value="1" selected="" >Regional S&T Services</option>
                 <option value="2">Other S&T Activities</option>
 
                 
@@ -165,7 +165,7 @@
                     <th rowspan="2">ACTUAL ACCOMPLISHMENTS</th>
                     <th colspan="4" rowspan="1">RATING</th>
                     <th rowspan="2">REMARKS</th>
-                     @if ($report->approved == true)
+                     @if ($report->approved == true && ($report->forAssessment==false || $report->forAssessment == NULL))
                     <th rowspan="2"> ACTION</th>
                     @endif
                     
@@ -203,7 +203,7 @@
                             <td>{{$task['rating_effort']}}</td>
                             <td>{{$task['rating_average']}}</td>
                             <td>{{$task['remarks']}}</td>
-                            @if ($report->approved == true)
+                            @if ($report->approved == true && ($report->forAssessment==false || $report->forAssessment == NULL))
                              <td><a href="{{action('TaskController@edit', $task['id'])}}" class="btn btn-warning">Edit</a></td>
                             
                          @endif
@@ -234,11 +234,24 @@
                           <td>{{$task['rating_effort']}}</td>
                           <td>{{$task['rating_average']}}</td>
                           <td>{{$task['remarks']}}</td>
-                         
+                          @if ($report->approved == true && ($report->forAssessment==false || $report->forAssessment == NULL))
+                          <td><a href="{{action('TaskController@edit', $task['id'])}}" class="btn btn-warning">Edit</a></td>@endif                             
                        
                       </tr>
                     @endif
                @endforeach
+                          
+            </tbody>
+             <tbody>
+                <tr>
+                  <td colspan="7" class="page-header"><button type="button" class="tbtn" style="float: right"><b>TOTAL AVERAGE</b> </button> </td>
+                  @if ($report->approved == true && ($report->forAssessment==false || $report->forAssessment == NULL))
+                  <td colspan="3" class="page-header"><button type="button" class="tbtn"><b>{{$total_rating}}</b> </button> </td>
+                  @else 
+                  <td colspan="2" class="page-header"><button type="button" class="tbtn"><b>{{$total_rating}}</b>  </button> </td>
+                  @endif
+                  </tr>
+         
                           
             </tbody>
                 
@@ -255,7 +268,7 @@
       <div class="modal-header" style="background-color: #88a097; ">
         <h3 class="modal-title" id="exampleModalLabel" ><strong>Are you sure you want to submit report?</strong><button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true"><font size="8">×</font></span>
-        </button></h5>
+        </button></h3>
 
       </div>
       <div class="form">
@@ -287,9 +300,39 @@
     </div>
   </div>
   </div>
+
+  @if($report->approved==true && ($report->forAssessment == false || $report->forAssessment == NULL))
+       <a  data-toggle="modal" data-target="#forHeadOfOfficeModal" class="btn btn-success">Submit for final assessment</a>
+  @else 
+        <button type="submit"  data-toggle="modal" data-target="#forHeadOfOfficeModal" disabled ><strong>Submit for final assessment</strong></button>
+  @endif
+  <div class="modal fade" id="forHeadOfOfficeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #88a097; ">
+      <h3 class="modal-title" id="exampleModalLabel" ><strong>Submit for final assessment?</strong><button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true"><font size="8">×</font></span>
+      </button></h3>
+
+      <div>
+        <a  class="btn btn-success" href="{{action('ReportController@submitToHeadOffice', $report['id'])}}"   >YES</a>
+        <a  class="btn btn-warning" data-dismiss="modal" aria-label="Close">NO</a>
+       
+      </div>
+      </div>
   </div>
 
 </div>
+</div>
+
+
+
+
+
+
+  </div>
+
+
 @if($report->forApproval==true)
  <div class="alert alert-danger">
     <strong>Can't edit!</strong> Your report is being reviewed by your supervisor.
