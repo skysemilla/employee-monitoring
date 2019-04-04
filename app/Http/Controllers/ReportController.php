@@ -8,6 +8,7 @@ use App\Task;
 use Auth;
 use Illuminate\Http\Request;
 use DB;
+use Illuminate\Support\Facades\Validator;
 class ReportController extends Controller
 {
     /**
@@ -44,12 +45,25 @@ class ReportController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+   /* protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'username' => 'required|string|max:255|unique:users',
+            'functional_unit' => 'string|max:255',
+            'status' => 'string|max:255',
+            'supervisor_id' => 'integer|max:255',
+            'type' => 'required|string|max:50',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+    }
+*/    public function store(Request $request)
     {
         //
         $report = new Report([
-            'start_duration' => $request->get('start_duration'),
-            'end_duration' => $request->get('end_duration'),
+            'duration' => $request->get('duration'),
+            'year' => $request->get('year'),
             'user_id' => $request->get('user_id'),
             'forApproval' => $request->get('forApproval'),
             'Approved' => $request->get('Approved')

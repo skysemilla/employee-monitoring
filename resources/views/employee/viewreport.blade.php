@@ -16,12 +16,6 @@
 <link href="/css/table.css" rel="stylesheet">
 <script src="/js/table.js"></script>
 
-<link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
-<script
-  src="https://code.jquery.com/jquery-3.1.1.min.js"
-  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-  crossorigin="anonymous"></script>
-<script src="semantic/dist/semantic.min.js"></script>
 
 
 
@@ -47,12 +41,10 @@
 </h3>
 
 @if($report->forApproval==true || $report->approved==true)
-  
-  <button type="button" class="btn" data-toggle="modal" data-target="#categoryModal" style="float: right;margin-top: -50px;margin-right: 100px;" disabled="true"><strong>Add category</strong></button>
-  <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" style="float: right;margin-top: -50px;" disabled="true" ><strong>Add task</strong></button>
+  <!-- you cannot add task/category/project name -->
 @else
-
-  <button type="button" class="btn" data-toggle="modal" data-target="#categoryModal" style="float: right;margin-top: -50px;margin-right: 100px;"  ><strong>Add category</strong></button>
+  <button type="button" class="btn" data-toggle="modal" data-target="#projnameModal" style="float: right;margin-top: -50px;margin-right: 212px;"  ><strong>Add Project</strong></button>
+  <button type="button" class="btn" data-toggle="modal" data-target="#categoryModal" style="float: right;margin-top: -50px;margin-right: 90px;"  ><strong>Add category</strong></button>
   @if(count($categories)==0)
       <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" style="float: right;margin-top: -50px;" disabled="true"><strong>Add task</strong></button>
   @else
@@ -61,6 +53,25 @@
 
   
 @endif
+  <div class="modal fade" id="projnameModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #88a097; ">
+        <h3 class="modal-title" id="exampleModalLabel" ><strong>ADD PROJECT</strong><button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true"><font size="8">×</font></span>
+        </button></h5>
+
+      </div>
+      <div class="form">
+        <form method="POST" action="{{url('projname')}}" >
+           {{csrf_field()}}
+            <input type="text" id="lgFormGroupInput" name="name" placeholder="If you want to add new project">
+            <input type="submit" value="Submit">
+          </form>
+      </div>      
+    </div>
+  </div>
+  </div>
 
   <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -110,15 +121,7 @@
          
           <label for="lgFormGroupInput">Category</label>
       
-            <!-- <select id="lgFormGroupInput" name="category_id" class="form-control" required>
-
-                <option value="1">Category 1</option>
-                <option value="2">Category 2</option>
-                <option value="3">Category 3</option>
-
-             
-                
-              </select> -->
+          
               <select name="category_id" id="category_id" class="form-control">
                @foreach($categories as $category)
                
@@ -126,12 +129,22 @@
              
                 @endforeach
            </select>
+
+            <label for="lgFormGroupInput">Project Name</label>
+              <select name="projname_id" id="projname_id" class="form-control">
+              <option selected hidden disabled>Optional Project name</option>
+               @foreach($projnames as $projname)
+               
+                <option value=" {{$projname['id']}}"> {{$projname['name']}}</option>
+             
+                @endforeach
+           </select>
       
           <label for="lgFormGroupInput">Target Accomplishments</label>
-          <input type="number" id="lgFormGroupInput" name="target_no" placeholder="Target Number of Accomplishments" required>
+          <input type="text" id="lgFormGroupInput" name="target_no" placeholder="Target Number of Accomplishments" required>
 
           <label for="lgFormGroupInput">Actual Accomplishments</label>
-          <input type="number" id="lgFormGroupInput" name="actual_no" placeholder="Actual Number of Accomplishments" disabled>
+          <input type="text" id="lgFormGroupInput" name="actual_no" placeholder="Actual Number of Accomplishments" disabled>
 
           <label for="lgFormGroupInput">Rating</label>
           <input type="number" id="lgFormGroupInput" name="rating_quantity" placeholder="Quantity" required disabled>
@@ -160,14 +173,15 @@
              
                 <tr>
                     <th rowspan="2">MFO/PAP</th>
+                    <th  rowspan="2">Projname </th>
                     <th rowspan="2">SUCCESS INDICATORS</th>
                     <th rowspan="2">TARGET ACCOMPLISHMENTS</th>
                     <th rowspan="2">ACTUAL ACCOMPLISHMENTS</th>
                     <th colspan="4" rowspan="1">RATING</th>
                     <th rowspan="2">REMARKS</th>
-                     @if ($report->approved == true && ($report->forAssessment==false || $report->forAssessment == NULL))
+                     
                     <th rowspan="2"> ACTION</th>
-                    @endif
+                    
                     
                 </tr>
                 <tr>
@@ -184,9 +198,9 @@
             <tbody>
                 <tr>
 
-                  <td colspan="10" class="page-header"><button type="button" class="tbtn"><i class="fa fa-plus-circle fa-minus-circle"></i> &nbsp; III. Regional S & T Services</button> </td>
+                  <td colspan="11" class="page-header"><button type="button" class="tbtn"><i class="fa fa-plus-circle fa-minus-circle"></i> &nbsp; III. Regional S & T Services</button> </td>
                 </tr>
-                @foreach($tasks as $task)
+                @foreach($sortedTasks as $task)
                       @if($task['header_id']=="1")
                         <tr class="toggler toggler1">
                              @foreach ($categories as $category)
@@ -194,7 +208,7 @@
                                     <td>{{$category['name']}}</td>
                                 @endif
                             @endforeach
-                         
+                           <td>{{$task['projname_id']}}</td>
                             <td>{{$task['title']}}</td>
                             <td>{{$task['target_no']}}</td>
                             <td>{{$task['actual_no']}}</td>
@@ -205,8 +219,20 @@
                             <td>{{$task['remarks']}}</td>
                             @if ($report->approved == true && ($report->forAssessment==false || $report->forAssessment == NULL))
                              <td><a href="{{action('TaskController@edit', $task['id'])}}" class="btn btn-warning">Edit</a></td>
-                            
-                         @endif
+                            @endif
+                            @if ($report->approved == false && $report->forApproval==false)
+                             <td>
+                               <form action="{{action('TaskController@destroy', $task['id'])}}" method="post">
+                                {{csrf_field()}}
+                                <input name="_method" type="hidden" value="DELETE">
+                                <button class="btn btn-danger" >Delete</button>
+                              </form>
+                            </td>
+                            @else 
+                               <td>
+                                <button class="btn btn-danger" disabled>Delete</button>
+                            </td>
+                            @endif
                         </tr>
                       @endif
                @endforeach
@@ -215,9 +241,9 @@
             <tbody>
                 <tr>
 
-                  <td colspan="10" class="page-header"><button type="button" class="tbtn"><i class="fa fa-plus-circle fa-minus-circle"></i> &nbsp; Other S & T Services</button> </td>
+                  <td colspan="11" class="page-header"><button type="button" class="tbtn"><i class="fa fa-plus-circle fa-minus-circle"></i> &nbsp; Other S & T Services</button> </td>
                 </tr>
-                @foreach($tasks as $task)
+                @foreach($sortedTasks as $task)
                     @if($task['header_id']=="2")
                       <tr class="toggler toggler1">
                         
@@ -226,6 +252,7 @@
                                   <td>{{$category['name']}}</td>
                               @endif
                            @endforeach
+                           <td>{{$task['projname_id']}}</td>
                           <td>{{$task['title']}}</td>
                           <td>{{$task['target_no']}}</td>
                           <td>{{$task['actual_no']}}</td>
@@ -236,7 +263,19 @@
                           <td>{{$task['remarks']}}</td>
                           @if ($report->approved == true && ($report->forAssessment==false || $report->forAssessment == NULL))
                           <td><a href="{{action('TaskController@edit', $task['id'])}}" class="btn btn-warning">Edit</a></td>@endif                             
-                       
+                          @if ($report->approved == false && $report->forApproval==false)
+                             <td>
+                               <form action="{{action('TaskController@destroy', $task['id'])}}" method="post">
+                                {{csrf_field()}}
+                                <input name="_method" type="hidden" value="DELETE">
+                                <button class="btn btn-danger" >Delete</button>
+                              </form>
+                            </td>
+                          @else 
+                               <td>
+                                <button class="btn btn-danger" disabled>Delete</button>
+                            </td>
+                          @endif
                       </tr>
                     @endif
                @endforeach
@@ -244,12 +283,10 @@
             </tbody>
              <tbody>
                 <tr>
-                  <td colspan="7" class="page-header"><button type="button" class="tbtn" style="float: right"><b>TOTAL AVERAGE</b> </button> </td>
-                  @if ($report->approved == true && ($report->forAssessment==false || $report->forAssessment == NULL))
+                  <td colspan="8" class="page-header"><button type="button" class="tbtn" style="float: right"><b>TOTAL AVERAGE</b> </button> </td>
+                 
                   <td colspan="3" class="page-header"><button type="button" class="tbtn"><b>{{$total_rating}}</b> </button> </td>
-                  @else 
-                  <td colspan="2" class="page-header"><button type="button" class="tbtn"><b>{{$total_rating}}</b>  </button> </td>
-                  @endif
+                 
                   </tr>
          
                           
@@ -279,7 +316,7 @@
                <input name="_method" type="hidden" value="PATCH">
               <label for="lgFormGroupInput" class="col-sm-2 col-form-label col-form-label-lg">Start</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control form-control-lg" id="lgFormGroupInput" placeholder="start_duration" name="start_duration" value="{{$report->start_duration}}" readonly>
+                <input type="number" class="form-control form-control-lg" id="lgFormGroupInput" placeholder="duration" name="duration" value="{{$report->duration}}" readonly>
               </div>
             </div>
              <div class="form-group row">
@@ -287,7 +324,7 @@
                <input name="_method" type="hidden" value="PATCH">
               <label for="lgFormGroupInput" class="col-sm-2 col-form-label col-form-label-lg">End</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control form-control-lg" id="lgFormGroupInput" placeholder="end_duration" name="end_duration" value="{{$report->end_duration}}" readonly>
+                <input type="number" class="form-control form-control-lg" id="lgFormGroupInput" placeholder="year" name="year" value="{{$report->year}}" readonly>
               </div>
             </div>
 
@@ -325,13 +362,13 @@
 </div>
 </div>
 
+@if($report->approved==true && $report->assessed==true)
+<a href="{{action('PDFController@make', $report['id'])}}" class="btn btn-warning">Generate PDF</a>
+@else
+<button class="btn btn-warning" disabled>Generate PDF</button>
+@endif
 
-
-
-
-
-  </div>
-
+<hr>
 
 @if($report->forApproval==true)
  <div class="alert alert-danger">
@@ -339,7 +376,8 @@
   </div>
 </div>
 @endif
+
+</div>
 <!-- Modal -->
-                          
 
 </html>

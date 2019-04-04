@@ -15,8 +15,8 @@ class CreateReportsTable extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->increments('id');
-            $table->date('start_duration');
-            $table->date('end_duration');
+            $table->integer('duration');
+            $table->string('year');
             $table->boolean('forApproval')->nullable();
             $table->boolean('approved')->nullable();
             $table->integer('user_id');
@@ -24,7 +24,7 @@ class CreateReportsTable extends Migration
             $table->integer('supervisor_id')->nullable();
             $table->integer('total_average')->nullable();
             $table->boolean('forAssessment')->nullable();
-             $table->boolean('assessed')->nullable();
+            $table->boolean('assessed')->nullable();
             $table->timestamps();
         });
     }

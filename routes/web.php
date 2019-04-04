@@ -32,7 +32,9 @@ Route::resource('task', 'TaskController');
 Route::get('register', 'UserController@forRegister')->name('register');
 Route::resource('category', 'CategoryController');
 Route::resource('report', 'ReportController');
-
+Route::resource('projname', 'ProjnameController');
+/*Route::resource('pdf', 'PDFController');
+*/
 //Route::resource('supervisor', 'SupervisorController');
 /*Route::resource('categories', 'TaskController@getCategories');*/
 Route::post('employee/create-report', 'ReportController@store');
@@ -46,7 +48,7 @@ Route::get('supervisor/home', 'ReportController@indexForSupervisor');
 Route::get('headofoffice/home', 'ReportController@indexForHeadOffice');
 Route::get('/home', 'HomeController@index');
 /*Route::get('/admin/home', 'UserController@getReports')->name('getReports');*/
-
+Route::get('/pdfmaker/{id}', 'PDFController@make');
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
 });

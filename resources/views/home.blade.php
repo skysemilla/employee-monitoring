@@ -34,12 +34,16 @@
                     @endif
                 @elseif(Auth::user()->type=="supervisor")
                 <div class="panel-body">
-                    <a href="{{url('supervisor/home')}}">Supervisor</a>
+                    <a href="{{url('supervisor/home')}}">Reports for Approval</a>
+          
+                </div>
+                <div class="panel-body">
+                    <a href="{{url('supervisor/approved-reports')}}">View all approved reports</a>
           
                 </div>
                 @else
                 <div class="panel-body">
-                    <a href="{{url('headofoffice/home')}}">Head of Office</a>
+                    <a href="{{url('headofoffice/home')}}">Reports for Assessment</a>
           
                 </div>
                 @endif

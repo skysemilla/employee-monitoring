@@ -9,6 +9,7 @@ use Auth;
 use App\Report;
 use DB;
 use App\User;
+use App\Projname;
 class TaskController extends Controller
 {
     //
@@ -22,7 +23,12 @@ class TaskController extends Controller
           $report= Report::find(Auth::user()->latestReportId);
 
           $categories = Category::where([
-            ['user_id', '=', Auth::user()->id]
+            ['user_id', '=', Auth::user()->id],
+            ['report_id', '=', Auth::user()->latestReportId]
+          ])->get();
+          $projnames = Projname::where([
+            ['user_id', '=', Auth::user()->id],
+            ['report_id', '=', Auth::user()->latestReportId]
           ])->get();
           $tasks = Task::where([
                 ['user_id', '=', Auth::user()->id],
@@ -35,7 +41,15 @@ class TaskController extends Controller
                   ->avg('rating_average');
           //$categories = Category::all()->toArray();
           //echo $total_rating;
-          return view('employee.home', compact('tasks', 'categories','report', 'total_rating'));
+         //$collectionsTasks = collect($tasks);
+         $sortedTasks = collect($tasks)->sortBy(['category_id']);
+        /* foreach ($sortedTasks as $sortedTask) {
+            echo $sortedTask->title;
+           echo $sortedTask->category_id;
+         }*/
+         $sortedTasks = collect($sortedTasks)->sortBy(['projname_id']);
+
+          return view('employee.home', compact('tasks', 'categories','report', 'total_rating', 'projnames', 'sortedTasks'));
       }
         return redirect('home')->with('error','You have not employee access');
 
@@ -65,6 +79,7 @@ class TaskController extends Controller
         $task = new Task([
           'header_id' => $request->get('header_id'),
           'title' => $request->get('title'),
+          'projname_id' => $request->get('projname_id'),
           'category_id' => $request->get('category_id'),
           'target_no' => $request->get('target_no'),
           'actual_no' => $request->get('actual_no'),
@@ -85,6 +100,7 @@ class TaskController extends Controller
             if($reports)
 
         }*/
+      /*  $task->projname_id=1;*/
         $latestReport = DB::table('reports')->where('user_id',$task->user_id)->orderBy('created_at', 'desc')->first();
         //$repArray = DB::select('select * from reports where user_id = :user_id', ['user_id' => $task->user_id]);
         //$counter = count($latestReport);

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Report extends Model
 {
     //
-    protected $fillable = ['start_duration', 'end_duration', 'user_id'];
+    protected $fillable = ['duration', 'year', 'user_id'];
 
     public function tasks()
     {

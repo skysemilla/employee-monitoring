@@ -49,8 +49,8 @@
 				<td>{{$user['name']}}</td>
 			@endif
 		@endforeach
-			<td>{{$report['start_duration']}}</td>
-			<td>{{$report['end_duration']}}</td>
+			<td>{{$report['duration']}}</td>
+			<td>{{$report['year']}}</td>
 			<td><a href="{{action('TaskController@forSupervisorView', $report['id'])}}"  class="btn btn-info">View</a>
 			 &nbsp;	<a  data-toggle="modal" data-target="#approveReportModal" class="btn btn-success">Approve</a>
 			 &nbsp; <a  class="btn btn-danger">Disapprove</a></td>

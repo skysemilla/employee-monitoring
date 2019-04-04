@@ -22,7 +22,7 @@
        <input name="_method" type="hidden" value="PATCH">
       <label for="lgFormGroupInput" class="col-sm-2 col-form-label col-form-label-lg">Target</label>
       <div class="col-sm-10">
-        <input type="number" class="form-control form-control-lg" id="lgFormGroupInput" placeholder="target_no" name="target_no" value="{{$task->target_no}}" readonly>
+        <input type="text" class="form-control form-control-lg" id="lgFormGroupInput" placeholder="target_no" name="target_no" value="{{$task->target_no}}" readonly>
       </div>
     </div>
 
@@ -30,7 +30,7 @@
        <input name="_method" type="hidden" value="PATCH">
       <label for="lgFormGroupInput" class="col-sm-2 col-form-label col-form-label-lg">Actual</label>
       <div class="col-sm-10">
-        <input type="number" class="form-control form-control-lg" id="lgFormGroupInput" placeholder="actual_no" name="actual_no" value="{{$task->actual_no}}">
+        <input type="text" class="form-control form-control-lg" id="lgFormGroupInput" placeholder="actual_no" name="actual_no" value="{{$task->actual_no}}">
       </div>
     </div>
 

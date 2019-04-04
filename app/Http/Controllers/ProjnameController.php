@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
 use Illuminate\Http\Request;
 use Auth;
-class CategoryController extends Controller
+
+use App\Projname;
+class ProjnameController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,9 +20,9 @@ class CategoryController extends Controller
     public function index()
     {
         //
-        $categories = Category::all()->toArray();
+        $projnames = Projname::all()->toArray();
 
-        return view('employee.home', compact('categories'));
+        return view('employee.home', compact('projnames'));
 
     }
 
@@ -45,13 +46,14 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         //
-        $category = new Category([
-          'name' => $request->get('name'),
+        $projname = new Projname([
+          'name' => $request->get('name')
+
          
         ]);
-        $category->user_id = Auth::user()->id;
-        $category->report_id = Auth::user()->latestReportId;
-        $category->save();
+        $projname->report_id = Auth::user()->latestReportId;
+        $projname->user_id = Auth::user()->id;
+        $projname->save();
         return redirect('/employee/home');
     }
 
@@ -61,7 +63,7 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show(Projname $projname)
     {
         //
     }
@@ -72,7 +74,7 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit(Projname $projname)
     {
         //
     }
@@ -84,7 +86,7 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, Projname $projname)
     {
         //
     }
@@ -95,7 +97,7 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy(Projname $projname)
     {
         //
     }

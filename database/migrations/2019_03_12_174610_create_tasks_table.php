@@ -17,9 +17,9 @@ class CreateTasksTable extends Migration
             $table->increments('id');
             $table->integer('header_id')->default('0');
             $table->string('title');
-            $table->string('category_id');
-            $table->integer('target_no');
-            $table->integer('actual_no')->nullable();
+            $table->integer('category_id');
+            $table->string('target_no');
+            $table->string('actual_no')->nullable();
             $table->integer('rating_quantity')->nullable();
             $table->integer('rating_timeliness')->nullable();
             $table->integer('rating_effort')->nullable();
@@ -28,6 +28,7 @@ class CreateTasksTable extends Migration
             $table->string('remarks')->nullable();
             $table->integer('report_id');
             $table->integer('user_id');
+            $table->integer('projname_id')->nullable();
 
             $table->timestamps();
         });
