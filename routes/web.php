@@ -47,6 +47,9 @@ Route::get('headofoffice/approve/{id}', 'ReportController@updateReportAssessed')
 Route::get('supervisor/home', 'ReportController@indexForSupervisor');
 Route::get('headofoffice/home', 'ReportController@indexForHeadOffice');
 Route::get('/home', 'HomeController@index');
+Route::get('admin/activate/{id}', 'UserController@activate');
+Route::get('admin/deactivate/{id}', 'UserController@deactivate');
+Route::get('admin/accounts/{id}', 'UserController@viewSpecificAccount');
 /*Route::get('/admin/home', 'UserController@getReports')->name('getReports');*/
 Route::get('/pdfmaker/{id}', 'PDFController@make');
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');

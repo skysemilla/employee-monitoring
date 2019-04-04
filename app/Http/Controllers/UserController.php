@@ -22,11 +22,7 @@ class UserController extends Controller {
 
         if($request->user()->authorizeRoles(['admin'])){
             $users = User::all()->toArray();
-            /*$reports =User::find(3)->reports;
-
-            foreach ($reports as $report) {
-                echo $report->start_duration;
-            }*/
+           
             return view('admin', compact('users'));
         }
         
@@ -40,6 +36,44 @@ class UserController extends Controller {
             return view('auth.register', compact('users'));
         }
        
+    }
+
+    public function activate(Request $request, $id){
+     ///echo 'hi';
+    if($request->user()->authorizeRoles(['admin'])){
+        $user = User::find($id);
+        $user->status="active";
+        $user->save();
+        }
+
+  
+        return redirect('admin/home');
+    }
+
+    public function deactivate(Request $request, $id){
+     ///echo 'hi';
+    if($request->user()->authorizeRoles(['admin'])){
+        $user = User::find($id);
+        $user->status="inactive";
+        $user->save();
+        }
+
+  
+        return redirect('admin/home');
+    }
+    public function viewSpecificAccount(Request $request, $id)
+    {
+      if($request->user()->authorizeRoles(['admin'])){
+          
+       
+       
+          $user = User::find($id);
+         
+          return view('admin.accountview', compact('user'));
+      }
+        return redirect('home')->with('error','You have not employee access');
+
+        
     }
 
 /*    public function getReports(Request $request){

@@ -16,6 +16,9 @@
 <link href="/css/table.css" rel="stylesheet">
 <script src="/js/table.js"></script>
 
+<link href="/css/user.css" rel="stylesheet">
+<script src="/js/user.js"></script>
+
 <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
 <script
   src="https://code.jquery.com/jquery-3.1.1.min.js"

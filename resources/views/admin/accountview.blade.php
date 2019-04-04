@@ -10,7 +10,7 @@
                         </div>
                     @endif -->
                         
-                        @include('admin.addaccount')
+                        @include('admin.viewspecificaccount')
                 </div>
             </div>
         </div>
