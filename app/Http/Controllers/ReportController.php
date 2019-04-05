@@ -60,7 +60,8 @@ class ReportController extends Controller
     }
 */    public function store(Request $request)
     {
-        //
+        //PUT AUTH!!!!!!!
+
         $report = new Report([
             'duration' => $request->get('duration'),
             'year' => $request->get('year'),
@@ -83,8 +84,12 @@ class ReportController extends Controller
         $report->save();
         $user->latestReportId=$report->id;
         $user->save();
-        return redirect('/employee/home');
-
+        if($request->user()->authorizeRoles(['permanent', 'nonpermanent'])){
+            return redirect('/employee/home');
+        }
+        elseif ($request->user()->authorizeRoles(['supervisor'])) {
+            return redirect('/supervisor/add-tasks');
+        }
     }
 
     /**

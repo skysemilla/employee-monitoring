@@ -60,26 +60,38 @@
                             <div class="collapse navbar-collapse">
                             
                             <ul class="nav navbar-nav">
-                            @if(Auth::user()->hasActiveReport==false)
+                            <!-- @if(Auth::user()->hasActiveReport==false && Auth::user()->status=="active")
                             <li>
                                <a style="background-color:#247f5b;" href="/employee/create-report">
                                   <font color="white">  Create new report </font> </span>
                                 </a>
                             </li>  
-                            @else
+                            @elseif(Auth::user()->hasActiveReport==false)
                             <li>
-                               <a style="background-color:#247f5b;" onclick="myFunction()" href="#" >
+                               <a style="background-color:#247f5b;" onclick="myFunction1()" href="#" >
                                   <font color="white">  Create new report </font> </span>
                                 </a>
                             </li> 
-                            @endif
                             <script>
-                                function myFunction() {
+                                function myFunction1() {
                                 alert("you still have an active report");
                             }
-                            </script>   
+                            </script> 
+                            @else
+                            <li>
+                               <a style="background-color:#247f5b;" onclick="myFunction2()" href="#" >
+                                  <font color="white">  Create new report </font> </span>
+                                </a>
+                            </li> 
+                            <script>
+                                function myFunction1() {
+                                alert("account not active");
+                            }
+                            </script> 
+                            @endif -->
+                              
                             <li class="dropdown">
-                                <a style="background-color:#247f5b;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
+                                <!-- <a style="background-color:#247f5b;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
                                   <font color="white">  Notifications </font> <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" >
@@ -89,11 +101,11 @@
 
                                         
                                     </li>
-                                </ul>
+                                </ul> -->
                                 
                             <li class="dropdown" >
                                 <a style="background-color:#247f5b;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
-                                  <font color="white">  {{ Auth::user()->name }}  </font> <span class="caret"></span>
+                                  <font color="white">  {{ Auth::user()->name }} ({{ Auth::user()->type }}) </font> <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" >

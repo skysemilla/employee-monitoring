@@ -107,14 +107,22 @@ class RegisterController extends Controller
           'status'    => $data['status'],
           'type'       => $data['type'],
           'supervisor_id'       => $data['supervisor_id'],
-
           'password' => bcrypt($data['password']),
         ]);
         $user->hasActiveReport=false;
         $user
            ->roles()
            ->attach(Role::where('name', $user->type)->first());
-        return $user;
+        if($user->supervisor_id ==-1){
+          $headofoffice = User::where([
+                ['type', '=', "headofoffice"],
+                ['status', '=', "active"]
+            ])->get()->first();
+          $user->supervisor_id = $headofoffice->id;
+        }
+        $user->save();
+       
+        return redirect('admin/home');
     }
 
  /*   public function index()

@@ -63,13 +63,13 @@
 
                                 <div class="collapse navbar-collapse">
                                   <ul class="nav navbar-nav">
-                                    <li><a href="/admin/view-permanent"><font color="white">Permanent</font></a></li>
+                                   <!--  <li><a href="/admin/view-permanent"><font color="white">Permanent</font></a></li>
                                     <li><a href="/admin/view-nonpermanent"><font color="white">Non-permanent</font></a></li>
                                     <li><a href="/admin/view-top-management"><font color="white">Top Management</font></a></li>
-                                    
+                                     -->
                                 <li class="dropdown" >
                                     <a style="background-color:#247f5b;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
-                                      <font color="white">  {{ Auth::user()->name }} </font> <span class="caret"></span>
+                                      <font color="white">  {{ Auth::user()->name }} ({{ Auth::user()->type }}) </font> <span class="caret"></span>
                                     </a>
 
                                     <ul class="dropdown-menu" >

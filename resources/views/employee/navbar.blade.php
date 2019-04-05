@@ -68,18 +68,18 @@
                             </li>  
                             @else
                             <li>
-                               <a style="background-color:#247f5b;" onclick="myFunction()" href="#" >
+                               <a style="background-color:#247f5b;" onclick="myFunction2()" href="#" >
                                   <font color="white">  Create new report </font> </span>
                                 </a>
                             </li> 
                             @endif
                             <script>
-                                function myFunction() {
+                                function myFunction2() {
                                 alert("you still have an active report");
                             }
                             </script>   
                             <li class="dropdown">
-                                <a style="background-color:#247f5b;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
+                                <!-- <a style="background-color:#247f5b;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
                                   <font color="white">  Notifications </font> <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" >
@@ -89,7 +89,7 @@
 
                                         
                                     </li>
-                                </ul>
+                                </ul> -->
                                 
                             <li class="dropdown" >
                                 <a style="background-color:#247f5b;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>

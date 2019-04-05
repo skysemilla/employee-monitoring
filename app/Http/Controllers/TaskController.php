@@ -19,7 +19,7 @@ class TaskController extends Controller
     }
     public function index(Request $request)
     {
-      if($request->user()->authorizeRoles(['permanent', 'nonpermanent'])){
+      if($request->user()->authorizeRoles(['permanent', 'nonpermanent', 'supervisor'])){
           $report= Report::find(Auth::user()->latestReportId);
 
           $categories = Category::where([
@@ -48,8 +48,13 @@ class TaskController extends Controller
            echo $sortedTask->category_id;
          }*/
          $sortedTasks = collect($sortedTasks)->sortBy(['projname_id']);
+         if($request->user()->authorizeRoles(['permanent', 'nonpermanent'])){
+            return view('employee.home', compact('tasks', 'categories','report', 'total_rating', 'projnames', 'sortedTasks'));
+          }
+          elseif($request->user()->authorizeRoles(['supervisor'])){
+            return view('supervisor.ownreport', compact('tasks', 'categories','report', 'total_rating', 'projnames', 'sortedTasks'));
+          }
 
-          return view('employee.home', compact('tasks', 'categories','report', 'total_rating', 'projnames', 'sortedTasks'));
       }
         return redirect('home')->with('error','You have not employee access');
 

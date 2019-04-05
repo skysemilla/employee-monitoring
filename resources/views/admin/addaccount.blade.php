@@ -85,11 +85,22 @@
 
       
         <td>
-         
         @if($user['status'] == "inactive" && $user['type'] != "admin")
+         <a href="{{action('UserController@activate', $user['id'])}}" class="btn btn-primary" >Activate</a>
+          @else 
+              <button class="btn btn-info" disabled >Activate</button>
+        @endif
+         @if($user['status'] == "active" && $user['type'] != "admin")
+         <a href="{{action('UserController@deactivate', $user['id'])}}" class="btn btn-danger" >Deactivate</a>
+         @else 
+              <button class="btn btn-danger" disabled >Deactivate</button>
+        @endif
+      
+        <!-- @if($user['status'] == "inactive" && $user['type'] != "admin")
         <a  data-toggle="modal" data-target="#activateModal" class="btn btn-primary">Activate</a>
-             <div class="modal fade" id="activateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal fade" id="activateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
+            {{$user['id']}} 
             <div class="modal-content">
               <div class="modal-header" style="background-color: #88a097; ">
               <h3 class="modal-title" id="exampleModalLabel" ><strong>Activate account</strong><button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -112,13 +123,13 @@
         </div>
         @else 
               <button class="btn btn-info" disabled >Activate</button>
-        @endif
+        @endif -->
         <!-- Modal for activating account -->
           
-
+<!-- 
         @if($user['status'] == "active" && $user['type'] != "admin")
              <a  data-toggle="modal" data-target="#deactivateModal" class="btn btn-danger">Deactivate</a>
-               <!-- Modal for activating account -->
+              
           <div class="modal fade" id="deactivateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -144,7 +155,7 @@
         </div>
         @else 
               <button class="btn btn-danger" disabled >Deactivate</button>
-        @endif
+        @endif -->
       
 
        </td>

@@ -50,6 +50,8 @@ Route::get('/home', 'HomeController@index');
 Route::get('admin/activate/{id}', 'UserController@activate');
 Route::get('admin/deactivate/{id}', 'UserController@deactivate');
 Route::get('admin/accounts/{id}', 'UserController@viewSpecificAccount');
+Route::get('supervisor/create-report', 'ReportController@index');
+Route::get('supervisor/add-tasks', 'TaskController@index');
 /*Route::get('/admin/home', 'UserController@getReports')->name('getReports');*/
 Route::get('/pdfmaker/{id}', 'PDFController@make');
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');

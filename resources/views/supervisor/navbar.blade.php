@@ -62,7 +62,7 @@
                             <ul class="nav navbar-nav">
                            
                             <li class="dropdown">
-                                <a style="background-color:#247f5b;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
+                                <!-- <a style="background-color:#247f5b;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
                                   <font color="white">  Notifications </font> <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" >
@@ -72,7 +72,7 @@
 
                                         
                                     </li>
-                                </ul>
+                                </ul> -->
                                 
                             <li class="dropdown" >
                                 <a style="background-color:#247f5b;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
