@@ -60,8 +60,7 @@ class ReportController extends Controller
     }
 */    public function store(Request $request)
     {
-        //PUT AUTH!!!!!!!
-
+      if($request->user()->authorizeRoles(['permanent', 'nonpermanent', 'supervisor'])){
         $report = new Report([
             'duration' => $request->get('duration'),
             'year' => $request->get('year'),
@@ -91,7 +90,7 @@ class ReportController extends Controller
             return redirect('/supervisor/add-tasks');
         }
     }
-
+  }
     /**
      * Display the specified resource.
      *
@@ -121,20 +120,6 @@ class ReportController extends Controller
      * @param  \App\Report  $report
      * @return \Illuminate\Http\Response
      */
-/*    public function update(Request $request, $id)
-    {
-        //
-
-        //
-        $report = Report::find($id);
-      
-
-        $report->forApproval=true;
-        
-        $report->save();
-        return redirect('/home');
-    
-    }*/
 
     /**
      * Remove the specified resource from storage.
@@ -142,22 +127,19 @@ class ReportController extends Controller
      * @param  \App\Report  $report
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Report $report)
+   /* public function destroy(Report $report)
     {
         //
         $reports = Report::all()->toArray();
 
         return view('employee.home', compact('reports'));
-    }
+    }*/
     public function update(Request $request, $id){
-         ///echo 'hi';
-        if($request->user()->authorizeRoles(['permanent', 'nonpermanent'])){
+        if($request->user()->authorizeRoles(['permanent', 'nonpermanent', 'supervisor'])){
             $report = Report::find($id);
             $report->forApproval=true;
             $report->save();
         }
-
-      ///$latestReport->save();
         return redirect('/home');
     }
      public function indexForSupervisor(Request $request)
@@ -170,10 +152,6 @@ class ReportController extends Controller
                 ['supervisor_id', '=', Auth::user()->id]
             ])->get();
             $users = User::where("hasActiveReport", true)->get();
-          /*  foreach ($reportsForApproval as $report) {
-                echo $report->id;
-            }*/
-
             return view('supervisor.home', compact('reportsForApproval', 'users'));
         }
         
@@ -182,48 +160,32 @@ class ReportController extends Controller
     }
     public function updateReportApproved(Request $request, $id)
         {
-          if($request->user()->authorizeRoles(['supervisor'])){    
+          if($request->user()->authorizeRoles(['supervisor', 'headofoffice'])){    
                 $report = Report::find($id);
                 $report->approved=true;
                 $report->forApproval=false;
-
-
-               
-               /* $report->start_duration = $request->get('start_duration');
-                $report->end_duration = $request->get('end_duration');
-                $report->forApproval = $request->get('forApproval');
-                $report->Approved = true;*/
-                 $report->save();
-                
-             /* $user_id = $tasks->first()->user_id;*/
-           
-    /*          echo $user_id;*/
-          /*    foreach($tasks as $task)
-               echo $task->title;
-    */
-              /*$user = User::find($user_id);
-              $categories = Category::where([
-                    ['user_id', '=', $user_id]      
-              ])->get();*/
-             /// return view('supervisor.approvedview', compact('report'));
-              return redirect('/supervisor/home');
+                $report->save();
+             
+                if($request->user()->authorizeRoles(['supervisor'])){ 
+                    return redirect('/supervisor/home');
+                }
+                elseif ($request->user()->authorizeRoles(['headofoffice'])) {
+                    return redirect('/headofoffice/reports-for-approval');
+                }
           }
-            return redirect('home')->with('error','You have not employee access');
+            return redirect('home')->with('error','You do not have access.');
 
             
         }
 
     public function submitToHeadOffice(Request $request, $id){
-     ///echo 'hi';
-    if($request->user()->authorizeRoles(['permanent', 'nonpermanent'])){
-        $report = Report::find($id);
-        $report->forAssessment=true;
-        $report->save();
-    }
-
-  ///$latestReport->save();
-    return redirect('/home');
-    }
+      if($request->user()->authorizeRoles(['permanent', 'nonpermanent', 'supervisor'])){
+          $report = Report::find($id);
+          $report->forAssessment=true;
+          $report->save();
+      }
+      return redirect('/home');
+      }
 
     public function indexForHeadOffice(Request $request)
     {   
@@ -234,10 +196,6 @@ class ReportController extends Controller
                 ['forAssessment', '=', true]
             ])->get();
             $users = User::where("hasActiveReport", true)->get();
-          /*  foreach ($reportsForApproval as $report) {
-                echo $report->id;
-            }*/
-
             return view('headofoffice.home', compact('reportsForAssessment', 'users'));
         }
         
@@ -251,31 +209,101 @@ class ReportController extends Controller
                 $report = Report::find($id);
                 $report->assessed=true;
                 $report->forAssessment=false;
-
-
-               
-               /* $report->start_duration = $request->get('start_duration');
-                $report->end_duration = $request->get('end_duration');
-                $report->forApproval = $request->get('forApproval');
-                $report->Approved = true;*/
-                 $report->save();
-                
-             /* $user_id = $tasks->first()->user_id;*/
-           
-    /*          echo $user_id;*/
-          /*    foreach($tasks as $task)
-               echo $task->title;
-    */
-              /*$user = User::find($user_id);
-              $categories = Category::where([
-                    ['user_id', '=', $user_id]      
-              ])->get();*/
-             /// return view('supervisor.approvedview', compact('report'));
+                $user = User::find($report->user_id);
+                $user->hasActiveReport= false;
+                $user->save();
+                $report->save();
+      
               return redirect('/headofoffice/home');
           }
-            return redirect('home')->with('error','You have not employee access');
+            return redirect('home')->with('error','You do not have access.');
 
             
         }
+
+    public function reportsForApprovalHOO(Request $request)
+    {   
+        if($request->user()->authorizeRoles(['headofoffice'])){
+            $reports = Report::all()->toArray();
+            
+            $reportsForApproval = Report::where([
+                ['forApproval', '=', true],
+                ['supervisor_id', '=', Auth::user()->id]
+
+            ])->get();
+            $users = User::where("hasActiveReport", true)->get();
+       
+            return view('headofoffice.reportsforapproval', compact('reportsForApproval', 'users'));
+        }
+        
+        return redirect('home')->with('error','You do not have head of office access');
+       
+    }
+
+
+    public function viewAllReports(Request $request)
+    {   
+        if($request->user()->authorizeRoles(['supervisor', 'permanent', 'nonpermanent'])){
+            $reports = Report::where([
+                ['assessed', '=', true],
+                ['user_id', '=', Auth::user()->id]
+            ])->get();
+            if($request->user()->authorizeRoles(['supervisor'])){
+              return view('supervisor.viewallreports', compact('reports'));
+            }elseif($request->user()->authorizeRoles(['permanent', 'nonpermanent'])){
+              return view('employee.viewallreports', compact('reports'));
+            }
+        }
+        
+        return redirect('home')->with('error','You do not have supervisor access');
+       
+    }
+
+    public function viewAllApprovedBySupervisor(Request $request)
+    {   
+        if($request->user()->authorizeRoles(['supervisor'])){
+            $reports = Report::where([
+                ['supervisor_id', '=', Auth::user()->id],
+                ['approved', '=', true]
+            ])->get();
+            $users = User::all()->toArray();
+          
+            return view('supervisor.viewallapproved', compact('reports', 'users'));
+         
+        }
+        
+        return redirect('home')->with('error','You do not have access.');
+       
+    }
+    public function viewAllApprovedByHOO(Request $request)
+    {   
+        if($request->user()->authorizeRoles(['headofoffice'])){
+            $reports = Report::where([
+                ['supervisor_id', '=', Auth::user()->id],
+                ['approved', '=', true]
+            ])->get();
+            $users = User::all()->toArray();
+              return view('headofoffice.viewallapproved', compact('reports','users'));
+        }
+        
+        return redirect('home')->with('error','You do not have access.');
+       
+    }
+    public function viewAllAssessed(Request $request)
+    {   
+        if($request->user()->authorizeRoles(['headofoffice'])){
+            $reports = Report::where([
+                ['assessed', '=', true],
+                ['supervisor_id', '=', Auth::user()->id],
+                ['approved', '=', true]
+            ])->get();
+            $users = User::all()->toArray();
+            return view('headofoffice.viewallassessed', compact('reports','users'));
+            
+        }
+        
+        return redirect('home')->with('error','You do not have access.');
+       
+    }
 
 }

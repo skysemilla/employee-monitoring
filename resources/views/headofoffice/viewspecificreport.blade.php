@@ -32,7 +32,7 @@
 
 <div class="panel panel-default" >
 
-@if($user->type=='permanent' || $user->type=='supervisor')
+@if($user->type=='permanent' ||$user->type=='supervisor' )
   <div class="panel-heading" style="background-color: #88a097;"><h3><strong>Individual Performance Commitment Review (IPCR)</strong> 
 
 @else

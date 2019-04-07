@@ -43,33 +43,38 @@
 	@if(count($reportsForAssessment)!=0) 	
 	@foreach($reportsForAssessment as $report)
 		 <tr class="notfirst">
-		<td><a href="/supervisor/report/{{$report['id']}}">{{$report['id']}}</a></td>
+		<td>{{$report['id']}}</td>
 		@foreach($users as $user)
 			@if($user['id'] == $report['user_id'])
 				<td>{{$user['name']}}</td>
 			@endif
 		@endforeach
-			<td>{{$report['duration']}}</td>
+		@if($report['duration'] ==1)
+			<td><a href="/headofoffice/report-for-assessment/{{$report['id']}}">1st Semester (January - June)</a></td>
+		@else
+			<td><a href="/headofoffice/report-for-assessment/{{$report['id']}}">2nd Semester (July - December)</a></td>
+		@endif
+		<!-- 	<td><a href="/headofoffice/report-for-assessment/{{$report['id']}}">{{$report['duration']}}</a></td> -->
 			<td>{{$report['year']}}</td>
-			<td><a href="{{action('TaskController@forSupervisorView', $report['id'])}}"  class="btn btn-info">View</a>
+			<td><!-- <a href="{{action('TaskController@forHOOView', $report['id'])}}"  class="btn btn-info">View</a> -->
 			 &nbsp;	<a  data-toggle="modal" data-target="#approveReportModal" class="btn btn-success">Approve</a>
 			 &nbsp; <a  class="btn btn-danger">Disapprove</a></td>
  		
-  				<div class="modal fade" id="approveReportModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		          <div class="modal-dialog" role="document">
-		            <div class="modal-content">
-		              <div class="modal-header" style="background-color: #88a097; ">
-                  <h3 class="modal-title" id="exampleModalLabel" ><strong>Approve Report?</strong><button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true"><font size="8">×</font></span>
-                  </button></h3>
+			<div class="modal fade" id="approveReportModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	          <div class="modal-dialog" role="document">
+	            <div class="modal-content">
+	              <div class="modal-header" style="background-color: #88a097; ">
+              <h3 class="modal-title" id="exampleModalLabel" ><strong>Approve for Final Report?</strong><button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true"><font size="8">×</font></span>
+              </button></h3>
 
-                  <div>
-                    <a  class="btn btn-success" href="{{action('ReportController@updateReportAssessed', $report['id'])}}"   >YES</a>
-                    <a  class="btn btn-warning" data-dismiss="modal" aria-label="Close">NO</a>
-                   
-                  </div>
-                  </div>
-	            </div>
+              <div>
+                <a  class="btn btn-success" href="{{action('ReportController@updateReportAssessed', $report['id'])}}"   >YES</a>
+                <a  class="btn btn-warning" data-dismiss="modal" aria-label="Close">NO</a>
+               
+              </div>
+              </div>
+            </div>
 
 	          </div>
 	        </div>

@@ -1,4 +1,4 @@
-@extends('supervisor.navbar')
+@extends('headofoffice.navbar')
 
 @section('content')
 <div class="container">
@@ -9,8 +9,8 @@
                             {{ session('status') }}
                         </div>
                     @endif -->
-                   
-                        @include('supervisor.ownreportextension')
+                        
+                        @include('headofoffice.reportsforapprovalextension')
                 </div>
             </div>
         </div>

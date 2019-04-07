@@ -9,8 +9,8 @@
                             {{ session('status') }}
                         </div>
                     @endif -->
-                   
-                        @include('supervisor.ownreportextension')
+                        
+                        @include('supervisor.viewallreportsextension')
                 </div>
             </div>
         </div>

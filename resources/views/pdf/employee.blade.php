@@ -295,7 +295,7 @@ margin-right: 50px;
 		<tr>
 
 		      <td colspan="6" class="page-header"><i><b>Final Average Rating</b></i></td>
-		      <td colspan="2">//insert final rating here</td>
+		      <td colspan="2">{{$report['total_average']}}</td>
 		      
 		     
 

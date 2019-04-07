@@ -1,4 +1,4 @@
-@extends('employee.navbar')
+@extends('supervisor.navbar')
 
 @section('content')
 <div class="container">
@@ -10,7 +10,7 @@
                         </div>
                     @endif -->
                         
-                        @include('employee.edit')
+                        @include('supervisor.edit')
                 </div>
             </div>
         </div>

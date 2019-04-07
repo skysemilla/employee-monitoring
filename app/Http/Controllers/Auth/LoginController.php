@@ -42,6 +42,13 @@ class LoginController extends Controller
 /*    public function logout(Request $request) {
         Auth::logout();
         return redirect('/login');
-}*/
+    }*/
+    protected function credentials(Request $request)
+    {
+        return array_merge($request->only($this->username(), 'password'),
+        ['status' => "active"]);
+    }
+    //ADDED!!
+
 
 }

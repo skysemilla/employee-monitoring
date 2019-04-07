@@ -41,6 +41,7 @@ class UserTableSeeder extends Seeder
 	    $supervisor->type = 'supervisor';
 	    $supervisor->functional_unit="f1";
 	    $supervisor->status="active";
+	    $supervisor->hasActiveReport=false;
 	    $supervisor->password = bcrypt('user123');
 	    $supervisor->save();
 	    $supervisor->roles()->attach($role_supervisor);
@@ -52,6 +53,7 @@ class UserTableSeeder extends Seeder
 	    $supervisor->type = 'supervisor';
 	    $supervisor->functional_unit="f2";
 	    $supervisor->status="active";
+	    $supervisor->hasActiveReport=false;
 	    $supervisor->password = bcrypt('user123');
 	    $supervisor->save();
 	    $supervisor->roles()->attach($role_supervisor);

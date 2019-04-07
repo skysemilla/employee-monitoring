@@ -31,11 +31,11 @@
 
 <div class="panel panel-default" >
 
-@if(Auth::user()->type=='permanent')
+@if(Auth::user()->type=='permanent' ||Auth::user()->type=='supervisor' )
   <div class="panel-heading" style="background-color: #88a097;"><h3><strong>Individual Performance Commitment Review (IPCR)</strong> 
 
 @else
-  <div class="panel-heading" style="background-color: #88a097;"><h3><strong>Performance Commitment Review (IPCR)</strong>
+  <div class="panel-heading" style="background-color: #88a097;"><h3><strong>Performance Commitment Review (PCR)</strong>
 
 @endif
 </h3>
@@ -179,8 +179,9 @@
                     <th rowspan="2">ACTUAL ACCOMPLISHMENTS</th>
                     <th colspan="4" rowspan="1">RATING</th>
                     <th rowspan="2">REMARKS</th>
-                     
+                     @if ($report->approved == true && ($report->forAssessment==false || $report->forAssessment == NULL) && $report->assessed==false)
                     <th rowspan="2"> ACTION</th>
+                    @endif
                     
                     
                 </tr>
@@ -217,7 +218,7 @@
                             <td>{{$task['rating_effort']}}</td>
                             <td>{{$task['rating_average']}}</td>
                             <td>{{$task['remarks']}}</td>
-                            @if ($report->approved == true && ($report->forAssessment==false || $report->forAssessment == NULL))
+                            @if ($report->approved == true && ($report->forAssessment==false || $report->forAssessment == NULL) && $report->assessed==false)
                              <td><a href="{{action('TaskController@edit', $task['id'])}}" class="btn btn-warning">Edit</a></td>
                             @endif
                             @if ($report->approved == false && $report->forApproval==false)
@@ -228,10 +229,7 @@
                                 <button class="btn btn-danger" >Delete</button>
                               </form>
                             </td>
-                            @else 
-                               <td>
-                                <button class="btn btn-danger" disabled>Delete</button>
-                            </td>
+                          
                             @endif
                         </tr>
                       @endif
@@ -261,7 +259,7 @@
                           <td>{{$task['rating_effort']}}</td>
                           <td>{{$task['rating_average']}}</td>
                           <td>{{$task['remarks']}}</td>
-                          @if ($report->approved == true && ($report->forAssessment==false || $report->forAssessment == NULL))
+                          @if ($report->approved == true && ($report->forAssessment==false || $report->forAssessment == NULL) && $report->assessed==false)
                           <td><a href="{{action('TaskController@edit', $task['id'])}}" class="btn btn-warning">Edit</a></td>@endif                             
                           @if ($report->approved == false && $report->forApproval==false)
                              <td>
@@ -271,10 +269,8 @@
                                 <button class="btn btn-danger" >Delete</button>
                               </form>
                             </td>
-                          @else 
-                               <td>
-                                <button class="btn btn-danger" disabled>Delete</button>
-                            </td>
+                          @else
+                              <td></td>
                           @endif
                       </tr>
                     @endif
@@ -338,7 +334,7 @@
   </div>
   </div>
 
-  @if($report->approved==true && ($report->forAssessment == false || $report->forAssessment == NULL))
+  @if ($report->approved == true && ($report->forAssessment==false || $report->forAssessment == NULL) && $report->assessed==false)
        <a  data-toggle="modal" data-target="#forHeadOfOfficeModal" class="btn btn-success">Submit for final assessment</a>
   @else 
         <button type="submit"  data-toggle="modal" data-target="#forHeadOfOfficeModal" disabled ><strong>Submit for final assessment</strong></button>
@@ -373,6 +369,12 @@
 @if($report->forApproval==true)
  <div class="alert alert-danger">
     <strong>Can't edit!</strong> Your report is being reviewed by your supervisor.
+  </div>
+</div>
+@endif
+@if($report->forAssessment==true)
+ <div class="alert alert-danger">
+    <strong>Can't edit!</strong> Your report is being assessed by head of office.
   </div>
 </div>
 @endif

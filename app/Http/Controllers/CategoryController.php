@@ -44,7 +44,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+    if($request->user()->authorizeRoles(['permanent', 'nonpermanent', 'supervisor'])){
         $category = new Category([
           'name' => $request->get('name'),
          
@@ -52,7 +52,14 @@ class CategoryController extends Controller
         $category->user_id = Auth::user()->id;
         $category->report_id = Auth::user()->latestReportId;
         $category->save();
-        return redirect('/employee/home');
+        if($request->user()->authorizeRoles(['permanent', 'nonpermanent'])){
+            return redirect('/employee/home');
+        }
+        elseif ($request->user()->authorizeRoles(['supervisor'])) {
+            return redirect('/supervisor/add-tasks');
+        }
+    
+    }
     }
 
     /**

@@ -23,27 +23,20 @@ Route::get('/employee/home', 'TaskController@index')->name('task');
 
 Route::get('admin/home', 'UserController@index')->name('admin');
 
-//Route::resource('/employee/add-task', 'TaskController');
-/*Route::get('/employee/add-task', 'EmployeeController@store')->name('add-task');*/
-/*Route::get('employee/edit/{id}', 'TaskController@updateApprovedTask');
-*/
 Route::get('employee/submit/{id}', 'ReportController@submitToHeadOffice');
 Route::resource('task', 'TaskController');
 Route::get('register', 'UserController@forRegister')->name('register');
 Route::resource('category', 'CategoryController');
 Route::resource('report', 'ReportController');
 Route::resource('projname', 'ProjnameController');
-/*Route::resource('pdf', 'PDFController');
-*/
-//Route::resource('supervisor', 'SupervisorController');
-/*Route::resource('categories', 'TaskController@getCategories');*/
-Route::post('employee/create-report', 'ReportController@store');
 
-/*Route::get('register', '\App\Http\Controllers\Auth\RegisterController@index');*/
+Route::post('employee/create-report', 'ReportController@store');
+Route::get('employee/view-all-reports', 'ReportController@viewAllReports');
+Route::get('employee/view-report/{id}', 'TaskController@viewOwnSpecificReport');
 Route::get('employee/create-report', 'ReportController@index')->name('report');
+
 Route::get('supervisor/report/{id}', 'TaskController@forSupervisorView');
 Route::get('supervisor/approve/{id}', 'ReportController@updateReportApproved');
-Route::get('headofoffice/approve/{id}', 'ReportController@updateReportAssessed');
 Route::get('supervisor/home', 'ReportController@indexForSupervisor');
 Route::get('headofoffice/home', 'ReportController@indexForHeadOffice');
 Route::get('/home', 'HomeController@index');
@@ -51,33 +44,20 @@ Route::get('admin/activate/{id}', 'UserController@activate');
 Route::get('admin/deactivate/{id}', 'UserController@deactivate');
 Route::get('admin/accounts/{id}', 'UserController@viewSpecificAccount');
 Route::get('supervisor/create-report', 'ReportController@index');
-Route::get('supervisor/add-tasks', 'TaskController@index');
-/*Route::get('/admin/home', 'UserController@getReports')->name('getReports');*/
+Route::get('supervisor/add-tasks', 'TaskController@indexForSupervisor');
+Route::get('supervisor/view-all-reports', 'ReportController@viewAllReports');
+Route::get('supervisor/view-report/{id}', 'TaskController@viewOwnSpecificReport');
+Route::get('supervisor/view-all-approved-reports', 'ReportController@viewAllApprovedBySupervisor');
+
+Route::get('headofoffice/reports-for-approval', 'ReportController@reportsForApprovalHOO');
+Route::get('headofoffice/approve/{id}', 'ReportController@updateReportAssessed');
+Route::get('headofoffice/report-for-assessment/{id}', 'TaskController@forHOOView');
+Route::get('headofoffice/view-all-approved-reports', 'ReportController@viewAllApprovedByHOO');
+Route::get('headofoffice/view-approved-report/{id}', 'TaskController@forHOOView');
+Route::get('headofoffice/view-all-assessed-reports', 'ReportController@viewAllAssessed');
+Route::get('headofoffice/view-assessed-report/{id}', 'TaskController@forHOOView');
 Route::get('/pdfmaker/{id}', 'PDFController@make');
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
 });
 
-//Route::get('/home', 'HomeController@index')->name('home');
-/*Route::resource('employee', 'EmployeeController');*/
-
-/*Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});*/
-/*Route::group(['middleware' => 'auth:api'], function() {
-  
-    Route::post('tasks', 'TaskController@store');
-
-});*/
-
-/*Route::get('/employee/home', function () {
-    return view('employee.home');
-});
-
-Route::get('/employee/create-report', function () {
-    return view('employee.createreport');
-});*/
-
-//Route::get('admin/home', 'AdminController@index')->middleware('admin');
-//Route::get('admin/home', 'Auth\RegisterController@index')->name('admin');
-//Route::get('/home', 'HomeController@index')->name('home');

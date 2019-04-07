@@ -46,6 +46,7 @@ class ProjnameController extends Controller
     public function store(Request $request)
     {
         //
+    if($request->user()->authorizeRoles(['permanent', 'nonpermanent', 'supervisor'])){
         $projname = new Projname([
           'name' => $request->get('name')
 
@@ -54,8 +55,15 @@ class ProjnameController extends Controller
         $projname->report_id = Auth::user()->latestReportId;
         $projname->user_id = Auth::user()->id;
         $projname->save();
-        return redirect('/employee/home');
+        if($request->user()->authorizeRoles(['permanent', 'nonpermanent'])){
+            return redirect('/employee/home');
+        }
+        elseif ($request->user()->authorizeRoles(['supervisor'])) {
+            return redirect('/supervisor/add-tasks');
+        }
+    
     }
+}
 
     /**
      * Display the specified resource.

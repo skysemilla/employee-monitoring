@@ -50,14 +50,13 @@
 			@endif
 		@endforeach
 		@if($report['duration'] ==1)
-			<td><a href="/supervisor/report/{{$report['id']}}">January - June</a></td>
+			<td><a href="/headofoffice/report/{{$report['id']}}">1st Semester (January - June)</a></td>
 		@else
-			<td><a href="/supervisor/report/{{$report['id']}}">July - December</a></td>
+			<td><a href="/headofoffice/report/{{$report['id']}}">2nd Semester (July - December)</a></td>
 		@endif
-
-			
+			<!-- <td><a href="/headofoffice/report/{{$report['id']}}">{{$report['duration']}}</a></td> -->
 			<td>{{$report['year']}}</td>
-			<td><!-- <a href="{{action('TaskController@forSupervisorView', $report['id'])}}"  class="btn btn-info">View</a> -->
+			<td><!-- <a href="{{action('TaskController@forHOOView', $report['id'])}}"  class="btn btn-info">View</a> -->
 			 &nbsp;	<a  data-toggle="modal" data-target="#approveReportModal" class="btn btn-success">Approve</a>
 			 &nbsp; <a  class="btn btn-danger">Disapprove</a></td>
  		
