@@ -34,6 +34,9 @@ Route::post('employee/create-report', 'ReportController@store');
 Route::get('employee/view-all-reports', 'ReportController@viewAllReports');
 Route::get('employee/view-report/{id}', 'TaskController@viewOwnSpecificReport');
 Route::get('employee/create-report', 'ReportController@index')->name('report');
+Route::get('employee/template-report/{id}', 'ReportController@template');
+Route::post('employee/template-report', 'ReportController@storeTemplate')->name('storeTemplate');
+
 
 Route::get('supervisor/report/{id}', 'TaskController@forSupervisorView');
 Route::get('supervisor/approve/{id}', 'ReportController@updateReportApproved');
@@ -56,6 +59,9 @@ Route::get('headofoffice/view-all-approved-reports', 'ReportController@viewAllAp
 Route::get('headofoffice/view-approved-report/{id}', 'TaskController@forHOOView');
 Route::get('headofoffice/view-all-assessed-reports', 'ReportController@viewAllAssessed');
 Route::get('headofoffice/view-assessed-report/{id}', 'TaskController@forHOOView');
+Route::get('headofoffice/ranking', 'ReportController@showRanking');
+Route::get('headofoffice/ranking/{sem_id}/{year}', 'ReportController@filterRanking');
+
 Route::get('/pdfmaker/{id}', 'PDFController@make');
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 

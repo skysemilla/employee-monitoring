@@ -99,6 +99,11 @@
                     <a href="{{url('headofoffice/view-all-assessed-reports')}}">View assessed reports</a>
                   
                 </div>
+                
+                 <div class="panel-body">
+                    <a href="{{url('headofoffice/ranking')}}">View ranking</a>
+                  
+                </div>
                 @endif
             </div>
         </div>

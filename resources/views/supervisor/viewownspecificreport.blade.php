@@ -147,6 +147,10 @@
                 
                 
         </table>
-
+@if($report->approved==true && $report->assessed==true)
+<a href="{{action('PDFController@make', $report['id'])}}" class="btn btn-warning">Generate PDF</a>
+@else
+<button class="btn btn-warning" disabled>Generate PDF</button>
+@endif
 </div>
 </html>

@@ -294,7 +294,6 @@ class ReportController extends Controller
         if($request->user()->authorizeRoles(['headofoffice'])){
             $reports = Report::where([
                 ['assessed', '=', true],
-                ['supervisor_id', '=', Auth::user()->id],
                 ['approved', '=', true]
             ])->get();
             $users = User::all()->toArray();
@@ -305,5 +304,118 @@ class ReportController extends Controller
         return redirect('home')->with('error','You do not have access.');
        
     }
+    public function showRanking(Request $request)
+    {   
+        if($request->user()->authorizeRoles(['headofoffice'])){
+            $reports = Report::where([
+                ['assessed', '=', true],
+                ['approved', '=', true]
+            ])->get();
+            $users = User::all()->toArray();
+            $years = Report::distinct()->get(['year']);
+            $sm = 0;
+            $yr =0;
+           /* foreach($years as $year)
+              echo $year;
+          */
+            return view('headofoffice.ranking', compact('reports','users', 'years', 'yr', 'sm'));
+            
+        }
+        
+        return redirect('home')->with('error','You do not have access.');
+       
+    }
+
+    public function filterRanking(Request $request, $sem_id, $year)
+    {   
+        if($request->user()->authorizeRoles(['headofoffice'])){
+            $reports = Report::where([
+                ['duration', '=', $sem_id],
+                ['year', '=', $year]
+            ])->get();
+            $users = User::all()->toArray();
+            $sm = $sem_id;
+            $yr = $year;
+            $years = Report::distinct()->get(['year']);
+           /* foreach($years as $year)
+              echo $year;
+          */
+              //dapat yung users ay mafifilter depende sa position
+            $reports = collect($reports)->sortBy(['total_average']);
+            return view('headofoffice.ranking', compact('reports','users', 'years','yr', 'sm'));
+            
+        }
+        
+        return redirect('home')->with('error','You do not have access.');
+       
+    }
+    public function template(Request $request,$id)
+    {
+      if($request->user()->authorizeRoles(['permanent', 'nonpermanent', 'supervisor'])){
+        /*$report = new Report([
+            'duration' => $request->get('duration'),
+            'year' => $request->get('year'),
+            'user_id' => $request->get('user_id'),
+            'forApproval' => $request->get('forApproval'),
+            'Approved' => $request->get('Approved')
+        ]);
+        $report->user_id = Auth::user()->id;
+        $user = User::find($report->user_id);
+          
+        $user->hasActiveReport =true;
+
+        
+        $report->forApproval= false;
+        $report->Approved=false;
+        $report->supervisor_id = $user->supervisor_id;
+        
+        $report->save();
+        $user->latestReportId=$report->id;
+        $user->save();*/
+        return view('employee.templatereport');
+        /*if($request->user()->authorizeRoles(['permanent', 'nonpermanent'])){
+            return redirect('/employee/home');
+        }
+        elseif ($request->user()->authorizeRoles(['supervisor'])) {
+            return redirect('/supervisor/add-tasks');
+        }*/
+    }
+  }
+     public function storeTemplate(Request $request, $oldreport_id)
+    {
+      if($request->user()->authorizeRoles(['permanent', 'nonpermanent', 'supervisor'])){
+        $report = new Report([
+            'duration' => $request->get('duration'),
+            'year' => $request->get('year'),
+            'user_id' => $request->get('user_id'),
+            'forApproval' => $request->get('forApproval'),
+            'Approved' => $request->get('Approved')
+        ]);
+        $report->user_id = Auth::user()->id;
+        $user = User::find($report->user_id);
+        $retrievedTasks =  Task::where([
+                ['report_id', '=', $oldreport_id]
+            ])->get();
+        
+        $user->hasActiveReport =true;
+
+        
+        $report->forApproval= false;
+        $report->Approved=false;
+        $report->supervisor_id = $user->supervisor_id;
+        /*$report
+           ->users()
+           ->attach(User::where('id', $report->user_id)->first());*/
+        $report->save();
+        $user->latestReportId=$report->id;
+        $user->save();
+        if($request->user()->authorizeRoles(['permanent', 'nonpermanent'])){
+            return redirect('/employee/home');
+        }
+        elseif ($request->user()->authorizeRoles(['supervisor'])) {
+            return redirect('/supervisor/add-tasks');
+        }
+    }
+  }
 
 }
