@@ -57,6 +57,7 @@
              
                 <tr>
                     <th rowspan="2">MFO/PAP</th>
+                    <th rowspan="2">Project</th>
                     <th rowspan="2">SUCCESS INDICATORS</th>
                     <th rowspan="2">TARGET ACCOMPLISHMENTS</th>
                     <th rowspan="2">ACTUAL ACCOMPLISHMENTS</th>
@@ -89,7 +90,14 @@
                                     <td>{{$category['name']}}</td>
                                 @endif
                             @endforeach
-                         
+                          @foreach ($projnames as $projname)
+                                @if($projname['id']==$task['projname_id'])
+                                    <td>{{$projname['name']}}</td>
+                                @endif
+                            @endforeach
+                            @if($task['projname_id']==NULL)
+                              <td></td>
+                            @endif
                             <td>{{$task['title']}}</td>
                             <td>{{$task['target_no']}}</td>
                             <td>{{$task['actual_no']}}</td>
@@ -119,6 +127,14 @@
                                   <td>{{$category['name']}}</td>
                               @endif
                            @endforeach
+                            @foreach ($projnames as $projname)
+                                @if($projname['id']==$task['projname_id'])
+                                    <td>{{$projname['name']}}</td>
+                                @endif
+                            @endforeach
+                          @if($task['projname_id']==NULL)
+                            <td></td>
+                          @endif
                           <td>{{$task['title']}}</td>
                           <td>{{$task['target_no']}}</td>
                           <td>{{$task['actual_no']}}</td>
@@ -147,6 +163,7 @@
                 
                 
         </table>
+      <hr>
 @if($report->approved==true && $report->assessed==true)
 <a href="{{action('PDFController@make', $report['id'])}}" class="btn btn-warning">Generate PDF</a>
 @else

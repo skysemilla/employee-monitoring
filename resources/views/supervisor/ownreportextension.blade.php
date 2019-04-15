@@ -173,7 +173,7 @@
              
                 <tr>
                     <th rowspan="2">MFO/PAP</th>
-                    <th  rowspan="2">Projname </th>
+                    <th  rowspan="2">Project </th>
                     <th rowspan="2">SUCCESS INDICATORS</th>
                     <th rowspan="2">TARGET ACCOMPLISHMENTS</th>
                     <th rowspan="2">ACTUAL ACCOMPLISHMENTS</th>
@@ -209,7 +209,14 @@
                                     <td>{{$category['name']}}</td>
                                 @endif
                             @endforeach
-                           <td>{{$task['projname_id']}}</td>
+                            @foreach ($projnames as $projname)
+                                @if($projname['id']==$task['projname_id'])
+                                    <td>{{$projname['name']}}</td>
+                                @endif
+                            @endforeach
+                            @if($task['projname_id']==NULL)
+                              <td></td>
+                            @endif
                             <td>{{$task['title']}}</td>
                             <td>{{$task['target_no']}}</td>
                             <td>{{$task['actual_no']}}</td>
@@ -250,7 +257,14 @@
                                   <td>{{$category['name']}}</td>
                               @endif
                            @endforeach
-                           <td>{{$task['projname_id']}}</td>
+                         @foreach ($projnames as $projname)
+                              @if($projname['id']==$task['projname_id'])
+                                  <td>{{$projname['name']}}</td>
+                              @endif
+                          @endforeach
+                          @if($task['projname_id']==NULL)
+                            <td></td>
+                          @endif
                           <td>{{$task['title']}}</td>
                           <td>{{$task['target_no']}}</td>
                           <td>{{$task['actual_no']}}</td>
@@ -289,11 +303,11 @@
             </tbody>
                 
         </table>
-
+        <hr>
     @if($report->forApproval==true || count($tasks)==0 || $report->approved==true)
-        <button type="submit"  data-toggle="modal" data-target="#submitModal" disabled><strong>Submit to supervisor</strong></button>
+        <button class="btn btn-success" data-toggle="modal" data-target="#submitModal" disabled><strong>Submit for approval</strong></button>
     @else
-        <button type="submit" data-toggle="modal" data-target="#submitModal"><strong>Submit</strong></button>
+        <button class="btn btn-success" data-toggle="modal" data-target="#submitModal"><strong>Submit for approval</strong></button>
     @endif
     <div class="modal fade" id="submitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -333,11 +347,11 @@
     </div>
   </div>
   </div>
-
+&nbsp;&nbsp;
   @if ($report->approved == true && ($report->forAssessment==false || $report->forAssessment == NULL) && $report->assessed==false)
        <a  data-toggle="modal" data-target="#forHeadOfOfficeModal" class="btn btn-success">Submit for final assessment</a>
   @else 
-        <button type="submit"  data-toggle="modal" data-target="#forHeadOfOfficeModal" disabled ><strong>Submit for final assessment</strong></button>
+        <button class="btn btn-success" data-toggle="modal" data-target="#forHeadOfOfficeModal" disabled ><strong>Submit for final assessment</strong></button>
   @endif
   <div class="modal fade" id="forHeadOfOfficeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -357,7 +371,7 @@
 
 </div>
 </div>
-
+&nbsp;&nbsp;
 @if($report->approved==true && $report->assessed==true)
 <a href="{{action('PDFController@make', $report['id'])}}" class="btn btn-warning">Generate PDF</a>
 @else
@@ -365,6 +379,12 @@
 @endif
 
 <hr>
+@if($report->disapproved==true)
+ <div class="alert alert-danger">
+    <strong>Disapproved!</strong> Please edit your report.
+  </div>
+</div>
+@endif
 
 @if($report->forApproval==true)
  <div class="alert alert-danger">

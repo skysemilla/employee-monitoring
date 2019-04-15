@@ -36,10 +36,10 @@
                         <a href="{{url('employee/view-all-reports')}}">View all reports</a>
               
                     </div>
-                    <div class="panel-body">
+                <!--     <div class="panel-body">
                         <a href="{{url('employee/choose-template')}}">Use template report</a>
               
-                    </div>
+                    </div> -->
                 @elseif(Auth::user()->type=="supervisor")
                         <div class="panel-body">
                             <a href="{{url('supervisor/home')}}">Reports for Approval</a>

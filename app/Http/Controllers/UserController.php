@@ -76,6 +76,18 @@ class UserController extends Controller {
         
     }
 
+    public function employeeProfile(Request $request)
+    {   
+
+        if($request->user()->authorizeRoles(['permanent', 'nonpermanent', 'supervisor', 'headofoffice', 'admin'])){
+            $user =  User::find(Auth::user()->id);
+           
+            return view('myprofile', compact('user'));
+        }
+        
+        return redirect('home')->with('error','Yo do not have access');
+    }
+
 /*    public function getReports(Request $request){
         if($request->user()->authorizeRoles(['admin'])){
             $users = User::all()->toArray();

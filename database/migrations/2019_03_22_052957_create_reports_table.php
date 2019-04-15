@@ -25,7 +25,9 @@ class CreateReportsTable extends Migration
             $table->integer('total_average')->nullable();
             $table->boolean('forAssessment')->nullable();
             $table->boolean('assessed')->nullable();
-            $table->integer('rootreport_id')->nullable();
+            $table->integer('oldreport_id')->nullable();
+            $table->boolean('disapproved')->nullable();
+            $table->boolean('disapprovedWComment')->nullable();
             $table->timestamps();
         });
     }

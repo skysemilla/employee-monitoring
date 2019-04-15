@@ -39,7 +39,7 @@ class TaskController extends Controller
                   ->where('report_id',Auth::user()->latestReportId)
                   ->groupBy('report_id')
                   ->avg('rating_average');
-        $report->total_average = $total_rating;
+          $report->total_average = $total_rating;
          $sortedTasks = collect($tasks)->sortBy(['category_id']);
         /* foreach ($sortedTasks as $sortedTask) {
             echo $sortedTask->title;
@@ -203,12 +203,15 @@ class TaskController extends Controller
           $categories = Category::where([
                 ['user_id', '=', $user_id]      
           ])->get();
+          $projnames = Projname::where([
+            ['user_id', '=', $user_id]
+          ])->get();
            $total_rating = DB::table('tasks')
                   ->where('report_id',$report->id)
                   ->groupBy('report_id')
                   ->avg('rating_average');
 
-          return view('supervisor.view', compact('tasks', 'user', 'categories','report', 'total_rating'));
+          return view('supervisor.view', compact('tasks', 'user', 'categories','report', 'total_rating', 'projnames'));
       }
         return redirect('home')->with('error','You have not supervisor access');
 
@@ -228,12 +231,15 @@ class TaskController extends Controller
           $categories = Category::where([
                 ['user_id', '=', $user_id]      
           ])->get();
+          $projnames = Projname::where([
+            ['user_id', '=', $user_id]
+          ])->get();
            $total_rating = DB::table('tasks')
                   ->where('report_id',$report->id)
                   ->groupBy('report_id')
                   ->avg('rating_average');
 
-          return view('headofoffice.view', compact('tasks', 'user', 'categories','report', 'total_rating'));
+          return view('headofoffice.view', compact('tasks', 'user', 'categories','report', 'total_rating', 'projnames'));
       }
         return redirect('home')->with('error','You have not employee access');
 
@@ -250,15 +256,15 @@ class TaskController extends Controller
           $report = Report::find($id);
      
           $user_id = $tasks->first()->user_id;
-       
-/*          echo $user_id;*/
-      /*    foreach($tasks as $task)
-           echo $task->title;
-*/        //echo $report->id;
+
           $user = User::find($user_id);
           $categories = Category::where([
                 ['user_id', '=', $user_id],
                 ['report_id', '=', $id]         
+          ])->get();
+           $projnames = Projname::where([
+            ['user_id', '=',  $user_id],
+            ['report_id', '=', $id]
           ])->get();
            $total_rating = DB::table('tasks')
                   ->where('report_id',$report->id)
@@ -266,10 +272,10 @@ class TaskController extends Controller
                   ->avg('rating_average');
 
           if($request->user()->authorizeRoles(['permanent', 'nonpermanent'])){
-            return view('employee.viewownspecificreportextension', compact('tasks','user','categories','report', 'total_rating'));
+            return view('employee.viewownspecificreportextension', compact('tasks','user','categories','report', 'total_rating', 'projnames'));
           }
           elseif ($request->user()->authorizeRoles(['supervisor'])) {
-            return view('employee.viewownspecificreportextension', compact('tasks','user','categories','report', 'total_rating'));
+            return view('employee.viewownspecificreportextension', compact('tasks','user','categories','report', 'total_rating','projnames'));
           }
       }
         return redirect('home')->with('error','You do not have access');

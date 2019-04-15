@@ -35,11 +35,13 @@ Route::get('employee/view-all-reports', 'ReportController@viewAllReports');
 Route::get('employee/view-report/{id}', 'TaskController@viewOwnSpecificReport');
 Route::get('employee/create-report', 'ReportController@index')->name('report');
 Route::get('employee/template-report/{id}', 'ReportController@template');
-Route::post('employee/template-report', 'ReportController@storeTemplate')->name('storeTemplate');
-
+Route::post('employee/template-report/{id}', 'ReportController@storeTemplate')->name('storeTemplate');
+Route::get('my-profile', 'UserController@employeeProfile');
 
 Route::get('supervisor/report/{id}', 'TaskController@forSupervisorView');
 Route::get('supervisor/approve/{id}', 'ReportController@updateReportApproved');
+Route::get('supervisor/disapprove/{id}', 'ReportController@updateReportDisapproved');
+Route::get('headofoffice/disapprove/{id}', 'ReportController@updateReportDiapproveAssessment');
 Route::get('supervisor/home', 'ReportController@indexForSupervisor');
 Route::get('headofoffice/home', 'ReportController@indexForHeadOffice');
 Route::get('/home', 'HomeController@index');

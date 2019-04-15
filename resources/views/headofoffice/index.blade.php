@@ -32,9 +32,8 @@
     <tr>
       <th>Report id</th>
       <th>Name</th>
-
-      <th>Start Duration</th>
-      <th>End Duration</th>
+      <th>Duration</th>
+      <th>Year</th>
       <th>Action</th>
       
     </tr>
@@ -58,7 +57,7 @@
 			<td>{{$report['year']}}</td>
 			<td><!-- <a href="{{action('TaskController@forHOOView', $report['id'])}}"  class="btn btn-info">View</a> -->
 			 &nbsp;	<a  data-toggle="modal" data-target="#approveReportModal" class="btn btn-success">Approve</a>
-			 &nbsp; <a  class="btn btn-danger">Disapprove</a></td>
+			 &nbsp; <a data-toggle="modal" data-target="#disapproveReportModal" class="btn btn-danger">Disapprove</a></td>
  		
 			<div class="modal fade" id="approveReportModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	          <div class="modal-dialog" role="document">
@@ -67,9 +66,28 @@
               <h3 class="modal-title" id="exampleModalLabel" ><strong>Approve for Final Report?</strong><button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true"><font size="8">×</font></span>
               </button></h3>
-
+              <hr>
               <div>
                 <a  class="btn btn-success" href="{{action('ReportController@updateReportAssessed', $report['id'])}}"   >YES</a>
+                <a  class="btn btn-warning" data-dismiss="modal" aria-label="Close">NO</a>
+               
+              </div>
+              </div>
+            </div>
+
+	          </div>
+	        </div>
+
+	        <div class="modal fade" id="disapproveReportModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	          <div class="modal-dialog" role="document">
+	            <div class="modal-content">
+	              <div class="modal-header" style="background-color: #88a097; ">
+              <h3 class="modal-title" id="exampleModalLabel" ><strong>Disapprove for Final Report?</strong><button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true"><font size="8">×</font></span>
+              </button></h3>
+              <hr>
+              <div>
+                <a  class="btn btn-success" href="{{action('ReportController@updateReportDiapproveAssessment', $report['id'])}}"   >YES</a>
                 <a  class="btn btn-warning" data-dismiss="modal" aria-label="Close">NO</a>
                
               </div>

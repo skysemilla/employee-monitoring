@@ -51,7 +51,12 @@
             @endif
             
             <td>{{$report['year']}}</td>
-            <td><a href="/employee/template-report/{{$report['id']}}" class="btn btn-warning">Use Template</a>
+            @if(Auth::user()->hasActiveReport==false)
+              <td><a href="/employee/template-report/{{$report['id']}}" class="btn btn-warning">Use Template</a>
+            @else
+              <td><a class="btn btn-warning" disabled>Use Template</a>
+            @endif
+
              <!-- &nbsp; <a  data-toggle="modal" data-target="#approveReportModal" class="btn btn-success">Approve</a>
              &nbsp; <a  class="btn btn-danger">Disapprove</a></td>
         

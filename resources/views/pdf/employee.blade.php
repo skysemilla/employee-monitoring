@@ -23,7 +23,12 @@ margin-right: 50px;
 </head>
 @if( Auth::user()->type == 'permanent' ||Auth::user()->type== 'supervisor' )
 <h4 style="text-align: center">INDIVIDUAL PERFORMANCE COMMITMENT REVIEW (IPCR)</h4>
-<p><b>I, {{Auth::user()->name}}, of the DOST CALABARZON, {{Auth::user()->functional_unit}} commit to Deliver and agree to be rated on the attainment of the following targets in accordance with the indicated measures for the period (//insert duration and fix division) </b></p>
+<p><b>I, {{Auth::user()->name}}, of the DOST CALABARZON, {{Auth::user()->functional_unit}} commit to Deliver and agree to be rated on the attainment of the following targets in accordance with the indicated measures for the period @if($report['duration'] ==1)
+	January-June
+@else
+	July-December
+@endif
+, {{$report['year']}}(//fix division) </b></p>
 <br>
 <hr>
 <p style="text-indent: 83.5%"><b>Ratee</b></p>
@@ -124,7 +129,7 @@ margin-right: 50px;
 		<tr>
 
 		      <td colspan="6" class="page-header"><i><b>Final Average Rating</b></i></td>
-		      <td colspan="2">//insert final rating here</td>
+		      <td colspan="2">{{$total_rating}}</td>
 		      
 		     
 

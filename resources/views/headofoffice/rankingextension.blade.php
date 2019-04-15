@@ -65,6 +65,16 @@
 		<option value="{{$year->year}}"> {{$year->year}}</option>
 		@endforeach
 	</select>
+	<!-- <select name= "type" id="type" class="form-control">
+		<option value="">Select type</option>
+        <option value="admin">Admin</option>
+        <option value="headofoffice">Head of Office</option>
+        <option value="nonpermanent">Non-permanent Employee</option>
+        <option value="permanent">Permanent Employee</option>
+        <option value="supervisor">Supervisor</option>
+                                    
+		
+	</select> -->
 	<button class="btn btn-primary" id="findBtn">View</button>
 <!--     <input type="text" id="lgFormGroupInput" name="name" placeholder="If you want to add new project"> -->
   <!--   <input type="submit" value="View"> -->
@@ -114,7 +124,7 @@
 
 
   	@else
-  		<h2 style="text-align: center;">Please select a period to view.</h2>
+  		<h2 style="text-align: center;">Please select a semester to view.</h2>
 	@endif
 
 </table>

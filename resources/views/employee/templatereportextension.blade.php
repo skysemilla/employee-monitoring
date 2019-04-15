@@ -36,9 +36,16 @@
                 <div class="panel-heading" style="background-color:#88a097;">Template report</div>
 
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('storeTemplate') }}">
+                    <form class="form-horizontal" method="POST" action="{{ route('storeTemplate', [$report_id]) }}">
                         {{ csrf_field() }}
+                          <div class="form-group" >
+                            <label for="oldreport_id" class="col-md-4 control-label">Report ID to use</label>
 
+                            <div class="col-md-6">
+                                <input id="oldreport_id" type="number" class="form-control" name="oldreport_id" value="{{$report_id}}" required disabled>
+                            </div>
+                        </div>
+                        
                         <div class="form-group{{ $errors->has('duration') ? ' has-error' : '' }}">
                             <label for="duration" class="col-md-4 control-label">Duration</label>
 

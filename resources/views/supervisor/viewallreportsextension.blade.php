@@ -35,7 +35,7 @@
 
       <th>Duration</th>
       <th>Year</th>
-      <th>Action</th>
+     <!--  <th>Action</th> -->
       
     </tr>
   </thead>
@@ -51,7 +51,7 @@
             @endif
             
             <td>{{$report['year']}}</td>
-            <td><a href="{{action('TaskController@viewOwnSpecificReport', $report['id'])}}"  class="btn btn-info">View</a>
+         <!--    <td><a href="{{action('TaskController@viewOwnSpecificReport', $report['id'])}}"  class="btn btn-info">View</a> -->
              <!-- &nbsp; <a  data-toggle="modal" data-target="#approveReportModal" class="btn btn-success">Approve</a>
              &nbsp; <a  class="btn btn-danger">Disapprove</a></td>
         

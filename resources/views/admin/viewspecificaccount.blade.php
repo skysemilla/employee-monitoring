@@ -43,6 +43,16 @@
                                     <div>
                                         
 
+                                         <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label style="font-weight:bold;">Name:</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                {{$user['name']}}
+                                            </div>
+                                        </div>
+                                        <hr />
+
                                         <div class="row">
                                             <div class="col-sm-3 col-md-2 col-5">
                                                 <label style="font-weight:bold;">User ID:</label>
@@ -69,7 +79,7 @@
                                                 <label style="font-weight:bold;">Functional Unit:</label>
                                             </div>
                                             <div class="col-md-8 col-6">
-                                                Something
+                                                {{$user['functional_unit']}}
                                             </div>
                                         </div>
                                         <hr />
@@ -78,7 +88,8 @@
                                                 <label style="font-weight:bold;">Something</label>
                                             </div>
                                             <div class="col-md-8 col-6">
-                                                Something
+                                                {{$user['type']}}
+                                               
                                             </div>
                                         </div>
                                         <hr />
@@ -87,12 +98,14 @@
                                                 <label style="font-weight:bold;">Something</label>
                                             </div>
                                             <div class="col-md-8 col-6">
-                                                Something
+                                                 {{$user['status']}}
                                             </div>
                                         </div>
                                         <hr />
 
                                     </div>
+                                   <!--  ADD SUPERVISOR, FIX FUNCTIONAL UNIT, AND TYPE
+ -->
                                    <!--  <div class="tab-pane fade" id="connectedServices" role="tabpanel" aria-labelledby="ConnectedServices-tab">
                                         Facebook, Google, Twitter Account that are connected to this account
                                     </div> -->

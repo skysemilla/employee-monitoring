@@ -4,6 +4,7 @@ $(document).ready(function(){
 	$("#findBtn").click(function(){
 		var sem = $("#semID").val();
 		var year = $("#year").val();
+		/*var type = $("#type").val();*/
 		/*alert(year);*/
 		$.ajax({
 			headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},

@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Report;
 use App\User;
 use App\Task;
+use App\Projname;
+use App\Category;
+use App\Tempholder;
 use Auth;
 use Illuminate\Http\Request;
 use DB;
@@ -73,13 +76,11 @@ class ReportController extends Controller
           
         $user->hasActiveReport =true;
 
-        
+        $report->disapproved =false;
+        $report->disapprovedWComment=false;
         $report->forApproval= false;
         $report->Approved=false;
         $report->supervisor_id = $user->supervisor_id;
-        /*$report
-           ->users()
-           ->attach(User::where('id', $report->user_id)->first());*/
         $report->save();
         $user->latestReportId=$report->id;
         $user->save();
@@ -138,6 +139,7 @@ class ReportController extends Controller
         if($request->user()->authorizeRoles(['permanent', 'nonpermanent', 'supervisor'])){
             $report = Report::find($id);
             $report->forApproval=true;
+            $report->disapproved=false;
             $report->save();
         }
         return redirect('/home');
@@ -164,6 +166,7 @@ class ReportController extends Controller
                 $report = Report::find($id);
                 $report->approved=true;
                 $report->forApproval=false;
+                $report->disapproved =false;
                 $report->save();
              
                 if($request->user()->authorizeRoles(['supervisor'])){ 
@@ -182,6 +185,7 @@ class ReportController extends Controller
       if($request->user()->authorizeRoles(['permanent', 'nonpermanent', 'supervisor'])){
           $report = Report::find($id);
           $report->forAssessment=true;
+          $report->disapproved=false;
           $report->save();
       }
       return redirect('/home');
@@ -208,6 +212,7 @@ class ReportController extends Controller
           if($request->user()->authorizeRoles(['headofoffice'])){    
                 $report = Report::find($id);
                 $report->assessed=true;
+                $report->disapproved=false;
                 $report->forAssessment=false;
                 $user = User::find($report->user_id);
                 $user->hasActiveReport= false;
@@ -334,6 +339,9 @@ class ReportController extends Controller
                 ['year', '=', $year]
             ])->get();
             $users = User::all()->toArray();
+           /*   $users =  User::where([
+                ['type', '=', $type]
+            ])->get();*/
             $sm = $sem_id;
             $yr = $year;
             $years = Report::distinct()->get(['year']);
@@ -372,7 +380,8 @@ class ReportController extends Controller
         $report->save();
         $user->latestReportId=$report->id;
         $user->save();*/
-        return view('employee.templatereport');
+        $report_id = $id;
+        return view('employee.templatereport', compact('report_id'));
         /*if($request->user()->authorizeRoles(['permanent', 'nonpermanent'])){
             return redirect('/employee/home');
         }
@@ -381,34 +390,104 @@ class ReportController extends Controller
         }*/
     }
   }
-     public function storeTemplate(Request $request, $oldreport_id)
+     public function storeTemplate(Request $request, $id)
     {
       if($request->user()->authorizeRoles(['permanent', 'nonpermanent', 'supervisor'])){
         $report = new Report([
             'duration' => $request->get('duration'),
-            'year' => $request->get('year'),
-            'user_id' => $request->get('user_id'),
-            'forApproval' => $request->get('forApproval'),
-            'Approved' => $request->get('Approved')
+            'year' => $request->get('year')
         ]);
+
         $report->user_id = Auth::user()->id;
         $user = User::find($report->user_id);
-        $retrievedTasks =  Task::where([
-                ['report_id', '=', $oldreport_id]
-            ])->get();
-        
+        $report->oldreport_id = $id;
         $user->hasActiveReport =true;
-
         
         $report->forApproval= false;
-        $report->Approved=false;
+        $report->forAssessment=false;
+        $report->approved=false;
+        $report->assessed= false;
         $report->supervisor_id = $user->supervisor_id;
         /*$report
            ->users()
            ->attach(User::where('id', $report->user_id)->first());*/
         $report->save();
+        $retrievedTasks = Task::where([
+                ['report_id', '=', $id]
+            ])->get();
+        /*$newTasks = $retrievedTasks;*/
+        /*$tasksCollection = collect();*/
+      /*  $catIdChanged =false;*/
+    
+        
+        foreach ($retrievedTasks as $task1) {
+            $tempTask = new Task([
+            'header_id' => $task1->header_id,
+            'title' => $task1->title,
+            'target_no' => $task1->target_no
+          ]);
+
+            $tempholders = Tempholder::where([
+                ['oldcat_id', '=', $task1->category_id]
+            ])->get()->first();
+            if(empty($tempholders)){ //kapag wala pa sa collection
+              
+              $retrievedCategory = Category::where([
+                ['id', '=', $task1->category_id]
+              ])->first();
+              $newCat= new Category([
+                'name' => $retrievedCategory->name,
+               
+              ]);
+              $newCat->user_id = Auth::user()->id;
+              $newCat->report_id = $report->id;
+              $newCat->save();
+              $addTempholder = new Tempholder([
+                'oldcat_id' => $task1->category_id,
+                'newcat_id' => $newCat->id
+              ]);
+              $addTempholder->save();
+              $tempTask->category_id= $newCat->id;  
+              }
+             
+            else{
+              $tempTask->category_id = $tempholders->newcat_id;
+            }
+
+            //for projname
+            $tempholders2 = Tempholder::where([
+                ['oldprojname_id', '=', $task1->projname_id]
+            ])->get()->first();
+            if(empty($tempholders2)){ 
+              $retrievedProjname = Projname::where([
+                ['id', '=', $task1->projname_id]
+              ])->first();
+              $newProj= new Projname([
+                'name' => $retrievedProjname->name,
+               
+              ]);
+              $newProj->user_id = Auth::user()->id;
+              $newProj->report_id = $report->id;
+              $newProj->save();
+              $addTempholder2 = new Tempholder([
+                'oldprojname_id' => $task1->projname_id,
+                'newprojname_id' => $newProj->id
+              ]);
+              $addTempholder2->save();
+              $tempTask->projname_id= $newProj->id; 
+              }
+            else{
+              $tempTask->projname_id = $tempholders2->newprojname_id;
+            }
+             $tempTask->rating_average = ($tempTask->rating_quantity + $tempTask->rating_timeliness + $tempTask->rating_effort)/3;
+             $tempTask->user_id = Auth::user()->id;
+             $tempTask->report_id = $report->id;
+             $tempTask->save();
+        }
+     
         $user->latestReportId=$report->id;
         $user->save();
+
         if($request->user()->authorizeRoles(['permanent', 'nonpermanent'])){
             return redirect('/employee/home');
         }
@@ -417,5 +496,44 @@ class ReportController extends Controller
         }
     }
   }
+
+      public function updateReportDisapproved(Request $request, $id)
+        {
+          if($request->user()->authorizeRoles(['supervisor', 'headofoffice'])){    
+                $report = Report::find($id);
+                $report->disapproved=true;
+                $report->forApproval=false;
+                $report->save();
+             
+                if($request->user()->authorizeRoles(['supervisor'])){ 
+                    return redirect('/supervisor/home');
+                }
+                elseif ($request->user()->authorizeRoles(['headofoffice'])) {
+                    return redirect('/headofoffice/reports-for-approval');
+                }
+          }
+            return redirect('home')->with('error','You do not have access.');
+
+            
+        }
+
+      public function updateReportDiapproveAssessment(Request $request, $id)
+        {
+          if($request->user()->authorizeRoles(['headofoffice'])){    
+                $report = Report::find($id);
+                $report->disapproved=true;
+                $report->forAssessment=false;
+                /*$user = User::find($report->user_id);
+                $user->hasActiveReport= false;
+                $user->save();*/
+                $report->save();
+      
+              return redirect('/headofoffice/home');
+          }
+            return redirect('home')->with('error','You do not have access.');
+
+            
+        }
+
 
 }
