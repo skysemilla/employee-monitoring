@@ -78,7 +78,7 @@
 
 	          </div>
 	        </div>
-
+	        
 	        <div class="modal fade" id="disapproveReportModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		          <div class="modal-dialog" role="document">
 		            <div class="modal-content">
@@ -88,7 +88,9 @@
                   </button></h3>
                   <hr>
                   <div>
+                 
                     <a  class="btn btn-success" href="{{action('ReportController@updateReportDisapproved', $report['id'])}}"   >YES</a>
+
                     <a  class="btn btn-warning" data-dismiss="modal" aria-label="Close">NO</a>
                    
                   </div>

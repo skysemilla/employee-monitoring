@@ -175,15 +175,11 @@
                     <th rowspan="2">MFO/PAP</th>
                     <th  rowspan="2">Project </th>
                     <th rowspan="2">SUCCESS INDICATORS</th>
-                    <th rowspan="2">TARGET ACCOMPLISHMENTS</th>
-                    <th rowspan="2">ACTUAL ACCOMPLISHMENTS</th>
+                    <th rowspan="2">TARGET<!--  ACCOMPLISHMENTS --></th>
+                    <th rowspan="2">ACTUAL <!-- ACCOMPLISHMENTS --></th>
                     <th colspan="4" rowspan="1">RATING</th>
                     <th rowspan="2">REMARKS</th>
-                     @if ($report->approved == true && ($report->forAssessment==false || $report->forAssessment == NULL) && $report->assessed==false)
                     <th rowspan="2"> ACTION</th>
-                    @endif
-                    
-                    
                 </tr>
                 <tr>
                     
@@ -221,23 +217,27 @@
                             <td>{{$task['target_no']}}</td>
                             <td>{{$task['actual_no']}}</td>
                             <td>{{$task['rating_quantity']}}</td>
-                            <td>{{$task['rating_timeliness']}}</td>
                             <td>{{$task['rating_effort']}}</td>
+                            <td>{{$task['rating_timeliness']}}</td>
+                       
                             <td>{{$task['rating_average']}}</td>
                             <td>{{$task['remarks']}}</td>
-                            @if ($report->approved == true && ($report->forAssessment==false || $report->forAssessment == NULL) && $report->assessed==false)
-                             <td><a href="{{action('TaskController@edit', $task['id'])}}" class="btn btn-warning">Edit</a></td>
+                            <td>
+                             @if ($report->approved == true && ($report->forAssessment==false || $report->forAssessment == NULL) && $report->assessed==false)
+                            <a href="{{action('TaskController@edit', $task['id'])}}" class="btn btn-warning">Edit</a>
+              
                             @endif
+
                             @if ($report->approved == false && $report->forApproval==false)
-                             <td>
+                            
                                <form action="{{action('TaskController@destroy', $task['id'])}}" method="post">
                                 {{csrf_field()}}
                                 <input name="_method" type="hidden" value="DELETE">
                                 <button class="btn btn-danger" >Delete</button>
                               </form>
-                            </td>
-                          
+                   
                             @endif
+                          </td>
                         </tr>
                       @endif
                @endforeach
@@ -257,13 +257,13 @@
                                   <td>{{$category['name']}}</td>
                               @endif
                            @endforeach
-                         @foreach ($projnames as $projname)
-                              @if($projname['id']==$task['projname_id'])
-                                  <td>{{$projname['name']}}</td>
-                              @endif
-                          @endforeach
+                                @foreach ($projnames as $projname)
+                                @if($projname['id']==$task['projname_id'])
+                                    <td>{{$projname['name']}}</td>
+                                @endif
+                            @endforeach
                           @if($task['projname_id']==NULL)
-                            <td></td>
+                              <td></td>
                           @endif
                           <td>{{$task['title']}}</td>
                           <td>{{$task['target_no']}}</td>
@@ -273,19 +273,19 @@
                           <td>{{$task['rating_effort']}}</td>
                           <td>{{$task['rating_average']}}</td>
                           <td>{{$task['remarks']}}</td>
+                          <td>
                           @if ($report->approved == true && ($report->forAssessment==false || $report->forAssessment == NULL) && $report->assessed==false)
-                          <td><a href="{{action('TaskController@edit', $task['id'])}}" class="btn btn-warning">Edit</a></td>@endif                             
+                           <a href="{{action('TaskController@edit', $task['id'])}}" class="btn btn-warning">Edit</a>
+                          @endif
                           @if ($report->approved == false && $report->forApproval==false)
-                             <td>
+                             
                                <form action="{{action('TaskController@destroy', $task['id'])}}" method="post">
                                 {{csrf_field()}}
                                 <input name="_method" type="hidden" value="DELETE">
                                 <button class="btn btn-danger" >Delete</button>
                               </form>
-                            </td>
-                          @else
-                              <td></td>
-                          @endif
+                        @endif
+                          </td>
                       </tr>
                     @endif
                @endforeach
@@ -318,26 +318,35 @@
         </button></h3>
 
       </div>
-      <div class="form">
+     <div class="form">
         <form method="post" action="{{action('ReportController@update', $report['id'])}}" >
          
              <div class="form-group row">
               {{csrf_field()}}
                <input name="_method" type="hidden" value="PATCH">
-              <label for="lgFormGroupInput" class="col-sm-2 col-form-label col-form-label-lg">Start</label>
+              <label for="lgFormGroupInput" class="col-sm-2 col-form-label col-form-label-lg">Duration</label>
               <div class="col-sm-10">
-                <input type="number" class="form-control form-control-lg" id="lgFormGroupInput" placeholder="duration" name="duration" value="{{$report->duration}}" readonly>
+
+               <!--  <input type="number" class="form-control form-control-lg" id="lgFormGroupInput" placeholder="duration" name="duration" value="{{$report->duration}}" readonly> -->
+               @if($report->duration==1)
+                 <input class="form-control form-control-lg" id="lgFormGroupInput" value="1st semester" readonly>
+               @else
+                <input class="form-control form-control-lg" id="lgFormGroupInput" value="2nd semester" readonly>
+               @endif
+
+              
               </div>
             </div>
+            
              <div class="form-group row">
       
                <input name="_method" type="hidden" value="PATCH">
-              <label for="lgFormGroupInput" class="col-sm-2 col-form-label col-form-label-lg">End</label>
+              <label for="lgFormGroupInput" class="col-sm-2 col-form-label col-form-label-lg">Year</label>
               <div class="col-sm-10">
                 <input type="number" class="form-control form-control-lg" id="lgFormGroupInput" placeholder="year" name="year" value="{{$report->year}}" readonly>
               </div>
             </div>
-
+            <hr>
             <div class="form-group row">
               <div class="col-md-2"></div>
               <button type="submit" class="btn btn-primary">SUBMIT</button>
@@ -360,7 +369,7 @@
       <h3 class="modal-title" id="exampleModalLabel" ><strong>Submit for final assessment?</strong><button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true"><font size="8">×</font></span>
       </button></h3>
-
+      <hr>
       <div>
         <a  class="btn btn-success" href="{{action('ReportController@submitToHeadOffice', $report['id'])}}"   >YES</a>
         <a  class="btn btn-warning" data-dismiss="modal" aria-label="Close">NO</a>

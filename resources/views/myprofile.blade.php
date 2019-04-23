@@ -38,10 +38,10 @@
           
           <ul class="list-group">
             <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
-            <li class="list-group-item text-right"><span class="pull-left"><strong>Shares</strong></span> 125</li>
-            <li class="list-group-item text-right"><span class="pull-left"><strong>Likes</strong></span> 13</li>
-            <li class="list-group-item text-right"><span class="pull-left"><strong>Posts</strong></span> 37</li>
-            <li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span> 78</li>
+                    <li class="list-group-item text-right"><span class="pull-left"><strong>Reports</strong></span>{{$totalReports}}</li>
+            <li class="list-group-item text-right"><span class="pull-left"><strong>Approved Reports</strong></span>{{$totalApprovedReports}}</li>
+              <li class="list-group-item text-right"><span class="pull-left"><strong>Assessed Reports</strong></span>{{$totalAssessedReports}}</li>
+       
           </ul> 
                
           <div class="panel panel-default">
@@ -104,11 +104,20 @@
                               <input type="text" class="form-control" value="{{$user->functional_unit}}"  readonly>
                           </div>
                       </div>
+
                        <div class="form-group">
-                          
                           <div class="col-xs-6">
-                              <label ><h4>Supervisor</h4></label>
-                              <input type="text" class="form-control" value="{{$user->supervisor}}"  readonly>
+                            <label ><h4>Supervisor</h4></label>
+                              @if($user->type == "permanent" || $user->type == "nonpermanent")
+                                
+                                <input type="text" class="form-control" value="{{$supervisor->name}}"  readonly>
+                              @elseif($user->type == "supervisor")
+                              
+                              <input type="text" class="form-control" value="{{$headofoffice->name}}"  readonly>
+                              @else
+                                <input type="text" class="form-control" value="----------"  readonly>
+                              @endif
+                              
                           </div>
                       </div>
                <!--        <div class="form-group">

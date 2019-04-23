@@ -54,7 +54,7 @@
                             </div>
                         </div> -->
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                 <!--        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
                             <div class="col-md-6">
@@ -66,7 +66,7 @@
                                     </span>
                                 @endif
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-group{{ $errors->has('type') ? ' has-error' : '' }}">
                             <label for="type" class="col-md-4 control-label">Type</label>
@@ -157,9 +157,14 @@
                               
                                     
                                     <option value="NULL" selected hidden>Choose here</option>
-                                    <option value="f1">Functional Unit 1</option>
-                                    <option value="f2">Functional Unit 2</option>
-                                    <option value="f3">Functional Unit 3</option>
+                                    <option value="Finance Division">Finance Division</option>
+                                    <option value="Human Resource Division">Human Resource Division</option>
+                                    <option value="Management Information System">Management Information System</option>
+                                    <option value="Research Division">Research Division</option>
+
+                                    <option value="Scholarship Division">Scholarship Division</option>
+                                  
+                                    
                                     
                                     
                                   </select>
@@ -178,8 +183,8 @@
 
                             <div class="col-md-6">
                                 <select id="status" type="text" name="status" class="form-control">
-                                    <option value="NULL" selected hidden>Choose here</option>
-                                    <option value="active" >Active</option>
+                                    <option value="NULL" hidden>Choose here</option>
+                                    <option value="active" selected>Active</option>
                                     <option value="inactive">Not Active</option>
                                     
                                     

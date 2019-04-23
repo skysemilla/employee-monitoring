@@ -12,7 +12,6 @@
 
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-
 <link href="/css/table.css" rel="stylesheet">
 <script src="/js/table.js"></script>
 
@@ -51,26 +50,27 @@
 </h4>
 
 
-<div class="panel-body">
-        <table class="custom-table">
-            <thead>
+<div class="panel-body" >
+        <table class="custom-table2"  style="width: 100%; table-layout:fixed; overflow: scroll;
+        ">
+     
+            <thead >
              
-                <tr>
-                    <th rowspan="2">MFO/PAP</th>
-                    <th rowspan="2">Project</th>
-                    <th rowspan="2">SUCCESS INDICATORS</th>
-                    <th rowspan="2">TARGET ACCOMPLISHMENTS</th>
-                    <th rowspan="2">ACTUAL ACCOMPLISHMENTS</th>
-                    <th colspan="4" rowspan="1">RATING</th>
-                    <th rowspan="2">REMARKS</th>
+                <tr >
+                    <th rowspan="2" style="text-align:center; ">MFO/PAP</th>
+                    <th  rowspan="2" style="text-align:center; ">Project </th>
+                    <th rowspan="2" style="text-align:center; ">SUCCESS INDICATORS</th>
+                    <th rowspan="2" style="text-align:center; ">TARGET ACCOMPLISHMENTS</th>
+                    <th rowspan="2" style="text-align:center; ">ACTUAL ACCOMPLISHMENTS</th>
+                    <th colspan="4" rowspan="1" style="text-align:center; ">RATING</th>
+                    <th rowspan="2" style="text-align:center; ">REMARKS</th>
+                                    </tr>
+                <tr style="text-align:center; ">
                     
-                </tr>
-                <tr>
-                    
-                    <th>Quantity</th>
-                    <th>Effort</th>
-                    <th>Timeliness</th>
-                    <th>Average</th>
+                    <th>Q</th>
+                    <th>E</th>
+                    <th>T</th>
+                    <th>A</th>
                     
                 </tr>
                 
@@ -102,8 +102,9 @@
                             <td>{{$task['target_no']}}</td>
                             <td>{{$task['actual_no']}}</td>
                             <td>{{$task['rating_quantity']}}</td>
-                            <td>{{$task['rating_timeliness']}}</td>
                             <td>{{$task['rating_effort']}}</td>
+                            <td>{{$task['rating_timeliness']}}</td>
+                       
                             <td>{{$task['rating_average']}}</td>
                             <td>{{$task['remarks']}}</td>
 

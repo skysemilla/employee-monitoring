@@ -33,7 +33,7 @@
       <th>Name</th>
 
       <th>Username</th>
-      <th>Email</th>
+     <!--  <th>Email</th> -->
       <th>Type</th>
       <th>Functional Unit</th>
       <th>Supervisor</th>
@@ -50,10 +50,9 @@
         <td><a href="/admin/accounts/{{$user['id']}}">{{$user['name']}}</a></td>
         <td>{{$user['username']}}</td>
 
-        <td>{{$user['email']}}</td>
         <td>{{$user['type']}}</td>
 
-        @if($user['functional_unit'] =="NULL")
+        @if($user['functional_unit'] =="NULL" || $user['functional_unit'] ==NULL)
           <td> <i>-----</i></td>
         
         @else

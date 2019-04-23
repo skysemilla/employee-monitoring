@@ -45,8 +45,8 @@
                             <div class="col-md-6">
 
                                 <select id="duration" type="number" name="duration" class="form-control" required>
-                                    <option hidden selected>Choose here</option>
-                                    <option value="1">1st Semester</option>
+                                    <option hidden >Choose here</option>
+                                    <option value="1" selected>1st Semester</option>
                                     <option value="2">2nd Semester</option>
                                    
                                     

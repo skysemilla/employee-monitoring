@@ -40,13 +40,14 @@ class TaskController extends Controller
                   ->groupBy('report_id')
                   ->avg('rating_average');
           $report->total_average = $total_rating;
-         $sortedTasks = collect($tasks)->sortBy(['category_id']);
+         
         /* foreach ($sortedTasks as $sortedTask) {
             echo $sortedTask->title;
            echo $sortedTask->category_id;
          }*/
          $report->save();
-         $sortedTasks = collect($sortedTasks)->sortBy(['projname_id']);
+         $sortedTasks = collect($tasks)->sortBy(['projname_id']);
+         $sortedTasks = collect($sortedTasks)->sortBy(['category_id']);
         return view('employee.home', compact('tasks', 'categories','report', 'total_rating', 'projnames', 'sortedTasks'));
        
 
@@ -80,13 +81,14 @@ class TaskController extends Controller
           //$categories = Category::all()->toArray();
           //echo $total_rating;
          //$collectionsTasks = collect($tasks);
+        $sortedTasks = collect($sortedTasks)->sortBy(['projname_id']);
+
          $sortedTasks = collect($tasks)->sortBy(['category_id']);
         /* foreach ($sortedTasks as $sortedTask) {
             echo $sortedTask->title;
            echo $sortedTask->category_id;
          }*/
-         $sortedTasks = collect($sortedTasks)->sortBy(['projname_id']);
-       
+          
         return view('supervisor.ownreport', compact('tasks', 'categories','report', 'total_rating', 'projnames', 'sortedTasks'));
 
       } 
@@ -210,6 +212,10 @@ class TaskController extends Controller
                   ->where('report_id',$report->id)
                   ->groupBy('report_id')
                   ->avg('rating_average');
+          $tasks = collect($tasks)->sortBy(['projname_id']);
+          $tasks = collect($tasks)->sortBy(['category_id']);
+       
+        
 
           return view('supervisor.view', compact('tasks', 'user', 'categories','report', 'total_rating', 'projnames'));
       }
@@ -238,6 +244,10 @@ class TaskController extends Controller
                   ->where('report_id',$report->id)
                   ->groupBy('report_id')
                   ->avg('rating_average');
+          $tasks = collect($tasks)->sortBy(['projname_id']);
+           $tasks = collect($tasks)->sortBy(['category_id']);
+       
+         
 
           return view('headofoffice.view', compact('tasks', 'user', 'categories','report', 'total_rating', 'projnames'));
       }
@@ -262,7 +272,7 @@ class TaskController extends Controller
                 ['user_id', '=', $user_id],
                 ['report_id', '=', $id]         
           ])->get();
-           $projnames = Projname::where([
+          $projnames = Projname::where([
             ['user_id', '=',  $user_id],
             ['report_id', '=', $id]
           ])->get();
@@ -270,6 +280,9 @@ class TaskController extends Controller
                   ->where('report_id',$report->id)
                   ->groupBy('report_id')
                   ->avg('rating_average');
+          $tasks = collect($tasks)->sortBy(['projname_id']);
+          $tasks = collect($tasks)->sortBy(['category_id']);
+        
 
           if($request->user()->authorizeRoles(['permanent', 'nonpermanent'])){
             return view('employee.viewownspecificreportextension', compact('tasks','user','categories','report', 'total_rating', 'projnames'));

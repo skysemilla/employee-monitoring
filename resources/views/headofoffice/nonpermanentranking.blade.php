@@ -11,7 +11,7 @@
                         </div>
                     @endif -->
                         
-                        @include('headofoffice.rankingextension')
+                        @include('headofoffice.nonpermanentrankingextension')
                 </div>
             </div>
         </div>

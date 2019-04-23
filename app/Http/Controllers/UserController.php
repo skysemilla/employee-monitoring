@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\User;
 use App\Employee;
+use App\Report;
 class UserController extends Controller {
 
     /**
@@ -81,8 +82,25 @@ class UserController extends Controller {
 
         if($request->user()->authorizeRoles(['permanent', 'nonpermanent', 'supervisor', 'headofoffice', 'admin'])){
             $user =  User::find(Auth::user()->id);
-           
-            return view('myprofile', compact('user'));
+            $supervisor = User::where([
+                ['id', '=', $user->supervisor_id]
+            ])->get()->first();
+            $headofoffice = User::where([
+                ['type', '=', "headofoffice"],
+                ['status', '=', "active"]
+            ])->get()->first();
+            $totalApprovedReports = Report::where([
+                ['user_id', '=', Auth::user()->id],
+                ['approved', '=', true]
+            ])->get()->count();
+            $totalAssessedReports = Report::where([
+                ['user_id', '=', Auth::user()->id],
+                ['assessed', '=', true]
+            ])->get()->count();
+            $totalReports = Report::where([
+                ['user_id', '=', Auth::user()->id]
+            ])->get()->count();
+            return view('myprofile', compact('user', 'supervisor', 'headofoffice', 'totalApprovedReports', 'totalReports', 'totalAssessedReports'));
         }
         
         return redirect('home')->with('error','Yo do not have access');

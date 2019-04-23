@@ -18,6 +18,7 @@ class CreateCategoriesTable extends Migration
             $table->integer('user_id');
             $table->string('name');
             $table->integer('report_id');
+            $table->integer('rowCount')->nullable();
             $table->timestamps();
         });
     }

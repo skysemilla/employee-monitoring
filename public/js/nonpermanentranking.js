@@ -9,11 +9,11 @@ $(document).ready(function(){
 		$.ajax({
 			headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
 	        type: 'GET',
-	        url: '/headofoffice/ranking/' + sem+"/"+ year,
+	        url: '/headofoffice/nonpermanent-employees/ranking/' + sem+"/"+ year,
 	        data: sem,
 	        success: function() {
 	           
-	          window.location="/headofoffice/ranking/" + sem+"/"+ year
+	          window.location="/headofoffice/nonpermanent-employees/ranking/" + sem+"/"+ year
 	        },
 	        error: function() {
 	            console.log("error");

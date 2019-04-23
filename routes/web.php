@@ -39,6 +39,7 @@ Route::post('employee/template-report/{id}', 'ReportController@storeTemplate')->
 Route::get('my-profile', 'UserController@employeeProfile');
 
 Route::get('supervisor/report/{id}', 'TaskController@forSupervisorView');
+Route::post('supervisor/report/{id}', 'ReportController@addComment');
 Route::get('supervisor/approve/{id}', 'ReportController@updateReportApproved');
 Route::get('supervisor/disapprove/{id}', 'ReportController@updateReportDisapproved');
 Route::get('headofoffice/disapprove/{id}', 'ReportController@updateReportDiapproveAssessment');
@@ -61,8 +62,10 @@ Route::get('headofoffice/view-all-approved-reports', 'ReportController@viewAllAp
 Route::get('headofoffice/view-approved-report/{id}', 'TaskController@forHOOView');
 Route::get('headofoffice/view-all-assessed-reports', 'ReportController@viewAllAssessed');
 Route::get('headofoffice/view-assessed-report/{id}', 'TaskController@forHOOView');
-Route::get('headofoffice/ranking', 'ReportController@showRanking');
-Route::get('headofoffice/ranking/{sem_id}/{year}', 'ReportController@filterRanking');
+Route::get('headofoffice/nonpermanent-employees/ranking', 'ReportController@showNonpermanentRanking');
+Route::get('headofoffice/nonpermanent-employees/ranking/{sem_id}/{year}', 'ReportController@filterNonpermanentRanking');
+Route::get('headofoffice/permanent-employees/ranking', 'ReportController@showPermanentRanking');
+Route::get('headofoffice/permanent-employees/ranking/{sem_id}/{year}', 'ReportController@filterPermanentRanking');
 
 Route::get('/pdfmaker/{id}', 'PDFController@make');
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');

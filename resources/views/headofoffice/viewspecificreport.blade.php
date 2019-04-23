@@ -101,9 +101,10 @@
                             <td>{{$task['title']}}</td>
                             <td>{{$task['target_no']}}</td>
                             <td>{{$task['actual_no']}}</td>
-                            <td>{{$task['rating_quantity']}}</td>
-                            <td>{{$task['rating_timeliness']}}</td>
+                           <td>{{$task['rating_quantity']}}</td>
                             <td>{{$task['rating_effort']}}</td>
+                            <td>{{$task['rating_timeliness']}}</td>
+                       
                             <td>{{$task['rating_average']}}</td>
                             <td>{{$task['remarks']}}</td>
 

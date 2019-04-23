@@ -64,6 +64,7 @@ class ReportController extends Controller
 */    public function store(Request $request)
     {
       if($request->user()->authorizeRoles(['permanent', 'nonpermanent', 'supervisor'])){
+      
         $report = new Report([
             'duration' => $request->get('duration'),
             'year' => $request->get('year'),
@@ -309,7 +310,69 @@ class ReportController extends Controller
         return redirect('home')->with('error','You do not have access.');
        
     }
-    public function showRanking(Request $request)
+    public function showNonpermanentRanking(Request $request)
+    {   
+        if($request->user()->authorizeRoles(['headofoffice'])){
+            $reports = Report::where([
+                ['assessed', '=', true],
+                ['approved', '=', true]
+            ])->get();
+                  $users = User::all()->toArray();
+            $years = Report::distinct()->get(['year']);
+            $sm = 0;
+            $yr =0;
+           /* foreach($years as $year)
+              echo $year;
+          */
+            return view('headofoffice.nonpermanentranking', compact('reports','users', 'years', 'yr', 'sm'));
+            
+        }
+        
+        return redirect('home')->with('error','You do not have access.');
+       
+    }
+
+    public function filterNonpermanentRanking(Request $request, $sem_id, $year)
+    {   
+        if($request->user()->authorizeRoles(['headofoffice'])){
+            $reports = Report::where([
+                ['duration', '=', $sem_id],
+                ['year', '=', $year],
+                ['assessed', '=', true],
+                ['approved', '=', true]
+            ])->get();
+             $users =User::where([
+                ['type', '=', 'nonpermanent']
+            ])->get();
+
+            $sm = $sem_id;
+            $yr = $year;
+            $tempCollection = collect();
+            foreach ($reports as $report) {
+                $user =User::where([
+                ['id', '=', $report->user_id]
+                ])->get()->first();
+                if ($user->type == 'nonpermanent'){
+
+                  $tempCollection->push($report);
+                }
+            }
+            $years = Report::distinct()->get(['year']);
+           /* foreach($years as $year)
+              echo $year;
+          */
+              //dapat yung users ay mafifilter depende sa position
+            /*$reports = collect($reports)->sortByDesc(['total_average']);*/
+            $tempCollection = collect($tempCollection)->sortByDesc(['total_average']);
+            return view('headofoffice.nonpermanentranking', compact('users', 'years','yr', 'sm', 'tempCollection'));
+            
+        }
+        
+        return redirect('home')->with('error','You do not have access.');
+       
+    }
+
+      public function showPermanentRanking(Request $request)
     {   
         if($request->user()->authorizeRoles(['headofoffice'])){
             $reports = Report::where([
@@ -323,7 +386,7 @@ class ReportController extends Controller
            /* foreach($years as $year)
               echo $year;
           */
-            return view('headofoffice.ranking', compact('reports','users', 'years', 'yr', 'sm'));
+            return view('headofoffice.permanentranking', compact('reports','users', 'years', 'yr', 'sm'));
             
         }
         
@@ -331,26 +394,44 @@ class ReportController extends Controller
        
     }
 
-    public function filterRanking(Request $request, $sem_id, $year)
+    public function filterPermanentRanking(Request $request, $sem_id, $year)
     {   
         if($request->user()->authorizeRoles(['headofoffice'])){
             $reports = Report::where([
                 ['duration', '=', $sem_id],
-                ['year', '=', $year]
+                ['year', '=', $year],
+                ['assessed', '=', true],
+                ['approved', '=', true]
             ])->get();
-            $users = User::all()->toArray();
+          /*  $users = User::all()->toArray();*/
            /*   $users =  User::where([
                 ['type', '=', $type]
             ])->get();*/
+          
+            $users =User::where([
+                ['type', '!=', 'nonpermanent']
+            ])->get();
+
             $sm = $sem_id;
             $yr = $year;
+            $tempCollection = collect();
+            foreach ($reports as $report) {
+                $user =User::where([
+                ['id', '=', $report->user_id]
+                ])->get()->first();
+                if ($user->type == 'permanent'||$user->type == 'supervisor'){
+
+                  $tempCollection->push($report);
+                }
+            }
             $years = Report::distinct()->get(['year']);
            /* foreach($years as $year)
               echo $year;
           */
               //dapat yung users ay mafifilter depende sa position
-            $reports = collect($reports)->sortBy(['total_average']);
-            return view('headofoffice.ranking', compact('reports','users', 'years','yr', 'sm'));
+            /*$reports = collect($reports)->sortByDesc(['total_average']);*/
+            $tempCollection = collect($tempCollection)->sortByDesc(['total_average']);
+            return view('headofoffice.permanentranking', compact('users', 'years','yr', 'sm', 'tempCollection'));
             
         }
         
@@ -501,10 +582,30 @@ class ReportController extends Controller
         {
           if($request->user()->authorizeRoles(['supervisor', 'headofoffice'])){    
                 $report = Report::find($id);
+               
                 $report->disapproved=true;
                 $report->forApproval=false;
                 $report->save();
              
+                if($request->user()->authorizeRoles(['supervisor'])){ 
+                    return redirect('/supervisor/home');
+                }
+                elseif ($request->user()->authorizeRoles(['headofoffice'])) {
+                    return redirect('/headofoffice/reports-for-approval');
+                }
+          }
+            return redirect('home')->with('error','You do not have access.');
+
+            
+        }
+
+  public function addComment(Request $request, $id)
+        {
+          if($request->user()->authorizeRoles(['supervisor', 'headofoffice'])){    
+                $report = Report::find($id);
+                $report->comment =$request->get('comment');
+                $report->save();
+              
                 if($request->user()->authorizeRoles(['supervisor'])){ 
                     return redirect('/supervisor/home');
                 }

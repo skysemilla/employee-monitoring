@@ -64,7 +64,7 @@
       <div class="form">
         <form method="POST" action="{{url('projname')}}" >
            {{csrf_field()}}
-            <input type="text" id="lgFormGroupInput" name="name" placeholder="If you want to add new project">
+            <input type="text" id="lgFormGroupInput" name="name" placeholder="If you want to add new project" required>
             <input type="submit" value="Submit">
           </form>
       </div>      
@@ -84,7 +84,7 @@
       <div class="form">
         <form method="POST" action="{{url('category')}}" >
            {{csrf_field()}}
-            <input type="text" id="lgFormGroupInput" name="name" placeholder="If you want to add new category">
+            <input type="text" id="lgFormGroupInput" name="name" placeholder="If you want to add new category" required>
             <input type="submit" value="Submit">
           </form>
       </div>      
@@ -166,26 +166,28 @@
   </div>
 </div>
 </div>
+ <p style="margin-top: 20px"> &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;<b>Legend:</b> &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;Q - Quality  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; E - Efficiency  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; T - Timeliness  &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; A - Average</p>
 <div class="panel-body">
-        <table class="custom-table">
+        <table class="custom-table"  style="width: 100%; table-layout:fixed;">
+     
             <thead>
              
-                <tr>
-                    <th rowspan="2">MFO/PAP</th>
-                    <th  rowspan="2">Project </th>
-                    <th rowspan="2">SUCCESS INDICATORS</th>
-                    <th rowspan="2">TARGET<!--  ACCOMPLISHMENTS --></th>
-                    <th rowspan="2">ACTUAL <!-- ACCOMPLISHMENTS --></th>
-                    <th colspan="4" rowspan="1">RATING</th>
-                    <th rowspan="2">REMARKS</th>
-                    <th rowspan="2"> ACTION</th>
+                <tr >
+                    <th rowspan="2" style="text-align:center; ">MFO/PAP</th>
+                    <th  rowspan="2" style="text-align:center; ">Project </th>
+                    <th rowspan="2" style="text-align:center; ">SUCCESS INDICATORS</th>
+                    <th rowspan="2" style="text-align:center; ">TARGET<!--  ACCOMPLISHMENTS --></th>
+                    <th rowspan="2" style="text-align:center; ">ACTUAL <!-- ACCOMPLISHMENTS --></th>
+                    <th colspan="4" rowspan="1" style="text-align:center; ">RATING</th>
+                    <th rowspan="2" style="text-align:center; ">REMARKS</th>
+                    <th rowspan="2" style="text-align:center; "> ACTION</th>
                 </tr>
-                <tr>
+                <tr style="text-align:center; ">
                     
-                    <th>Quantity</th>
-                    <th>Effort</th>
-                    <th>Timeliness</th>
-                    <th>Average</th>
+                    <th>Q</th>
+                    <th>E</th>
+                    <th>T</th>
+                    <th>A</th>
                     
                 </tr>
                 
@@ -216,8 +218,9 @@
                             <td>{{$task['target_no']}}</td>
                             <td>{{$task['actual_no']}}</td>
                             <td>{{$task['rating_quantity']}}</td>
-                            <td>{{$task['rating_timeliness']}}</td>
                             <td>{{$task['rating_effort']}}</td>
+                            <td>{{$task['rating_timeliness']}}</td>
+                       
                             <td>{{$task['rating_average']}}</td>
                             <td>{{$task['remarks']}}</td>
                             <td>
@@ -302,6 +305,7 @@
                 
         </table>
         <hr>
+
     @if($report->forApproval==true || count($tasks)==0 || $report->approved==true)
         <button  class="btn btn-success" data-toggle="modal" data-target="#submitModal" disabled><strong>Submit for approval</strong></button>
     @else
@@ -335,6 +339,7 @@
               
               </div>
             </div>
+            
              <div class="form-group row">
       
                <input name="_method" type="hidden" value="PATCH">
@@ -379,6 +384,7 @@
 </div>
  &nbsp; &nbsp;
 @if($report->approved==true && $report->assessed==true)
+<div>Comment: {{$report->comment}}</div>
 <a href="{{action('PDFController@make', $report['id'])}}" class="btn btn-warning">Generate PDF</a>
 @else
 <button class="btn btn-warning" disabled>Generate PDF</button>
@@ -389,6 +395,7 @@
  <div class="alert alert-danger">
     <strong>Disapproved!</strong> Please edit your report.
   </div>
+  <div><strong>Comment: </strong>{{$report->comment}}</div>
 </div>
 @endif
 
@@ -396,6 +403,7 @@
  <div class="alert alert-danger">
     <strong>Can't edit!</strong> Your report is being reviewed by your supervisor.
   </div>
+
 </div>
 @endif
 @if($report->forAssessment==true)

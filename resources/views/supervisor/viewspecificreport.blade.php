@@ -49,7 +49,26 @@
 @endif
 </i>
 </h4>
+<button type="button" class="btn" data-toggle="modal" data-target="#projnameModal" style="float: right;margin-top: -50px;margin-right: 50px;"><strong>COMMENT</strong></button>
+  <div class="modal fade" id="projnameModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #88a097; ">
+        <h3 class="modal-title" id="exampleModalLabel" ><strong>COMMENTS</strong><button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true"><font size="8">×</font></span>
+        </button></h5>
 
+      </div>
+      <div class="form">
+        <form method="POST" action="{{action('ReportController@addComment', $report['id'])}}" >
+           {{csrf_field()}}
+            <input type="text" id="lgFormGroupInput" name="comment" value="{{$report->comment}}" placeholder="Type comment here" required>
+            <input type="submit" value="Submit">
+          </form>
+      </div>      
+    </div>
+  </div>
+  </div>
 
 <div class="panel-body">
         <table class="custom-table">
@@ -102,8 +121,9 @@
                             <td>{{$task['target_no']}}</td>
                             <td>{{$task['actual_no']}}</td>
                             <td>{{$task['rating_quantity']}}</td>
-                            <td>{{$task['rating_timeliness']}}</td>
                             <td>{{$task['rating_effort']}}</td>
+                            <td>{{$task['rating_timeliness']}}</td>
+                       
                             <td>{{$task['rating_average']}}</td>
                             <td>{{$task['remarks']}}</td>
 

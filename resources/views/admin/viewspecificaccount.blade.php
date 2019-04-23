@@ -79,7 +79,12 @@
                                                 <label style="font-weight:bold;">Functional Unit:</label>
                                             </div>
                                             <div class="col-md-8 col-6">
-                                                {{$user['functional_unit']}}
+                                                @if($user['functional_unit'] == NULL|| $user['functional_unit'] == 'NULL')
+                                                    ----------
+                                                @else
+                                                     {{$user['functional_unit']}}
+                                                @endif
+                                               
                                             </div>
                                         </div>
                                         <hr />

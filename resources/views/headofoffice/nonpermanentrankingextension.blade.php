@@ -15,7 +15,7 @@
 
 <link href="/css/table.css" rel="stylesheet">
 <script src="/js/table.js"></script>
-<script src="/js/ranking.js"></script>
+<script src="/js/nonpermanentranking.js"></script>
 
 
 
@@ -24,7 +24,7 @@
 <div class="table-div" style="float: center" >
 <div class="col-lg-12">
 <div class="panel panel-default" >
-<div class="panel-heading" style="background-color: #88a097;"><h3><strong>RANKING</strong>&nbsp;
+<div class="panel-heading" style="background-color: #88a097;"><h3><strong>NON-PERMANENT EMPLOYEES RANKING</strong>&nbsp;
 	
 @if($sm !=0 && $yr !=0)
 <i> 
@@ -83,6 +83,7 @@
   	@if($yr != 0)
   <thead>
     <tr>
+    	<th>Rank</th>
       <th>Report ID</th>
       <th>Name</th>
       <th>Duration</th>
@@ -92,35 +93,43 @@
     </tr>
   </thead>
  
-  <tbody id="myTable">
+   <tbody id="myTable">
 
-	@if(count($reports)!=0) 	
-		@foreach($reports as $report)
-			 <tr class="notfirst">
-			<td>{{$report['id']}}</td>
-			@foreach($users as $user)
-				@if($user['id'] == $report['user_id'])
-					<td>{{$user['name']}}</td>
-				@endif
-			@endforeach
+					@if(count($tempCollection)!=0) 
+					
+						@foreach($tempCollection as $temp)
+						  
+						  	<tr class="notfirst">
+								
+							<td><b>{{++$loop->index}}</b></td>
+						  	@foreach($users as $user)
+								@if($user['id'] == $temp['user_id'])
+							 		
+									<td>{{$temp['id']}}</td>
+							
+								
+									<td>{{$user['name']}}</td>
+							
+						
 
-			@if($report['duration'] ==1)
-				<td><a href="/headofoffice/view-assessed-report/{{$report['id']}}">January - June</a></td>
-			@else
-				<td><a href="/headofoffice/view-assessed-report/{{$report['id']}}">July - December</a></td>
-			@endif
-			<td>{{$report['year']}}</td>
+									@if($temp['duration'] ==1)
+										<td><a href="/headofoffice/view-assessed-report/{{$temp['id']}}">January - June</a></td>
+									@else
+										<td><a href="/headofoffice/view-assessed-report/{{$temp['id']}}">July - December</a></td>
+									@endif
+									<td>{{$temp['year']}}</td>
 
-			<td>{{$report['total_average']}}</td>
-		
+									<td><font style="float: right">{{$temp['total_average']}}</font></td>
+								
 
-	      
-			</tr>
-
-		@endforeach
-		  @endif
-  </tbody>
-		
+							      
+									</tr>
+								@endif
+							@endforeach
+				  		@endforeach
+					@endif
+				  </tbody>
+						
 
 
   	@else

@@ -17,7 +17,7 @@
                 <!-- {{ Auth::user()->type }}  -->
                 @if(Auth::user()->type == "admin")
                     <div class="panel-body">
-                        <a href="{{url('admin/home')}}">Admin</a>
+                        <a href="{{url('admin/home')}}">Accounts</a>
                          
                     </div>
                 @elseif(Auth::user()->type=="permanent"||Auth::user()->type=="nonpermanent")
@@ -101,7 +101,11 @@
                 </div>
                 
                  <div class="panel-body">
-                    <a href="{{url('headofoffice/ranking')}}">View ranking</a>
+                    <a href="{{url('headofoffice/nonpermanent-employees/ranking')}}">View non-permanent employees ranking</a>
+                  
+                </div>
+                 <div class="panel-body">
+                    <a href="{{url('headofoffice/permanent-employees/ranking')}}">View permanent employees ranking</a>
                   
                 </div>
                 @endif

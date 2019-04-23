@@ -18,6 +18,8 @@ class CreateProjnamesTable extends Migration
             $table->string('name');
             $table->integer('report_id');
             $table->integer('user_id');
+            /*$table->integer('category_id');*/
+            $table->integer('rowCount')->nullable();
             $table->timestamps();
         });
     }
