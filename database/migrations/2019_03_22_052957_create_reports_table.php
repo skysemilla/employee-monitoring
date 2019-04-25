@@ -20,7 +20,7 @@ class CreateReportsTable extends Migration
             $table->boolean('forApproval')->nullable();
             $table->boolean('approved')->nullable();
             $table->integer('user_id');
-            $table->text('comment')->nullable();
+           /* $table->text('comment')->nullable();*/
             $table->integer('supervisor_id')->nullable();
             $table->float('total_average')->nullable();
             $table->boolean('forAssessment')->nullable();

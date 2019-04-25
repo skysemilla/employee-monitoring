@@ -29,6 +29,7 @@ Route::get('register', 'UserController@forRegister')->name('register');
 Route::resource('category', 'CategoryController');
 Route::resource('report', 'ReportController');
 Route::resource('projname', 'ProjnameController');
+Route::resource('comment', 'CommentController');
 
 Route::post('employee/create-report', 'ReportController@store');
 Route::get('employee/view-all-reports', 'ReportController@viewAllReports');
@@ -39,10 +40,12 @@ Route::post('employee/template-report/{id}', 'ReportController@storeTemplate')->
 Route::get('my-profile', 'UserController@employeeProfile');
 
 Route::get('supervisor/report/{id}', 'TaskController@forSupervisorView');
-Route::post('supervisor/report/{id}', 'ReportController@addComment');
+/*Route::post('supervisor/report/{id}', 'ReportController@addComment');*/
 Route::get('supervisor/approve/{id}', 'ReportController@updateReportApproved');
 Route::get('supervisor/disapprove/{id}', 'ReportController@updateReportDisapproved');
 Route::get('headofoffice/disapprove/{id}', 'ReportController@updateReportDiapproveAssessment');
+/*Route::post('headofoffice/report/{id}', 'CommentController@addComment');*/
+/*Route::post('headofoffice/report/{id}', 'ReportController@forHOOView');*/
 Route::get('supervisor/home', 'ReportController@indexForSupervisor');
 Route::get('headofoffice/home', 'ReportController@indexForHeadOffice');
 Route::get('/home', 'HomeController@index');
@@ -58,6 +61,8 @@ Route::get('supervisor/view-all-approved-reports', 'ReportController@viewAllAppr
 Route::get('headofoffice/reports-for-approval', 'ReportController@reportsForApprovalHOO');
 Route::get('headofoffice/approve/{id}', 'ReportController@updateReportAssessed');
 Route::get('headofoffice/report-for-assessment/{id}', 'TaskController@forHOOView');
+Route::get('headofoffice/report-for-approval/{id}', 'TaskController@forHOOView');
+Route::post('headofoffice/report-for-approval/{id}', 'CommentController@addComment');
 Route::get('headofoffice/view-all-approved-reports', 'ReportController@viewAllApprovedByHOO');
 Route::get('headofoffice/view-approved-report/{id}', 'TaskController@forHOOView');
 Route::get('headofoffice/view-all-assessed-reports', 'ReportController@viewAllAssessed');

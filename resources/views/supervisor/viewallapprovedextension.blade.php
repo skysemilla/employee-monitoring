@@ -26,6 +26,9 @@
 <div class="panel panel-default" >
 <div class="panel-heading" style="background-color: #88a097;"><h3><strong>APPROVED REPORTS</strong></h3></div>
 <div class="panel-body">
+@if(count($reports)==0)
+	<h2 style="text-align: center;">No reports for assessment.</h2>
+@else
 <table align="center" >
 
   <thead>
@@ -39,8 +42,7 @@
       
     </tr>
   </thead>
-  <tbody id="myTable">
-	@if(count($reports)!=0) 	
+  <tbody id="myTable"> 	
 	@foreach($reports as $report)
 		 <tr class="notfirst">
 		<td>{{$report['id']}}</td>
@@ -71,11 +73,10 @@
 		</tr>
 
 	@endforeach
-	@endif
 
   </tbody>
 </table>
-
+@endif
 </div>
 
 </html>

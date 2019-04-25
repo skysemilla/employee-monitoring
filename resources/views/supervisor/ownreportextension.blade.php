@@ -39,6 +39,15 @@
 
 @endif
 </h3>
+<h4><i>Report for: 
+@if($report->duration == 1)
+    January- June, {{$report->year}}
+
+@else
+    July - December, {{$report->year}}
+@endif
+</i>
+</h4>
 
 @if($report->forApproval==true || $report->approved==true)
   <!-- you cannot add task/category/project name -->
@@ -167,6 +176,7 @@
   </div>
 </div>
 </div>
+ <p style="margin-top: 20px"> &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;<b>Legend:</b> &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;Q - Quality  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; E - Efficiency  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; T - Timeliness  &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; A - Average</p>
 <div class="panel-body">
         <table class="custom-table">
             <thead>
@@ -183,10 +193,10 @@
                 </tr>
                 <tr>
                     
-                    <th>Quantity</th>
-                    <th>Effort</th>
-                    <th>Timeliness</th>
-                    <th>Average</th>
+                    <th>Q</th>
+                    <th>E</th>
+                    <th>T</th>
+                    <th>A</th>
                     
                 </tr>
                 
@@ -303,6 +313,37 @@
             </tbody>
                 
         </table>
+        <hr>
+          <div class="panel-body" >
+              <div class="row">
+                  <div class="panel panel-default widget">
+                      <div class="panel-heading" style="background-color: #8e9995">
+                          <h4><b>
+                              Comments and Recommendations for Development Purposes: 
+                          </b></h4>
+                          
+                      </div>
+                      <br>
+                      <ul>
+                      @foreach($comments as $comment)
+                              
+                                 <li>        
+                                          <div class="comment-text">
+                                              {{$comment->comment}}
+                                          </div>
+                                          <!-- <div>
+                                              <div class="head">
+                                                  <small>By: <strong class='user'>Diablo25</strong></small>
+                                              </div>    
+                                          </div> -->
+                                         
+                                  </li> 
+                            @endforeach
+                      </ul>
+                     
+                  </div>
+              </div>
+          </div>
         <hr>
     @if($report->forApproval==true || count($tasks)==0 || $report->approved==true)
         <button class="btn btn-success" data-toggle="modal" data-target="#submitModal" disabled><strong>Submit for approval</strong></button>

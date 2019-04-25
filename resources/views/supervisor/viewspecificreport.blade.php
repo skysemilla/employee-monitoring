@@ -49,47 +49,29 @@
 @endif
 </i>
 </h4>
-<button type="button" class="btn" data-toggle="modal" data-target="#projnameModal" style="float: right;margin-top: -50px;margin-right: 50px;"><strong>COMMENT</strong></button>
-  <div class="modal fade" id="projnameModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header" style="background-color: #88a097; ">
-        <h3 class="modal-title" id="exampleModalLabel" ><strong>COMMENTS</strong><button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true"><font size="8">×</font></span>
-        </button></h5>
 
-      </div>
-      <div class="form">
-        <form method="POST" action="{{action('ReportController@addComment', $report['id'])}}" >
-           {{csrf_field()}}
-            <input type="text" id="lgFormGroupInput" name="comment" value="{{$report->comment}}" placeholder="Type comment here" required>
-            <input type="submit" value="Submit">
-          </form>
-      </div>      
-    </div>
-  </div>
-  </div>
-
+  <hr>
+ <p style="margin-top: 20px"> &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;<b>Legend:</b> &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;Q - Quality  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; E - Efficiency  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; T - Timeliness  &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; A - Average</p>
 <div class="panel-body">
-        <table class="custom-table">
+        <table class="custom-table2">
             <thead>
              
                 <tr>
-                    <th rowspan="2">MFO/PAP</th>
-                    <th rowspan="2">Project</th>
-                    <th rowspan="2">SUCCESS INDICATORS</th>
-                    <th rowspan="2">TARGET ACCOMPLISHMENTS</th>
-                    <th rowspan="2">ACTUAL ACCOMPLISHMENTS</th>
-                    <th colspan="4" rowspan="1">RATING</th>
-                    <th rowspan="2">REMARKS</th>
+                    <th rowspan="2" style="text-align:center; ">MFO/PAP</th>
+                    <th rowspan="2" style="text-align:center; ">Project</th>
+                    <th rowspan="2" style="text-align:center; ">SUCCESS INDICATORS</th>
+                    <th rowspan="2" style="text-align:center; ">TARGET ACCOMPLISHMENTS</th>
+                    <th rowspan="2" style="text-align:center; " >ACTUAL ACCOMPLISHMENTS</th>
+                    <th colspan="4" rowspan="1" style="text-align:center; ">RATING</th>
+                    <th rowspan="2" style="text-align:center; " >REMARKS</th>
                     
                 </tr>
                 <tr>
                     
-                    <th>Quantity</th>
-                    <th>Effort</th>
-                    <th>Timeliness</th>
-                    <th>Average</th>
+                    <th>Q</th>
+                    <th>E</th>
+                    <th>T</th>
+                    <th>A</th>
                     
                 </tr>
                 
@@ -183,6 +165,73 @@
                 
                 
         </table>
+        <hr>
+          <div class="container" >
+              <div class="row">
+                  <div class="panel panel-default widget" style="background-color: #e3ede9">
+                      <div class="panel-heading" style="background-color: #8e9995">
+                          <h4><b>
+                              Comments and Recommendations for Development Purposes: 
+                          </b></h4>
+                          
+                      </div>
+                      <br>
+                      <div >
+                      <ul >
+                      @foreach($comments as $comment)
+                              
+                                 <li>        
+                                          <div class="comment-text">
+                                              {{$comment->comment}}
+                                          </div>
+                                          <!-- <div>
+                                              <div class="head">
+                                                  <small>By: <strong class='user'>Diablo25</strong></small>
+                                              </div>    
+                                          </div> -->
+                                         
+                                  </li> 
+                            @endforeach
+                      </ul>
+                   
+                   @if($report->approved != true)
+                    <button type="button" class="btn btn-block" data-toggle="modal" data-target="#projnameModal" ><strong>Add comment</strong></button>
+                    @endif
+                      </div>
+                  </div>
+              </div>
+          </div>
+    <!--     <h4>Comments and Recommendations for Development Purposes:</h4>
+         @foreach($comments as $comment)
+            <p>{{$comment->comment}}</p>
+            @endforeach -->
+     <!--      @if($report->approved != true)
+<button type="button" class="btn" data-toggle="modal" data-target="#projnameModal" ><strong>Add Comment</strong></button>
+@endif -->
+
+ <div class="modal fade" id="projnameModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #88a097; ">
+        <h3 class="modal-title" id="exampleModalLabel" ><strong>ADD COMMENT</strong><button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true"><font size="8">×</font></span>
+        </button></h5>
+
+      </div>
+      <div class="form">
+        <form method="POST" action="{{action('CommentController@addComment', $report['id'])}}" >
+           {{csrf_field()}}
+           
+            <input type="text" id="lgFormGroupInput" name="comment" value="" placeholder="Type new comment here" required>
+           <!--  <label for="message">Comment</label>
+            <textarea id="message" name="comment" class="form-control" value="{{$report->comment}}"  required></textarea> -->
+
+            <input type="submit" value="Submit">
+          </form>
+      </div>      
+    </div>
+  </div>
+  </div> 
 
 </div>
 </html>

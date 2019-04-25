@@ -10,15 +10,15 @@
 
 
 
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
 <link href="/css/table.css" rel="stylesheet">
 <script src="/js/table.js"></script>
 
 
 
 </head>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">  -->
 
   <!-- <p>You have to create report first</p>
   <a href="/employee/create-report">Create report</a>
@@ -29,13 +29,13 @@
 
 <div class="table-div" style="float: center">
 
-<div class="panel panel-default" >
+<div class="panel panel-default" style="background-color: #88a097;" >
 
-@if($user->type=='permanent')
+@if($user->type=='permanent' || $user->type=='supervisor')
   <div class="panel-heading" style="background-color: #88a097;"><h3><strong>Individual Performance Commitment Review (IPCR)</strong> 
 
 @else
-  <div class="panel-heading" style="background-color: #88a097;"><h3><strong>Performance Commitment Review (IPCR)</strong>
+  <div class="panel-heading" style="background-color: #88a097;"><h3><strong>Performance Commitment Review (PCR)</strong>
 
 @endif
 </h3>
@@ -48,10 +48,12 @@
 @endif
 </i>
 </h4>
+<hr>
+ <p style="margin-top: 20px"> &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;<b>Legend:</b> &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;Q - Quality  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; E - Efficiency  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; T - Timeliness  &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; A - Average</p>
 
 
 <div class="panel-body" >
-        <table class="custom-table2"  style="width: 100%; table-layout:fixed; overflow: scroll;
+        <table class="custom-table2" style="width: 100%; table-layout:fixed; overflow: scroll;
         ">
      
             <thead >
@@ -164,6 +166,39 @@
                 
                 
         </table>
+         <hr>
+          <div class="container" >
+              <div class="row">
+                  <div class="panel panel-default widget" style="background-color: #e3ede9">
+                      <div class="panel-heading" style="background-color: #8e9995">
+                          <h4><b>
+                              Comments and Recommendations for Development Purposes: 
+                          </b></h4>
+                          
+                      </div>
+                      <br>
+                      <div >
+                      <ul >
+                      @foreach($comments as $comment)
+                              
+                                 <li>        
+                                          <div class="comment-text">
+                                              {{$comment->comment}}
+                                          </div>
+                                          <!-- <div>
+                                              <div class="head">
+                                                  <small>By: <strong class='user'>Diablo25</strong></small>
+                                              </div>    
+                                          </div> -->
+                                         
+                                  </li> 
+                            @endforeach
+                      </ul>
+                   
+                      </div>
+                  </div>
+              </div>
+          </div>
   <hr>
 @if($report->approved==true && $report->assessed==true)
 <a href="{{action('PDFController@make', $report['id'])}}" class="btn btn-warning">Generate PDF</a>
@@ -171,4 +206,5 @@
 <button class="btn btn-warning" disabled>Generate PDF</button>
 @endif
 </div>
+
 </html>

@@ -25,49 +25,49 @@
 <div class="panel panel-default" >
 <div class="panel-heading" style="background-color: #88a097;"><h3><strong>ACCOUNTS</strong></h3></div>
 <div class="panel-body">
-<table align="center" >
+<table align="center" style="width: 100%; table-layout:fixed; overflow: scroll;" >
 
   <thead>
     <tr>
-      <th>ID</th>
-      <th>Name</th>
+      <th style="width: 0.5%;text-align:center;">ID</th>
+      <th style="text-align:center;">Name</th>
 
-      <th>Username</th>
+      <th style="text-align:center;">Username</th>
      <!--  <th>Email</th> -->
-      <th>Type</th>
-      <th>Functional Unit</th>
-      <th>Supervisor</th>
-      <th>Status</th>
-      <th>Action</th>
+      <th style="width: 1%;text-align:center;">Type</th>
+      <th style="text-align:center;">Functional Unit</th>
+      <th style="text-align:center;">Supervisor</th>
+      <th style="width: 1%;text-align:center;">Status</th>
+      <th style="width: 2.5%;text-align:center;">Action</th>
 
 
     </tr>
   </thead>
-  <tbody id="myTable">
+  <tbody id="myTable" >
     @foreach($users as $user)
       <tr class="notfirst">
-        <td>{{$user['id']}}</td>
-        <td><a href="/admin/accounts/{{$user['id']}}">{{$user['name']}}</a></td>
-        <td>{{$user['username']}}</td>
+        <td style="width: 5%;text-align: center;">{{$user['id']}}</td>
+        <td style="text-align:center;"><a href="/admin/accounts/{{$user['id']}}">{{$user['name']}}</a></td>
+        <td style="text-align:center;">{{$user['username']}}</td>
 
-        <td>{{$user['type']}}</td>
+        <td style="text-align:center;">{{$user['type']}}</td>
 
         @if($user['functional_unit'] =="NULL" || $user['functional_unit'] ==NULL)
-          <td> <i>-----</i></td>
+          <td style="text-align:center;"> <i>-----</i></td>
         
         @else
-          <td>{{$user['functional_unit']}}</td>
+          <td style="text-align:center;">{{$user['functional_unit']}}</td>
         
         @endif
 
         @if($user['supervisor_id'] ==NULL||$user['supervisor_id'] ==-1)
-          <td> <i>-----</i></td>
+          <td style="text-align:center;"> <i>-----</i></td>
         
         @else
           
           @foreach($users as $user1)
             @if($user1['id']== $user['supervisor_id'])
-              <td>{{$user1['name']}}</td>
+              <td style="text-align:center;">{{$user1['name']}}</td>
             @endif
           @endforeach
         
@@ -75,88 +75,29 @@
 
 
         @if($user['status'] =="NULL")
-          <td> <i>-----</i></td>
+          <td style="text-align:center;"><i>-----</i></td>
         
         @else
-          <td>{{$user['status']}}</td>
+          <td style="text-align:center;">{{$user['status']}}</td>
         
         @endif        
 
       
-        <td>
-        @if($user['status'] == "inactive" && $user['type'] != "admin")
+        <td style="text-align:center;">
+        @if($user['status'] == "inactive" && ($user['type'] != "admin" && $user['type'] != "headofoffice"))
          <a href="{{action('UserController@activate', $user['id'])}}" class="btn btn-primary" >Activate</a>
-          @else 
+       
+        @else 
               <button class="btn btn-info" disabled >Activate</button>
         @endif
-         @if($user['status'] == "active" && $user['type'] != "admin")
+         @if($user['status'] == "active" && ($user['type'] != "admin" && $user['type'] != "headofoffice"))
          <a href="{{action('UserController@deactivate', $user['id'])}}" class="btn btn-danger" >Deactivate</a>
+       
          @else 
               <button class="btn btn-danger" disabled >Deactivate</button>
         @endif
       
-        <!-- @if($user['status'] == "inactive" && $user['type'] != "admin")
-        <a  data-toggle="modal" data-target="#activateModal" class="btn btn-primary">Activate</a>
-          <div class="modal fade" id="activateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            {{$user['id']}} 
-            <div class="modal-content">
-              <div class="modal-header" style="background-color: #88a097; ">
-              <h3 class="modal-title" id="exampleModalLabel" ><strong>Activate account</strong><button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true"><font size="8">×</font></span>
-              </button></h3>
-               <hr>
-              <div>
-                <p>{{$user['name']}}</p>
-              </div>
-              <div>
-                <hr>
-                <a href="{{action('UserController@activate', $user['id'])}}" class="btn btn-danger" >Yes</a>
-                <a  class="btn btn-warning" data-dismiss="modal" aria-label="Close">No</a>
-               
-              </div>
-              </div>
-          </div>
-
-        </div>
-        </div>
-        @else 
-              <button class="btn btn-info" disabled >Activate</button>
-        @endif -->
-        <!-- Modal for activating account -->
-          
-<!-- 
-        @if($user['status'] == "active" && $user['type'] != "admin")
-             <a  data-toggle="modal" data-target="#deactivateModal" class="btn btn-danger">Deactivate</a>
-              
-          <div class="modal fade" id="deactivateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header" style="background-color: #88a097; ">
-              <h3 class="modal-title" id="exampleModalLabel" ><strong>Deactivate account</strong><button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true"><font size="8">×</font></span>
-              </button></h3>
-              <hr>
-              <div>
-                <p>{{$user['name']}} </p>
-              </div>
-              <div>
-                <hr>
-                <a href="{{action('UserController@deactivate', $user['id'])}}" class="btn btn-danger" > Yes </a>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a  class="btn btn-warning" data-dismiss="modal" aria-label="Close">No</a>
-               
-              </div>
-              </div>
-          </div>
-
-        </div>
-        </div>
-        @else 
-              <button class="btn btn-danger" disabled >Deactivate</button>
-        @endif -->
-      
-
+    
        </td>
       </tr>
       @endforeach

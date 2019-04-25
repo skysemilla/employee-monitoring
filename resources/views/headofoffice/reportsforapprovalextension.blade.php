@@ -26,6 +26,9 @@
 <div class="panel panel-default" >
 <div class="panel-heading" style="background-color: #88a097;"><h3><strong>REPORTS FOR APPROVAL</strong></h3></div>
 <div class="panel-body">
+@if(count($reportsForApproval)==0)
+	<h2 style="text-align: center;">No report to approve.</h2>
+@else
 <table align="center" >
 
   <thead>
@@ -40,7 +43,7 @@
     </tr>
   </thead>
   <tbody id="myTable">
-	@if(count($reportsForApproval)!=0) 	
+	
 	@foreach($reportsForApproval as $report)
 		 <tr class="notfirst">
 		<td>{{$report['id']}}</td>
@@ -50,9 +53,9 @@
 			@endif
 		@endforeach
 		@if($report['duration'] ==1)
-			<td><a href="/headofoffice/report/{{$report['id']}}">1st Semester (January - June)</a></td>
+			<td><a href="/headofoffice/report-for-approval/{{$report['id']}}">1st Semester (January - June)</a></td>
 		@else
-			<td><a href="/headofoffice/report/{{$report['id']}}">2nd Semester (July - December)</a></td>
+			<td><a href="/headofoffice/report-for-approval/{{$report['id']}}">2nd Semester (July - December)</a></td>
 		@endif
 			<!-- <td><a href="/headofoffice/report/{{$report['id']}}">{{$report['duration']}}</a></td> -->
 			<td>{{$report['year']}}</td>
@@ -100,10 +103,10 @@
 		</tr>
 
 	@endforeach
-	@endif
 
   </tbody>
 </table>
+	@endif
 
 </div>
 

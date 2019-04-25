@@ -260,8 +260,31 @@ margin-right: 50px;
 		</tr>
 
 </table>
+<br>
+<table border="1" style="border-collapse; width: 100%;">
+		<tr>
+			<th>&nbsp;Comments and Recommendations for Development Purposes:</th>
+			
+		</tr>
+		<tr>
+			<td>
+			<ul >
+	          @foreach($comments as $comment)
+	                  
+	                     <li>        
+	                        {{$comment->comment}}
+	                       
+	                      </li> 
+	                @endforeach
+	          </ul>
+                  </td> 
+		</tr>
 
+		
+
+</table>
 <p><b>Legend:</b> &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;1 - Quality  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 2 - Efficiency  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 3 - Timeliness  &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; 4 - Average</p>
+
 @else 
 <h4 style="text-align: center">PERFORMANCE CONTRACT DELIVERABLES</h4>
 <table border="1" style="border-collapse; width: 100%;">
@@ -488,8 +511,29 @@ margin-right: 50px;
 		   
 	</tbody>
 </table>
+<br>
+<table border="1" style="border-collapse; width: 100%;">
+		<tr>
+			<th>&nbsp;Comments and Recommendations for Development Purposes:</th>
+			
+		</tr>
+		<tr>
+			<td>
+			<ul >
+	          @foreach($comments as $comment)
+	                  
+	                     <li>        
+	                        {{$comment->comment}}
+	                       
+	                      </li> 
+	                @endforeach
+	          </ul>
+                  </td> 
+		</tr>
 
-<p><b>Comments and Recommendations for Development Purposes:</b></p>
+		
+
+</table>
 @endif
 
 </html>

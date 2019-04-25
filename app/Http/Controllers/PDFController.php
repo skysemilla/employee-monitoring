@@ -9,6 +9,7 @@ use App\Category;
 use Auth;
 use App\Report;
 use App\Projname;
+use App\Comment;
 use DB;
 use DOMDocument;
 use App\User;
@@ -106,10 +107,12 @@ class PDFController extends Controller
   
           $tasks = collect($tasks)->sortBy(['projname_id']);
           $tasks = collect($tasks)->sortBy(['category_id']);
-       
+          $comments = Comment::where([
+            ['report_id', '=', $id]      
+            ])->get();
     	   $data= ['tasks'=> $tasks 
           ];
-    	$pdf = PDF::loadView('pdf.employee',compact('tasks', 'report', 'categories', 'total_rating', 'supervisor', 'headofoffice', 'projnames', 'counter'));
+    	$pdf = PDF::loadView('pdf.employee',compact('tasks', 'report', 'categories', 'total_rating', 'supervisor', 'headofoffice', 'projnames', 'counter', 'comments'));
 		return $pdf->setPaper('a4', 'landscape')->stream('myreport.pdf');
     }
 }

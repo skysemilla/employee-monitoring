@@ -75,7 +75,7 @@
                             @endif
                             <script>
                                 function myFunction2() {
-                                alert("you still have an active report");
+                                alert("You still have an active report.");
                             }
                             </script>   
                             <li class="dropdown">

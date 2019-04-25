@@ -89,18 +89,58 @@ class UserController extends Controller {
                 ['type', '=', "headofoffice"],
                 ['status', '=', "active"]
             ])->get()->first();
-            $totalApprovedReports = Report::where([
-                ['user_id', '=', Auth::user()->id],
-                ['approved', '=', true]
-            ])->get()->count();
-            $totalAssessedReports = Report::where([
-                ['user_id', '=', Auth::user()->id],
-                ['assessed', '=', true]
-            ])->get()->count();
-            $totalReports = Report::where([
-                ['user_id', '=', Auth::user()->id]
-            ])->get()->count();
-            return view('myprofile', compact('user', 'supervisor', 'headofoffice', 'totalApprovedReports', 'totalReports', 'totalAssessedReports'));
+            $totalOwnReports=0;
+            $totalOwnApprovedReports=0;
+            $totalOwnAssessedReports=0;
+            $totalApprovedReports=0;
+            $totalAssessedReports=0;
+
+            //insert condition
+            if ($user->type == 'permanent' || $user->type == 'nonpermanent' ){
+                $totalOwnReports= Report::where([
+                    ['user_id', '=', Auth::user()->id]
+                    ])->get()->count();
+                $totalOwnApprovedReports= Report::where([
+                    ['user_id', '=', Auth::user()->id],
+                    ['approved', '=', true]
+                    ])->get()->count();
+                $totalOwnAssessedReports=Report::where([
+                    ['user_id', '=', Auth::user()->id],
+                    ['approved', '=', true],
+                    ['assessed', '=', true]
+                    ])->get()->count();
+            }
+            elseif ($user->type == 'supervisor' ) {
+                $totalOwnReports= Report::where([
+                    ['user_id', '=', Auth::user()->id]
+                    ])->get()->count();;
+                $totalOwnApprovedReports=Report::where([
+                    ['user_id', '=', Auth::user()->id],
+                    ['approved', '=', true]
+                    ])->get()->count();
+                $totalOwnAssessedReports=Report::where([
+                    ['user_id', '=', Auth::user()->id],
+                    ['approved', '=', true],
+                    ['assessed', '=', true]
+                    ])->get()->count();
+                $totalApprovedReports=Report::where([
+                    ['supervisor_id', '=', Auth::user()->id],
+                    ['approved', '=', true]
+                    ])->get()->count();
+               
+            }
+            else{
+                $totalApprovedReports=Report::where([
+                    ['supervisor_id', '=', Auth::user()->id],
+                    ['approved', '=', true]
+                    ])->get()->count();
+                $totalAssessedReports=Report::where([
+                    ['assessed', '=', true]
+                    ])->get()->count();
+            }
+
+       
+            return view('myprofile', compact('user', 'supervisor', 'headofoffice', 'totalOwnApprovedReports', 'totalOwnReports', 'totalOwnAssessedReports', 'totalApprovedReports', 'totalAssessedReports'));
         }
         
         return redirect('home')->with('error','Yo do not have access');

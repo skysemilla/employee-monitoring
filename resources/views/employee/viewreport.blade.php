@@ -34,11 +34,19 @@
   <div class="panel-heading" style="background-color: #88a097;"><h3><strong>Individual Performance Commitment Review (IPCR)</strong> 
 
 @else
-  <div class="panel-heading" style="background-color: #88a097;"><h3><strong>Performance Commitment Review (IPCR)</strong>
+  <div class="panel-heading" style="background-color: #88a097;"><h3><strong>Performance Commitment Review (PCR)</strong>
 
 @endif
 </h3>
+<h4><i>Report for: 
+@if($report->duration == 1)
+    January- June, {{$report->year}}
 
+@else
+    July - December, {{$report->year}}
+@endif
+</i>
+</h4>
 @if($report->forApproval==true || $report->approved==true)
   <!-- you cannot add task/category/project name -->
 @else
@@ -274,9 +282,9 @@
                           <td>{{$task['rating_effort']}}</td>
                           <td>{{$task['rating_average']}}</td>
                           <td>{{$task['remarks']}}</td>
-                          <td>
+                          <td align="center">
                           @if ($report->approved == true && ($report->forAssessment==false || $report->forAssessment == NULL) && $report->assessed==false)
-                           <a href="{{action('TaskController@edit', $task['id'])}}" class="btn btn-warning">Edit</a>
+                           <a href="{{action('TaskController@edit', $task['id'])}}" class="btn btn-warning" >Edit</a>
                           @endif
                           @if ($report->approved == false && $report->forApproval==false)
                              
@@ -304,7 +312,38 @@
             </tbody>
                 
         </table>
-        <hr>
+         <hr>
+        <div class="panel-body" >
+            <div class="row">
+                <div class="panel panel-default widget">
+                    <div class="panel-heading" style="background-color: #8e9995">
+                        <h4><b>
+                            Comments and Recommendations for Development Purposes: 
+                        </b></h4>
+                        
+                    </div>
+                    <br>
+                    <ul>
+                    @foreach($comments as $comment)
+                            
+                               <li>        
+                                        <div class="comment-text">
+                                            {{$comment->comment}}
+                                        </div>
+                                        <!-- <div>
+                                            <div class="head">
+                                                <small>By: <strong class='user'>Diablo25</strong></small>
+                                            </div>    
+                                        </div> -->
+                                       
+                                </li> 
+                          @endforeach
+                    </ul>
+                   
+                </div>
+            </div>
+        </div>
+      <hr>
 
     @if($report->forApproval==true || count($tasks)==0 || $report->approved==true)
         <button  class="btn btn-success" data-toggle="modal" data-target="#submitModal" disabled><strong>Submit for approval</strong></button>
@@ -359,7 +398,7 @@
   </div>
   </div>
   &nbsp; &nbsp;
-   @if ($report->approved == true && ($report->forAssessment==false || $report->forAssessment == NULL) && $report->assessed==false)
+  @if ($report->approved == true && ($report->forAssessment==false || $report->forAssessment == NULL) && $report->assessed==false)
        <a  class="btn btn-success" data-toggle="modal" data-target="#forHeadOfOfficeModal" class="btn btn-success">Submit for final assessment</a>
   @else 
         <button  class="btn btn-success" data-toggle="modal" data-target="#forHeadOfOfficeModal" disabled ><strong>Submit for final assessment</strong></button>
@@ -380,11 +419,11 @@
       </div>
   </div>
 
-</div>
-</div>
+  </div>
+  </div>
  &nbsp; &nbsp;
 @if($report->approved==true && $report->assessed==true)
-<div>Comment: {{$report->comment}}</div>
+
 <a href="{{action('PDFController@make', $report['id'])}}" class="btn btn-warning">Generate PDF</a>
 @else
 <button class="btn btn-warning" disabled>Generate PDF</button>
@@ -395,7 +434,7 @@
  <div class="alert alert-danger">
     <strong>Disapproved!</strong> Please edit your report.
   </div>
-  <div><strong>Comment: </strong>{{$report->comment}}</div>
+ 
 </div>
 @endif
 

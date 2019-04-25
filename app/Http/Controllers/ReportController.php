@@ -599,7 +599,7 @@ class ReportController extends Controller
             
         }
 
-  public function addComment(Request $request, $id)
+/*  public function addComment(Request $request, $id)
         {
           if($request->user()->authorizeRoles(['supervisor', 'headofoffice'])){    
                 $report = Report::find($id);
@@ -610,13 +610,13 @@ class ReportController extends Controller
                     return redirect('/supervisor/home');
                 }
                 elseif ($request->user()->authorizeRoles(['headofoffice'])) {
-                    return redirect('/headofoffice/reports-for-approval');
+                    return redirect('/headofoffice/home');
                 }
           }
             return redirect('home')->with('error','You do not have access.');
 
             
-        }
+        }*/
 
       public function updateReportDiapproveAssessment(Request $request, $id)
         {

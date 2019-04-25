@@ -3,8 +3,10 @@
 <div class="panel panel-default" >
 <div class="panel-heading" style="background-color: #88a097;"><h3><strong>EDIT REPORT {{$id}}</strong></h3></div>
 <div class="panel-body">
+<br>
 <div class="container">
   <form method="post" action="{{action('TaskController@update', $id)}}">
+
     <div class="form-group row">
       {{csrf_field()}}
        <input name="_method" type="hidden" value="PATCH">

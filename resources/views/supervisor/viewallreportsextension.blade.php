@@ -26,6 +26,9 @@
 <div class="panel panel-default" >
 <div class="panel-heading" style="background-color: #88a097;"><h3><strong>PREVIOUS REPORTS</strong></h3></div>
 <div class="panel-body">
+@if(count($reports)==0)
+  <h2 style="text-align: center;">No previous reports.</h2>
+@else
 <table align="center" >
 
   <thead>
@@ -35,12 +38,13 @@
 
       <th>Duration</th>
       <th>Year</th>
-     <!--  <th>Action</th> -->
+      <th>Action</th>
+
       
     </tr>
   </thead>
   <tbody id="myTable">
-    @if(count($reports)!=0)  
+  
     @foreach($reports as $report)
          <tr class="notfirst">
         <td>{{$report['id']}}</td>
@@ -74,15 +78,21 @@
               </div>
             </div> -->
 
-      
+          @if(Auth::user()->hasActiveReport==false)
+              <td><a href="/employee/template-report/{{$report['id']}}" class="btn btn-warning">Use Template</a>
+            @else
+              <td><a class="btn btn-warning" disabled>Use Template</a>
+            @endif
         </tr>
 
-    @endforeach
-    @endif
 
+
+
+    @endforeach
+ 
   </tbody>
 </table>
-
+@endif
 </div>
 
 </html>

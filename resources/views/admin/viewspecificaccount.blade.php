@@ -1,127 +1,131 @@
+ <button type="button" class="btn"  ><a href="{{ URL::previous() }}" class="previous">&laquo; Back</a></button>
+ <div class="container panel-body" >
+    
+              <div class="row">
 
+                  <div class="panel panel-default widget" style="background-color: #85aa96">
+                      <div class="panel-heading" style="background-color: #5c6d64">
+                          <h4><b>
+                              PERSONAL INFORMATION
+                          </b></h4>
+                          
+                      </div>
+                      <br>
+                      <div >
+                    <div class="row" >
+                      <div class="col-sm-10" align="center"><h1 >{{$user->username}}</h1></div>
+                   
 
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-3" style="padding-left:5%"><!--left col-->
+              
 
-<div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
+                        <div class="text-center">
+                          <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail" alt="avatar">
+                        
+                        </div><hr><br>
 
-                    <div class="card-body">
-                     <button type="button" class="btn"  ><a href="{{ URL::previous() }}" class="previous">&laquo; Back</a></button>
-                        <div class="card-title mb-4">
-                            <div class="d-flex justify-content-start">
-                              <!--   <div class="image-container">
-                                    <img src="http://placehold.it/150x150" id="imgProfile" style="width: 150px; height: 150px" class="img-thumbnail" />
-                                    <div class="middle">
-                                        <input type="button" class="btn btn-secondary" id="btnChangePicture" value="Change" />
-                                        <input type="file" style="display: none;" id="profilePicture" name="file" />
-                                    </div>
-                                </div> -->
-                                <div class="userData ml-1">
-                                    <h2 class="d-block" style="font-size: 4rem; font-weight: bold"><a >{{$user['name']}}</a></h2>
-                                    <!-- <h6 class="d-block"><a href="javascript:void(0)">1,500</a> Video Uploads</h6>
-                                    <h6 class="d-block"><a href="javascript:void(0)">300</a> Blog Posts</h6> -->
-                                </div>
-                              <!--   <div class="ml-auto">
-                                    <input type="button" class="btn btn-primary d-none" id="btnDiscard" value="Discard Changes" />
-                                </div> -->
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-12">
-                               <!--  <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab" aria-controls="basicInfo" aria-selected="true">Basic Info</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="connectedServices-tab" data-toggle="tab" href="#connectedServices" role="tab" aria-controls="connectedServices" aria-selected="false">Connected Services</a>
-                                    </li>
-                                </ul> -->
-                                 <hr/>
-                                <div >
-                                    <div>
-                                        
-
-                                         <div class="row">
-                                            <div class="col-sm-3 col-md-2 col-5">
-                                                <label style="font-weight:bold;">Name:</label>
-                                            </div>
-                                            <div class="col-md-8 col-6">
-                                                {{$user['name']}}
-                                            </div>
-                                        </div>
-                                        <hr />
-
-                                        <div class="row">
-                                            <div class="col-sm-3 col-md-2 col-5">
-                                                <label style="font-weight:bold;">User ID:</label>
-                                            </div>
-                                            <div class="col-md-8 col-6">
-                                                {{$user['id']}}
-                                            </div>
-                                        </div>
-                                        <hr />
-
-                                        <div class="row">
-                                            <div class="col-sm-3 col-md-2 col-5">
-                                                <label style="font-weight:bold;">Username:</label>
-                                            </div>
-                                            <div class="col-md-8 col-6">
-                                                {{$user['username']}}
+                                 
+                          
+                            
+                            <ul class="list-group">
+                              <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
+                              @if($user->type == "permanent" || $user->type == "nonpermanent")
+                                <li class="list-group-item text-right"><span class="pull-left"><strong>Reports</strong></span>{{$totalOwnReports}}</li>
+                                <li class="list-group-item text-right"><span class="pull-left"><strong>Approved Reports</strong></span>{{$totalOwnApprovedReports}}</li>
+                                <li class="list-group-item text-right"><span class="pull-left"><strong>Assessed Reports</strong></span>{{$totalOwnAssessedReports}}</li>
+                              @elseif($user->type == "supervisor" )
+                                <li class="list-group-item text-right"><span class="pull-left"><strong>Reports</strong></span>{{$totalOwnReports}}</li>
+                                <li class="list-group-item text-right"><span class="pull-left"><strong>Approved Reports (own)</strong></span>{{$totalOwnApprovedReports}}</li>
+                                <li class="list-group-item text-right"><span class="pull-left"><strong>Assessed Reports (own)</strong></span>{{$totalOwnAssessedReports}}</li>
+                                <li class="list-group-item text-right"><span class="pull-left"><strong>Approved Reports (as supervisor)</strong></span>{{$totalApprovedReports}}</li>
+                              @elseif($user->type == "headofoffice" )
+                                
+                                <li class="list-group-item text-right"><span class="pull-left"><strong>Approved Reports</strong></span>{{$totalApprovedReports}}</li>
+                                <li class="list-group-item text-right"><span class="pull-left"><strong>Assessed Reports</strong></span>{{$totalAssessedReports}}</li>
+                              @endif
+                           
+                            </ul> 
+                                 
+                      
+                        </div>  <!-- col left -->
+                          <div class="col-sm-9">
+                            <div class="tab-content">
+                              <div class="tab-pane active" id="home">
+                                  <hr>
+                                    <form class="form" action="##" method="post" id="registrationForm">
+                                      <div class="form-group">
+                                            
+                                            <div class="col-xs-5">
+                                                <label ><h4>User ID</h4></label>
+                                                <input type="text" class="form-control" value="{{$user->id}}"  readonly>
                                             </div>
                                         </div>
-                                        <hr />
-                                        
-                                        
-                                        <div class="row">
-                                            <div class="col-sm-3 col-md-2 col-5">
-                                                <label style="font-weight:bold;">Functional Unit:</label>
+                                        <div class="form-group">
+                                          <div class="form-group">
+                                            
+                                            <div class="col-xs-5">
+                                                <label ><h4>Status</h4></label>
+                                                <input type="text" class="form-control" value="{{$user->status}}"  readonly>
                                             </div>
-                                            <div class="col-md-8 col-6">
-                                                @if($user['functional_unit'] == NULL|| $user['functional_unit'] == 'NULL')
-                                                    ----------
+                                        </div>
+                                        <div class="form-group">
+                                        <div class="form-group">
+                                            
+                                            <div class="col-xs-5">
+                                                <label ><h4>Name</h4></label>
+                                                <input type="text" class="form-control" value="{{$user->name}}"  readonly>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            
+                                            <div class="col-xs-5">
+                                                <label ><h4>Type</h4></label>
+                                                <input type="text" class="form-control" value="{{$user->type}}"  readonly>
+                                            </div>
+                                        </div>
+
+                  <!-- 
+                      INSERT CONDITION IF ADMIN OR DIFFERENT TYPES OF USERS-->
+                                         <div class="form-group">
+                                            
+                                            <div class="col-xs-5">
+                                                <label ><h4>Functional Unit</h4></label>
+                                                <input type="text" class="form-control" value="{{$user->functional_unit}}"  readonly>
+                                            </div>
+                                        </div>
+
+                                         <div class="form-group">
+                                            <div class="col-xs-5">
+                                              <label ><h4>Supervisor</h4></label>
+                                                @if($user->type == "permanent" || $user->type == "nonpermanent")
+                                                  
+                                                  <input type="text" class="form-control" value="{{$supervisor->name}}"  readonly>
+                                                @elseif($user->type == "supervisor")
+                                                
+                                                <input type="text" class="form-control" value="{{$headofoffice->name}}"  readonly>
                                                 @else
-                                                     {{$user['functional_unit']}}
+                                                  <input type="text" class="form-control" value="----------"  readonly>
                                                 @endif
-                                               
+                                                
                                             </div>
                                         </div>
-                                        <hr />
-                                        <div class="row">
-                                            <div class="col-sm-3 col-md-2 col-5">
-                                                <label style="font-weight:bold;">Something</label>
-                                            </div>
-                                            <div class="col-md-8 col-6">
-                                                {{$user['type']}}
-                                               
-                                            </div>
-                                        </div>
-                                        <hr />
-                                        <div class="row">
-                                            <div class="col-sm-3 col-md-2 col-5">
-                                                <label style="font-weight:bold;">Something</label>
-                                            </div>
-                                            <div class="col-md-8 col-6">
-                                                 {{$user['status']}}
-                                            </div>
-                                        </div>
-                                        <hr />
+                                
+                                  </form>
+                       
+                                
+                               </div><!--/tab-pane-->
+                              
+                                </div><!--/tab-pane-->
+                            </div><!--/tab-content-->
 
-                                    </div>
-                                   <!--  ADD SUPERVISOR, FIX FUNCTIONAL UNIT, AND TYPE
- -->
-                                   <!--  <div class="tab-pane fade" id="connectedServices" role="tabpanel" aria-labelledby="ConnectedServices-tab">
-                                        Facebook, Google, Twitter Account that are connected to this account
-                                    </div> -->
-                                </div>
-                            </div>
-                        </div>
-
+                          </div><!--/col-9-->
 
                     </div>
 
-                </div>
-            </div>
-        </div>
-    </div>
+
+
+                  </div>
+              </div>
+          </div>
