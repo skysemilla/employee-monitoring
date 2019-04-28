@@ -1,43 +1,4 @@
-<!doctype html>
-<html >
-<head>
-<link href="/css/accountform.css" rel="stylesheet">
-<!-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
-<link href="/css/table.css" rel="stylesheet">
-<script src="/js/table.js"></script>
 
-
-</head>
-
-<div style="width: 100%; float: right; padding-left: 0px;" >
-<input id="myInput" type="text" placeholder="Search.." style=" width: 60%; ">
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-<!-- <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" ><strong>Create Account</strong></button> -->
-
-<button type="button" class="btn" ><a href="{{ route('register') }}"><font color="gray"><strong>Create Account</strong></font></a></button>
-
-</div>
-<hr>
-
-<div class="table-div" style="float: center" >
-<div class="col-lg-12">
-<div class="panel panel-default" >
-  
-<div class="panel-heading" style="background-color: #88a097;"><h3><strong>ACCOUNTS</strong>
-    <div class="pull-right">
-              <div class="btn-group">
-                <a type="button" class="btn btn-success btn-filter" href="/admin/home">All accounts</a>
-                <a type="button" class="btn btn-primary btn-filter" href="/admin/accounts/active">Active</a>
-                <a type="button" class="btn btn-danger btn-filter" href="/admin/accounts/deactivated">Deactivated</a>
-<!--   <button type="button" class="btn btn-default btn-filter" data-target="all">Todos</button> -->
-              </div>
-    </div>
-</h3>
-
-</div>
-
-<div class="panel-body">
 <table align="center" style="width: 100%; table-layout:fixed; overflow: scroll;" >
 
   <thead>
@@ -118,7 +79,3 @@
       @endforeach
   </tbody>
 </table>
-
-</div>
-
-</html>

@@ -109,7 +109,7 @@
                             <td>{{$task['rating_effort']}}</td>
                             <td>{{$task['rating_timeliness']}}</td>
                        
-                            <td>{{$task['rating_average']}}</td>
+                            <td>{{number_format($task->rating_average, 2, '.', '')}}</td>
                             <td>{{$task['remarks']}}</td>
 
                          
@@ -146,7 +146,7 @@
                           <td>{{$task['rating_quantity']}}</td>
                           <td>{{$task['rating_timeliness']}}</td>
                           <td>{{$task['rating_effort']}}</td>
-                          <td>{{$task['rating_average']}}</td>
+                          <td>{{number_format($task->rating_average, 2, '.', '')}}</td>
                           <td>{{$task['remarks']}}</td>
                          
                        
@@ -159,7 +159,7 @@
                 <tr>
                   <td colspan="8" class="page-header"><button type="button" class="tbtn" style="float: right"><b>TOTAL AVERAGE</b> </button> </td>
                   
-                  <td colspan="2" class="page-header"><button type="button" class="tbtn"><b>{{$total_rating}}</b>  </button> </td>
+                  <td colspan="2" class="page-header"><button type="button" class="tbtn"><b>{{number_format($total_rating, 2, '.', '')}}</b>  </button> </td>
                 
                   </tr>
          

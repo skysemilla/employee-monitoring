@@ -21,6 +21,7 @@ margin-right: 50px;
 }
 </style>
 </head>
+
 @if( Auth::user()->type == 'permanent' ||Auth::user()->type== 'supervisor' )
 <h4 style="text-align: center">INDIVIDUAL PERFORMANCE COMMITMENT REVIEW (IPCR)</h4>
 <p><b>I, {{Auth::user()->name}}, of the DOST CALABARZON, {{Auth::user()->functional_unit}} commit to deliver and agree to be rated on the attainment of the following targets in accordance with the indicated measures for the period @if($report['duration'] ==1)
@@ -114,7 +115,7 @@ margin-right: 50px;
 			                <td style="text-align:center;">{{$task['rating_quantity']}}</td>
 			                <td style="text-align:center;">{{$task['rating_timeliness']}}</td>
 			                <td style="text-align:center;">{{$task['rating_effort']}}</td>
-			                <td style="text-align:center;">{{$task['rating_average']}}</td>
+			                <td style="text-align:center;">{{number_format($task->rating_average, 2, '.', '')}}</td>
 			                <td >{{$task['remarks']}}</td>
 
 		                @else
@@ -124,7 +125,7 @@ margin-right: 50px;
 			                <td style="text-align:center;">{{$task['rating_quantity']}}</td>
 			                <td style="text-align:center;">{{$task['rating_timeliness']}}</td>
 			                <td style="text-align:center;">{{$task['rating_effort']}}</td>
-			                <td style="text-align:center;">{{$task['rating_average']}}</td>
+			                <td style="text-align:center;">{{number_format($task->rating_average, 2, '.', '')}}</td>
 			                <td >{{$task['remarks']}}</td>
 		                @endif
 
@@ -195,7 +196,7 @@ margin-right: 50px;
 			                <td style="text-align:center;">{{$task['rating_quantity']}}</td>
 			                <td style="text-align:center;">{{$task['rating_timeliness']}}</td>
 			                <td style="text-align:center;">{{$task['rating_effort']}}</td>
-			                <td style="text-align:center;">{{$task['rating_average']}}</td>
+			                <td style="text-align:center;">{{number_format($task->rating_average, 2, '.', '')}}</td>
 			                <td >{{$task['remarks']}}</td>
 
 		                @else
@@ -205,7 +206,7 @@ margin-right: 50px;
 			                <td style="text-align:center;">{{$task['rating_quantity']}}</td>
 			                <td style="text-align:center;">{{$task['rating_timeliness']}}</td>
 			                <td style="text-align:center;">{{$task['rating_effort']}}</td>
-			                <td style="text-align:center;">{{$task['rating_average']}}</td>
+			                <td style="text-align:center;">{{number_format($task->rating_average, 2, '.', '')}}</td>
 			                <td >{{$task['remarks']}}</td>
 		                @endif
 
@@ -220,7 +221,7 @@ margin-right: 50px;
 		<tr>
 
 		      <td colspan="6" class="page-header"><i><b>Final Average Rating</b></i></td>
-		      <td colspan="2">{{$total_rating}}</td>
+		      <td colspan="2">{{number_format($total_rating, 2, '.', '')}}</td>
 		      
 		     
 
@@ -241,11 +242,11 @@ margin-right: 50px;
 		</tr>
 
 		<tr style="text-align:center;">
-			<td class="name" valign="bottom">{{Auth::user()->name}}</td>
+			<td class="name" valign="bottom"><img src="{{ public_path('images/signature.jpg') }}"  alt="Logo" height="50px"><br>{{Auth::user()->name}}</td>
 			<td rowspan="2"> </td>
-			<td class="name" valign="bottom">{{$supervisor->name}} </td>
+			<td class="name" valign="bottom"><img src="{{ public_path('images/signature.jpg') }}"  alt="Logo" height="50px"><br>{{$supervisor->name}} </td>
 			<td rowspan="2"> </td>
-			<td class="name" valign="bottom">{{$headofoffice->name}}</td>
+			<td class="name" valign="bottom"><img src="{{ public_path('images/signature.jpg') }}"  alt="Logo" height="50px"><br>{{$headofoffice->name}}</td>
 			<td rowspan="2"> </td>
 		</tr>
 
@@ -299,11 +300,11 @@ margin-right: 50px;
 		</tr>
 
 		<tr style="text-align:center;">
-			<td class="name" valign="bottom">{{Auth::user()->name}}</td>
+			<td class="name" valign="bottom"><img src="{{ public_path('images/signature.jpg') }}"  alt="Logo" height="50px">{{Auth::user()->name}}</td>
 			<td rowspan="2"> </td>
-			<td class="name" valign="bottom">{{$supervisor->name}} </td>
+			<td class="name" valign="bottom"><img src="{{ public_path('images/signature.jpg') }}"  alt="Logo" height="50px">{{$supervisor->name}} </td>
 			<td rowspan="2"> </td>
-			<td class="name" valign="bottom">{{$headofoffice->name}}</td>
+			<td class="name" valign="bottom"><img src="{{ public_path('images/signature.jpg') }}"  alt="Logo" height="50px">{{$headofoffice->name}}</td>
 			<td rowspan="2"> </td>
 		</tr>
 
@@ -319,27 +320,27 @@ margin-right: 50px;
 
 </table>
 <p><b>Legend:</b> &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;1 - Quality  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 2 - Efficiency  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 3 - Timeliness  &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; 4 - Average</p>
-<table  style="width: 100%;">
-	<thead style="text-align:center; ">
+<table  style="width: 100%; table-layout:fixed;" >
+	<tbody style="text-align:center; ">
 		 <tr>
-	        <th rowspan="2">MFO/PAP</th>
-	        <th rowspan="2">SUCCESS INDICATORS <br>(TARGETS + MEASURES)</th>
+	        <th rowspan="2" style="width: 10%;">MFO/PAP</th>
+	        <th rowspan="2"  colspan="1" style="width: 20%;">SUCCESS INDICATORS <br>(TARGETS + MEASURES)</th>
 	        <!-- <th rowspan="2">TARGET ACCOMPLISHMENTS</th> -->
-	        <th rowspan="2">Actual Accomplishments</th>
-	        <th colspan="4" rowspan="1">RATING</th>
-	        <th rowspan="2">REMARKS</th>
+	        <th rowspan="2" style="width: 20%;">Actual Accomplishments</th>
+	        <th colspan="4" rowspan="1" style="width: 10%;">RATING</th>
+	        <th rowspan="2" style="width: 10%;">REMARKS</th>
 	       
 	        
 	    </tr>
 	    <tr>
 	        
-	        <th width="100">Q</th>
-	        <th width="90">E</th>
-	        <th width="80">T</th>
-	        <th width="70">A</th>
+	         <th style="width: 2%;">Q</th>
+	        <th style="width: 2%;">E</th>
+	        <th style="width: 2%;">T</th>
+	        <th style="width: 4%;">A</th>
 	        
 	    </tr>
-	</thead>
+	</tbody>
 	<tbody>
 		<tr>
 
@@ -399,7 +400,7 @@ margin-right: 50px;
 			                <td style="text-align:center;">{{$task['rating_quantity']}}</td>
 			                <td style="text-align:center;">{{$task['rating_timeliness']}}</td>
 			                <td style="text-align:center;">{{$task['rating_effort']}}</td>
-			                <td style="text-align:center;">{{$task['rating_average']}}</td>
+			                <td style="text-align:center;">{{number_format($task->rating_average, 2, '.', '')}}</td>
 			                <td >{{$task['remarks']}}</td>
 
 		                @else
@@ -409,7 +410,7 @@ margin-right: 50px;
 			                <td style="text-align:center;">{{$task['rating_quantity']}}</td>
 			                <td style="text-align:center;">{{$task['rating_timeliness']}}</td>
 			                <td style="text-align:center;">{{$task['rating_effort']}}</td>
-			                <td style="text-align:center;">{{$task['rating_average']}}</td>
+			                <td style="text-align:center;">{{number_format($task->rating_average, 2, '.', '')}}</td>
 			                <td >{{$task['remarks']}}</td>
 		                @endif
 
@@ -479,7 +480,7 @@ margin-right: 50px;
 			                <td style="text-align:center;">{{$task['rating_quantity']}}</td>
 			                <td style="text-align:center;">{{$task['rating_timeliness']}}</td>
 			                <td style="text-align:center;">{{$task['rating_effort']}}</td>
-			                <td style="text-align:center;">{{$task['rating_average']}}</td>
+			                <td style="text-align:center;">{{number_format($task->rating_average, 2, '.', '')}}</td>
 			                <td >{{$task['remarks']}}</td>
 
 		                @else
@@ -489,7 +490,7 @@ margin-right: 50px;
 			                <td style="text-align:center;">{{$task['rating_quantity']}}</td>
 			                <td style="text-align:center;">{{$task['rating_timeliness']}}</td>
 			                <td style="text-align:center;">{{$task['rating_effort']}}</td>
-			                <td style="text-align:center;">{{$task['rating_average']}}</td>
+			                <td style="text-align:center;">{{number_format($task->rating_average, 2, '.', '')}}</td>
 			                <td >{{$task['remarks']}}</td>
 		                @endif
 
@@ -504,7 +505,7 @@ margin-right: 50px;
 		<tr>
 
 		      <td colspan="6" class="page-header"><i><b>Final Average Rating</b></i></td>
-		      <td colspan="2">{{$report['total_average']}}</td>
+		      <td colspan="2">{{number_format($total_rating, 2, '.', '')}}</td>
 		      
 		     
 
@@ -534,6 +535,20 @@ margin-right: 50px;
 		
 
 </table>
-@endif
 
+@endif
+<script type="text/php">
+    if (isset($pdf)) {
+        $x = 690;
+        $y = 560;
+        $text = "{{$term}} {{$report->year}} Page {PAGE_NUM} of {PAGE_COUNT}";
+        $font = null;
+        $size = 11;
+        $color = array(0,0,0);
+        $word_space = 0.0;  //  default
+        $char_space = 0.0;  //  default
+        $angle = 0.0;   //  default
+        $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
+    }
+</script>
 </html>

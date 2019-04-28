@@ -108,7 +108,7 @@
 									<td>{{$temp['id']}}</td>
 							
 								
-									<td>{{$user['name']}}</td>
+									<td><a href="/headofoffice/employee/{{$user['id']}}">{{$user['name']}}</a></td>
 							
 						
 
@@ -119,7 +119,7 @@
 									@endif
 									<td>{{$temp['year']}}</td>
 
-									<td><font style="float: right">{{$temp['total_average']}}</font></td>
+									<td><font style="float: right">{{number_format($temp->total_average, 2, '.', '')}}</font></td>
 								
 
 							      

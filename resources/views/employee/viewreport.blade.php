@@ -181,14 +181,14 @@
             <thead>
              
                 <tr >
-                    <th rowspan="2" style="text-align:center; ">MFO/PAP</th>
+                    <th rowspan="2" style="text-align:center;" >MFO/PAP</th>
                     <th  rowspan="2" style="text-align:center; ">Project </th>
                     <th rowspan="2" style="text-align:center; ">SUCCESS INDICATORS</th>
                     <th rowspan="2" style="text-align:center; ">TARGET<!--  ACCOMPLISHMENTS --></th>
                     <th rowspan="2" style="text-align:center; ">ACTUAL <!-- ACCOMPLISHMENTS --></th>
                     <th colspan="4" rowspan="1" style="text-align:center; ">RATING</th>
                     <th rowspan="2" style="text-align:center; ">REMARKS</th>
-                    <th rowspan="2" style="text-align:center; "> ACTION</th>
+                    <th rowspan="2" style="text-align:center;   "  > ACTION</th>
                 </tr>
                 <tr style="text-align:center; ">
                     
@@ -229,7 +229,7 @@
                             <td>{{$task['rating_effort']}}</td>
                             <td>{{$task['rating_timeliness']}}</td>
                        
-                            <td>{{$task['rating_average']}}</td>
+                            <td>{{number_format($task->rating_average, 2, '.', '')}}</td>
                             <td>{{$task['remarks']}}</td>
                             <td>
                              @if ($report->approved == true && ($report->forAssessment==false || $report->forAssessment == NULL) && $report->assessed==false)
@@ -238,13 +238,15 @@
                             @endif
 
                             @if ($report->approved == false && $report->forApproval==false)
-                            
-                               <form action="{{action('TaskController@destroy', $task['id'])}}" method="post">
+                              <a href="{{action('TaskController@editBeforeRating', $task['id'])}}" class="btn btn-warning">Edit</a>
+                              
+                              <form action="{{action('TaskController@destroy', $task['id'])}}" method="post">
                                 {{csrf_field()}}
                                 <input name="_method" type="hidden" value="DELETE">
                                 <button class="btn btn-danger" >Delete</button>
                               </form>
-                   
+                               
+
                             @endif
                           </td>
                         </tr>
@@ -280,7 +282,7 @@
                           <td>{{$task['rating_quantity']}}</td>
                           <td>{{$task['rating_timeliness']}}</td>
                           <td>{{$task['rating_effort']}}</td>
-                          <td>{{$task['rating_average']}}</td>
+                          <td>{{number_format($task->rating_average, 2, '.', '')}}</td>
                           <td>{{$task['remarks']}}</td>
                           <td align="center">
                           @if ($report->approved == true && ($report->forAssessment==false || $report->forAssessment == NULL) && $report->assessed==false)
@@ -304,7 +306,7 @@
                 <tr>
                   <td colspan="8" class="page-header"><button type="button" class="tbtn" style="float: right"><b>TOTAL AVERAGE</b> </button> </td>
                  
-                  <td colspan="3" class="page-header"><button type="button" class="tbtn"><b>{{$total_rating}}</b> </button> </td>
+                  <td colspan="3" class="page-header"><button type="button" class="tbtn"><b>{{number_format($total_rating, 2, '.', '')}}</b> </button> </td>
                  
                   </tr>
          
@@ -347,6 +349,7 @@
 
     @if($report->forApproval==true || count($tasks)==0 || $report->approved==true)
         <button  class="btn btn-success" data-toggle="modal" data-target="#submitModal" disabled><strong>Submit for approval</strong></button>
+       
     @else
         <button   class="btn btn-success" data-toggle="modal" data-target="#submitModal"><strong>Submit for approval</strong></button>
     @endif

@@ -12,8 +12,6 @@
                         
                         @include('admin.addaccount')
                 </div>
-            </div>
-        </div>
-    </div>
 </div>
+     
 @endsection

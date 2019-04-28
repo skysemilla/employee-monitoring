@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 
 use App\Projname;
+use App\Log;
 class ProjnameController extends Controller
 {
     /**
@@ -55,6 +56,12 @@ class ProjnameController extends Controller
         $projname->report_id = Auth::user()->latestReportId;
         $projname->user_id = Auth::user()->id;
         $projname->save();
+        $description = Auth::user()->username.' created project (id: '.$projname
+        ->id.', description: '.$projname->name.') to report '.$projname->report_id;
+        $log = new Log([
+            'description' => $description
+        ]);
+        $log->save();
         if($request->user()->authorizeRoles(['permanent', 'nonpermanent'])){
             return redirect('/employee/home');
         }

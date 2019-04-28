@@ -10,7 +10,7 @@
                         </div>
                     @endif -->
                         
-                        @include('supervisor.edit')
+                        @include('employee.edit')
                 </div>
             </div>
         </div>

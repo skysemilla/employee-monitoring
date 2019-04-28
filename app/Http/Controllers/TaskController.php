@@ -9,6 +9,7 @@ use Auth;
 use App\Report;
 use DB;
 use App\User;
+use App\Log;
 use App\Projname;
 use App\Comment;
 class TaskController extends Controller
@@ -25,16 +26,16 @@ class TaskController extends Controller
 
           $categories = Category::where([
             ['user_id', '=', Auth::user()->id],
-            ['report_id', '=', Auth::user()->latestReportId]
+            ['report_id', '=', $report->id]
           ])->get();
           $projnames = Projname::where([
             ['user_id', '=', Auth::user()->id],
-            ['report_id', '=', Auth::user()->latestReportId]
+            ['report_id', '=', $report->id]
+
           ])->get();
           $tasks = Task::where([
                 ['user_id', '=', Auth::user()->id],
-                ['report_id', '=', Auth::user()->latestReportId]
-                
+                ['report_id', '=', Auth::user()->latestReportId] 
             ])->get();
           $total_rating = DB::table('tasks')
                   ->where('report_id',Auth::user()->latestReportId)
@@ -42,21 +43,31 @@ class TaskController extends Controller
                   ->avg('rating_average');
           $report->total_average = $total_rating;
          
-        /* foreach ($sortedTasks as $sortedTask) {
-            echo $sortedTask->title;
-           echo $sortedTask->category_id;
-         }*/
-         $report->save();
-         $sortedTasks = collect($tasks)->sortBy(['projname_id']);
-         $sortedTasks = collect($sortedTasks)->sortBy(['category_id']);
-         $comments = Comment::where([
-                ['report_id', '=', $report->id]      
-          ])->get();
+          $report->save();
+          $sortedTasks = collect($tasks)->sortBy(['projname_id']);
+          $sortedTasks = collect($sortedTasks)->sortBy(['category_id']);
+          $comments = Comment::where([
+            ['report_id', '=', $report->id]      
+            ])->get();
+
+          if($report->duration=1){
+            $term="1st Sem";
+
+          }
+          else{
+            $term="2nd Sem";
+          }
+          $description = Auth::user()->username.' viewed report (id: '.$report->id.', duration: '.$term.', year: '.$report->year.')';
+          $log = new Log([
+            'description' => $description
+          ]);
+          $log->save();
+
         return view('employee.home', compact('tasks', 'categories','report', 'total_rating', 'projnames', 'sortedTasks', 'comments'));
        
 
       } 
-        return redirect('home')->with('error','You do not have access!');
+        return redirect('home')->with('error','You do not have access.');
 
         
     }
@@ -83,26 +94,30 @@ class TaskController extends Controller
                   ->groupBy('report_id')
                   ->avg('rating_average');
           $report->total_average = $total_rating;
-         $report->save();
-          //$categories = Category::all()->toArray();
-          //echo $total_rating;
-         //$collectionsTasks = collect($tasks);
-        $sortedTasks = collect($tasks)->sortBy(['projname_id']);
-
-         $sortedTasks = collect($sortedTasks)->sortBy(['category_id']);
-        /* foreach ($sortedTasks as $sortedTask) {
-            echo $sortedTask->title;
-           echo $sortedTask->category_id;
-
-         }*/
+          $report->save();
+          $sortedTasks = collect($tasks)->sortBy(['projname_id']);
+          $sortedTasks = collect($sortedTasks)->sortBy(['category_id']);
           $comments = Comment::where([
                 ['report_id', '=', $report->id]      
           ])->get();
-          
+
+          if($report->duration=1){
+            $term="1st Sem";
+
+          }
+          else{
+            $term="2nd Sem";
+          }
+          $description = Auth::user()->username.' viewed report (id: '.$report->id.', duration: '.$term.', year: '.$report->year.')';
+          $log = new Log([
+            'description' => $description
+          ]);
+          $log->save();
+
         return view('supervisor.ownreport', compact('tasks', 'categories','report', 'total_rating', 'projnames', 'sortedTasks', 'comments'));
 
       } 
-        return redirect('home')->with('error','You do not have access!');
+        return redirect('home')->with('error','You do not have access.');
 
         
     }
@@ -132,8 +147,13 @@ class TaskController extends Controller
         $latestReport = DB::table('reports')->where('user_id',$task->user_id)->orderBy('created_at', 'desc')->first();
         $task->report_id =Auth::user()->latestReportId;
         $task->rating_average = ($task->rating_quantity + $task->rating_timeliness + $task->rating_effort)/3;
-
         $task->save();
+
+        $description = Auth::user()->username.' created task '.$task->id.' for report '.$task->report_id;
+        $log = new Log([
+          'description' => $description
+        ]);
+        $log->save();
         if($request->user()->authorizeRoles(['permanent', 'nonpermanent'])){
             return redirect('/employee/home');
         }
@@ -156,6 +176,13 @@ class TaskController extends Controller
        
         $cat_id = $task->category_id;
         $category =  Category::find($cat_id);
+
+        /*$description = Auth::user()->username.' edited task '.$task->id.' for report '.$task->report_id;
+        $log = new Log([
+          'description' => $description
+        ]);
+        $log->save();*/
+
         if(Auth::user()->type == 'permanent'|| Auth::user()->type == 'nonpermanent'){
           return view('employee.editextension', compact('task','id', 'category'));
         }elseif (Auth::user()->type == 'supervisor'){
@@ -170,6 +197,7 @@ class TaskController extends Controller
           $task = Task::find($id);
           $task->title = $request->get('title');
           $task->target_no = $request->get('target_no');
+          $task->category_id = $request->get('category_id');
           $task->actual_no = $request->get('actual_no');
           $task->rating_quantity = $request->get('rating_quantity');
           $task->rating_timeliness = $request->get('rating_timeliness');
@@ -177,6 +205,13 @@ class TaskController extends Controller
           $task->remarks = $request->get('remarks');
           $task->rating_average = ($task->rating_quantity + $task->rating_timeliness + $task->rating_effort)/3;
           $task->save();
+
+          $description = Auth::user()->username.' edited task '.$task->id.' for report '.$task->report_id;
+          $log = new Log([
+            'description' => $description
+          ]);
+          $log->save();
+
           if($request->user()->authorizeRoles(['permanent', 'nonpermanent'])){
             return redirect('/employee/home');
           }
@@ -191,14 +226,21 @@ class TaskController extends Controller
  
       if(Auth::user()->authorizeRoles(['permanent', 'nonpermanent', 'supervisor'])){
         $task = Task::find($id);
-      	$task->delete();
 
-          if(Auth::user()->authorizeRoles(['permanent', 'nonpermanent'])){
-            return redirect('/employee/home');
-          }
-          elseif (Auth::user()->authorizeRoles(['supervisor'])) {
-            return redirect('/supervisor/add-tasks');
-          }
+        $description = Auth::user()->username.' deleted task '.$task->id.' for report '.$task->report_id;
+        $log = new Log([
+          'description' => $description
+        ]);
+        $log->save();
+      	
+        $task->delete();
+
+        if(Auth::user()->authorizeRoles(['permanent', 'nonpermanent'])){
+          return redirect('/employee/home');
+        }
+        elseif (Auth::user()->authorizeRoles(['supervisor'])) {
+          return redirect('/supervisor/add-tasks');
+        }
       }
     }
 
@@ -228,10 +270,22 @@ class TaskController extends Controller
                 ['report_id', '=', $id]      
           ])->get();
         
+          if($report->id=1){
+            $term="1st Sem";
+
+          }
+          else{
+            $term="2nd Sem";
+          }
+          $description = Auth::user()->username.' viewed report (id: '.$report->id.', duration: '.$term.', year: '.$report->year.')';
+          $log = new Log([
+            'description' => $description
+          ]);
+          $log->save();
 
           return view('supervisor.view', compact('tasks', 'user', 'categories','report', 'total_rating', 'projnames', 'comments'));
       }
-        return redirect('home')->with('error','You have not supervisor access');
+        return redirect('home')->with('error','You do not have access.');
 
         
     }
@@ -262,11 +316,22 @@ class TaskController extends Controller
                 ['report_id', '=', $id]      
           ])->get();
         
-         
+          if($report->id=1){
+            $term="1st Sem";
+
+          }
+          else{
+            $term="2nd Sem";
+          }
+          $description = Auth::user()->username.' viewed report (id: '.$report->id.', duration: '.$term.', year: '.$report->year.')';
+          $log = new Log([
+            'description' => $description
+          ]);
+          $log->save();
 
           return view('headofoffice.view', compact('tasks', 'user', 'categories','report', 'total_rating', 'projnames', 'comments'));
       }
-        return redirect('home')->with('error','You have not employee access');
+        return redirect('home')->with('error','You do not have access.');
 
         
       }
@@ -284,12 +349,10 @@ class TaskController extends Controller
 
           $user = User::find($user_id);
           $categories = Category::where([
-                ['user_id', '=', $user_id],
-                ['report_id', '=', $id]         
+                ['user_id', '=', $user_id]      
           ])->get();
           $projnames = Projname::where([
-            ['user_id', '=',  $user_id],
-            ['report_id', '=', $id]
+            ['user_id', '=',  $user_id]
           ])->get();
            $total_rating = DB::table('tasks')
                   ->where('report_id',$report->id)
@@ -301,6 +364,18 @@ class TaskController extends Controller
             ['report_id', '=', $id]      
             ])->get();
         
+          if($report->id=1){
+            $term="1st Sem";
+
+          }
+          else{
+            $term="2nd Sem";
+          }
+          $description = Auth::user()->username.' viewed report (id: '.$report->id.', duration: '.$term.', year: '.$report->year.')';
+          $log = new Log([
+            'description' => $description
+          ]);
+          $log->save();
 
           if($request->user()->authorizeRoles(['permanent', 'nonpermanent'])){
             return view('employee.viewownspecificreportextension', compact('tasks','user','categories','report', 'total_rating', 'projnames', 'comments'));
@@ -309,8 +384,32 @@ class TaskController extends Controller
             return view('supervisor.viewownspecificreportextension', compact('tasks','user','categories','report', 'total_rating','projnames','comments'));
           }
       }
-        return redirect('home')->with('error','You do not have access');
+        return redirect('home')->with('error','You do not have access.');
 
+    }
+    public function editBeforeRating($id)
+    {
+        //
+      if(Auth::user()->authorizeRoles(['permanent', 'nonpermanent', 'supervisor'])){
+        $task = Task::find($id);
+       
+        $cat_id = $task->category_id;
+        $chosenCategory =  Category::find($cat_id);
+        $categories = Category::where([
+            ['user_id', '=', Auth::user()->id],
+            ['report_id', '=', $task->report_id]
+          ])->get();
+    /*    $description = Auth::user()->username.' edited task '.$task->id.' for report '.$task->report_id;
+        $log = new Log([
+          'description' => $description
+        ]);
+        $log->save();*/
+        if(Auth::user()->type == 'permanent'|| Auth::user()->type == 'nonpermanent'){
+          return view('employee.editbeforerating', compact('task','id', 'chosenCategory', 'categories'));
+        }elseif (Auth::user()->type == 'supervisor'){
+          return view('supervisor.editbeforerating', compact('task','id', 'chosenCategory'));
+        }
+    }
     }
 
 

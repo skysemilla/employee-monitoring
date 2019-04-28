@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Comment;
 use App\Log;
-Use Redirect;
-class CommentController extends Controller
+class LogController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,10 +13,13 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
-        $comments = Comment::all()->toArray();
+       /* $logs = Log::all();
+        $logHolder = collect();
+        foreach ($logs as $log) {
+           $logHolder->push($log);
 
-        return view('employee.home', compact('comments'));
+                   }
+        return view('admin.logs')->with(compact('logs', 'logHolder'));*/
     }
 
     /**
@@ -86,33 +87,16 @@ class CommentController extends Controller
     {
         //
     }
- 
-    public function addComment(Request $request, $id)
-        {
-          if($request->user()->authorizeRoles(['supervisor', 'headofoffice'])){    
-               $comm = new Comment([
-                    'comment' => $request->get('comment')
-                    
-                ]);
-                $comm->report_id= $id;
-                $comm->save();
-                $description = Auth::user()->username.' created comment (id: '.$comm->id.', description: '.$comm->comment.') to report '.$comm->report_id;
-                $log = new Log([
-                'description' => $description
-                ]);
-                $log->save();
+    public function viewAllLogs(Request $request)
+    {   
 
-              
-                if($request->user()->authorizeRoles(['supervisor'])){ 
-                    return Redirect::to("/supervisor/report/$id");
-                }
-                elseif ($request->user()->authorizeRoles(['headofoffice'])) {
-                    return Redirect::to("/headofoffice/report-for-approval/$id");
-                }
-          }
-            return redirect('home')->with('error','You do not have access.');
-
-            
+        if($request->user()->authorizeRoles(['admin'])){
+            $logs = Log::all();
+            $logs = collect($logs)->sortByDesc(['created_at']);
+            return view('admin.logs')->with(compact('logs'));
         }
+        
+        return redirect('home')->with('error','You do not have access.');
+    }
 
 }

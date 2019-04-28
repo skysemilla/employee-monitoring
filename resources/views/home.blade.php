@@ -20,6 +20,10 @@
                         <a href="{{url('admin/home')}}">Accounts</a>
                          
                     </div>
+                    <div class="panel-body">
+                        <a href="{{url('admin/logs')}}">Logs</a>
+                         
+                    </div>
                 @elseif(Auth::user()->type=="permanent"||Auth::user()->type=="nonpermanent")
                     @if(Auth::user()->hasActiveReport==true)
                     <div class="panel-body">
@@ -42,7 +46,7 @@
                     </div> -->
                 @elseif(Auth::user()->type=="supervisor")
                         <div class="panel-body">
-                            <a href="{{url('supervisor/home')}}">Reports for Approval</a>
+                            <a href="{{url('supervisor/home')}}">Reports for approval</a>
                   
                         </div>
                         <div class="panel-body">
@@ -106,6 +110,14 @@
                 </div>
                  <div class="panel-body">
                     <a href="{{url('headofoffice/permanent-employees/ranking')}}">View permanent employees ranking</a>
+                  
+                </div>
+                <div class="panel-body">
+                    <a href="{{url('headofoffice/all-permanent-employees')}}">View all permanent employees</a>
+                  
+                </div>
+                <div class="panel-body">
+                    <a href="{{url('headofoffice/all-nonpermanent-employees')}}">View all nonpermanent employees</a>
                   
                 </div>
                 @endif

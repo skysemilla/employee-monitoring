@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Log;
 use Illuminate\Http\Request;
 use Auth;
 class CategoryController extends Controller
@@ -52,6 +53,12 @@ class CategoryController extends Controller
         $category->user_id = Auth::user()->id;
         $category->report_id = Auth::user()->latestReportId;
         $category->save();
+        $description = Auth::user()->username.' created category (id: '.$category->id.', title: '.$category->name.') to report '.$category->report_id;
+        $log = new Log([
+            'description' => $description
+            
+          ]);
+        $log->save();
         if($request->user()->authorizeRoles(['permanent', 'nonpermanent'])){
             return redirect('/employee/home');
         }

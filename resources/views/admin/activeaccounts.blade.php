@@ -1,3 +1,11 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+   
+                <div class="panel-body">
+ 
+          
 <!doctype html>
 <html >
 <head>
@@ -59,7 +67,7 @@
   </thead>
 
   <tbody id="myTable" >
-    @foreach($users as $user)
+    @foreach($activeusers as $user)
       <tr class="notfirst">
         <td style="width: 5%;text-align: center;">{{$user['id']}}</td>
         <td style="text-align:center;"><a href="/admin/accounts/{{$user['id']}}">{{$user['name']}}</a></td>
@@ -122,3 +130,8 @@
 </div>
 
 </html>
+
+</div>
+</div>
+     
+@endsection

@@ -8,6 +8,7 @@ use App\Task;
 use App\Projname;
 use App\Category;
 use App\Tempholder;
+use App\Log;
 use Auth;
 use Illuminate\Http\Request;
 use DB;
@@ -85,6 +86,18 @@ class ReportController extends Controller
         $report->save();
         $user->latestReportId=$report->id;
         $user->save();
+        if($report->duration=1){
+          $term="1st Sem";
+
+        }
+        else{
+          $term="2nd Sem";
+        }
+        $description = Auth::user()->username.' created report (id: '.$report->id.', duration: '.$term.', year: '.$report->year.')';
+        $log = new Log([
+          'description' => $description
+        ]);
+        $log->save();
         if($request->user()->authorizeRoles(['permanent', 'nonpermanent'])){
             return redirect('/employee/home');
         }
@@ -142,23 +155,40 @@ class ReportController extends Controller
             $report->forApproval=true;
             $report->disapproved=false;
             $report->save();
+
+            if($report->duration=1){
+              $term="1st Sem";
+            }
+            else{
+              $term="2nd Sem";
+            }
+            $description = Auth::user()->username.' submitted report (id: '.$report->id.', duration: '.$term.', year: '.$report->year.') to supervisor for approval';
+            $log = new Log([
+              'description' => $description
+            ]);
+            $log->save();
+
         }
-        return redirect('/home');
+        return redirect('home')->with('error','You do not have access.');
     }
      public function indexForSupervisor(Request $request)
     {   
         if($request->user()->authorizeRoles(['supervisor'])){
-            $reports = Report::all()->toArray();
-            
             $reportsForApproval = Report::where([
                 ['forApproval', '=', true],
                 ['supervisor_id', '=', Auth::user()->id]
             ])->get();
             $users = User::where("hasActiveReport", true)->get();
+            $reportsForApproval= $reportsForApproval->sortBy(['updated_at']);
+            $description = Auth::user()->username.' viewed all reports for approval';
+            $log = new Log([
+              'description' => $description
+            ]);
+            $log->save();
             return view('supervisor.home', compact('reportsForApproval', 'users'));
         }
         
-        return redirect('home')->with('error','You do not have supervisor access');
+        return redirect('home')->with('error','You do not have access.');
        
     }
     public function updateReportApproved(Request $request, $id)
@@ -169,7 +199,19 @@ class ReportController extends Controller
                 $report->forApproval=false;
                 $report->disapproved =false;
                 $report->save();
-             
+                
+                if($report->duration=1){
+                  $term="1st Sem";
+                }
+                else{
+                  $term="2nd Sem";
+                }
+                $description = Auth::user()->username.' approved report (id: '.$report->id.', duration: '.$term.', year: '.$report->year.')';
+                $log = new Log([
+                  'description' => $description
+                ]);
+                $log->save();
+
                 if($request->user()->authorizeRoles(['supervisor'])){ 
                     return redirect('/supervisor/home');
                 }
@@ -188,8 +230,21 @@ class ReportController extends Controller
           $report->forAssessment=true;
           $report->disapproved=false;
           $report->save();
+
+          if($report->duration=1){
+            $term="1st Sem";
+          }
+          else{
+            $term="2nd Sem";
+          }
+          $description = Auth::user()->username.' submitted report (id: '.$report->id.', duration: '.$term.', year: '.$report->year.') for final assessment';
+          $log = new Log([
+            'description' => $description
+          ]);
+          $log->save();
+
       }
-      return redirect('/home');
+      return redirect('home')->with('error','You do not have access.');
       }
 
     public function indexForHeadOffice(Request $request)
@@ -201,10 +256,16 @@ class ReportController extends Controller
                 ['forAssessment', '=', true]
             ])->get();
             $users = User::where("hasActiveReport", true)->get();
+            $reportsForAssessment= $reportsForAssessment->sortBy(['updated_at']);
+            $description = Auth::user()->username.' viewed all reports for assessment';
+            $log = new Log([
+              'description' => $description
+            ]);
+            $log->save();
             return view('headofoffice.home', compact('reportsForAssessment', 'users'));
         }
         
-        return redirect('home')->with('error','You do not have head of office access');
+        return redirect('home')->with('error','You do not have access.');
        
     }
 
@@ -219,7 +280,19 @@ class ReportController extends Controller
                 $user->hasActiveReport= false;
                 $user->save();
                 $report->save();
-      
+
+                if($report->duration=1){
+                  $term="1st Sem";
+                }
+                else{
+                  $term="2nd Sem";
+                }
+                $description = Auth::user()->username.' approved report (id: '.$report->id.', duration: '.$term.', year: '.$report->year.') for final assessment';
+                $log = new Log([
+                  'description' => $description
+                ]);
+                $log->save();
+
               return redirect('/headofoffice/home');
           }
             return redirect('home')->with('error','You do not have access.');
@@ -238,11 +311,16 @@ class ReportController extends Controller
 
             ])->get();
             $users = User::where("hasActiveReport", true)->get();
-       
+            $reportsForApproval= $reportsForApproval->sortBy(['updated_at']);
+            $description = Auth::user()->username.' viewed all reports for approval';
+            $log = new Log([
+              'description' => $description
+            ]);
+            $log->save();
             return view('headofoffice.reportsforapproval', compact('reportsForApproval', 'users'));
         }
         
-        return redirect('home')->with('error','You do not have head of office access');
+        return redirect('home')->with('error','You do not have access.');
        
     }
 
@@ -254,6 +332,12 @@ class ReportController extends Controller
                 ['assessed', '=', true],
                 ['user_id', '=', Auth::user()->id]
             ])->get();
+            $reports= $reports->sortByDesc(['year']);
+            $description = Auth::user()->username.' viewed all previous reports';
+            $log = new Log([
+              'description' => $description
+            ]);
+            $log->save();
             if($request->user()->authorizeRoles(['supervisor'])){
               return view('supervisor.viewallreports', compact('reports'));
             }elseif($request->user()->authorizeRoles(['permanent', 'nonpermanent'])){
@@ -261,7 +345,7 @@ class ReportController extends Controller
             }
         }
         
-        return redirect('home')->with('error','You do not have supervisor access');
+        return redirect('home')->with('error','You do not have access.');
        
     }
 
@@ -273,7 +357,11 @@ class ReportController extends Controller
                 ['approved', '=', true]
             ])->get();
             $users = User::all()->toArray();
-          
+            $description = Auth::user()->username.' viewed all approved reports as supervisor';
+            $log = new Log([
+              'description' => $description
+            ]);
+            $log->save();
             return view('supervisor.viewallapproved', compact('reports', 'users'));
          
         }
@@ -289,6 +377,11 @@ class ReportController extends Controller
                 ['approved', '=', true]
             ])->get();
             $users = User::all()->toArray();
+            $description = Auth::user()->username.' viewed all approved reports as head of office';
+            $log = new Log([
+              'description' => $description
+            ]);
+            $log->save();
               return view('headofoffice.viewallapproved', compact('reports','users'));
         }
         
@@ -303,6 +396,11 @@ class ReportController extends Controller
                 ['approved', '=', true]
             ])->get();
             $users = User::all()->toArray();
+            $description = Auth::user()->username.' viewed assessed reports';
+            $log = new Log([
+              'description' => $description
+            ]);
+            $log->save();
             return view('headofoffice.viewallassessed', compact('reports','users'));
             
         }
@@ -321,9 +419,12 @@ class ReportController extends Controller
             $years = Report::distinct()->get(['year']);
             $sm = 0;
             $yr =0;
-           /* foreach($years as $year)
-              echo $year;
-          */
+         
+            /*$description = Auth::user()->username.' viewed ranking for non-permanent employees';
+            $log = new Log([
+              'description' => $description
+            ]);
+            $log->save();*/
             return view('headofoffice.nonpermanentranking', compact('reports','users', 'years', 'yr', 'sm'));
             
         }
@@ -341,14 +442,24 @@ class ReportController extends Controller
                 ['assessed', '=', true],
                 ['approved', '=', true]
             ])->get();
-             $users =User::where([
+           
+            $users = User::where([
                 ['type', '=', 'nonpermanent']
-            ])->get();
+            ])->orderBy('name')->get();
+            $tempCollection2 = collect();
+            foreach ($users as $user) {
+              foreach ($reports as $report) {
+                if( $user->id == $report->user_id){
+                   $tempCollection2->push($report);
+                }
 
+              }
+             
+            }
             $sm = $sem_id;
             $yr = $year;
             $tempCollection = collect();
-            foreach ($reports as $report) {
+            foreach ($tempCollection2 as $report) {
                 $user =User::where([
                 ['id', '=', $report->user_id]
                 ])->get()->first();
@@ -358,12 +469,21 @@ class ReportController extends Controller
                 }
             }
             $years = Report::distinct()->get(['year']);
-           /* foreach($years as $year)
-              echo $year;
-          */
-              //dapat yung users ay mafifilter depende sa position
-            /*$reports = collect($reports)->sortByDesc(['total_average']);*/
+
+
             $tempCollection = collect($tempCollection)->sortByDesc(['total_average']);
+            if($sem_id=1){
+              $term="1st Sem";
+            }
+            else{
+              $term="2nd Sem";
+            }
+
+            $description = Auth::user()->username.' viewed ranking for non-permanent employees for '.$term.', '.$year;
+            $log = new Log([
+              'description' => $description
+            ]);
+            $log->save();
             return view('headofoffice.nonpermanentranking', compact('users', 'years','yr', 'sm', 'tempCollection'));
             
         }
@@ -380,12 +500,15 @@ class ReportController extends Controller
                 ['approved', '=', true]
             ])->get();
             $users = User::all()->toArray();
+            
             $years = Report::distinct()->get(['year']);
             $sm = 0;
             $yr =0;
-           /* foreach($years as $year)
-              echo $year;
-          */
+            /*$description = Auth::user()->username.' viewed ranking for permanent employees';
+              $log = new Log([
+                'description' => $description
+              ]);
+              $log->save();*/
             return view('headofoffice.permanentranking', compact('reports','users', 'years', 'yr', 'sm'));
             
         }
@@ -403,19 +526,25 @@ class ReportController extends Controller
                 ['assessed', '=', true],
                 ['approved', '=', true]
             ])->get();
-          /*  $users = User::all()->toArray();*/
-           /*   $users =  User::where([
-                ['type', '=', $type]
-            ])->get();*/
-          
-            $users =User::where([
+         
+            $users = User::where([
                 ['type', '!=', 'nonpermanent']
-            ])->get();
+            ])->orderBy('name')->get();
+            $tempCollection2 = collect();
+            foreach ($users as $user) {
+              foreach ($reports as $report) {
+                if( $user->id == $report->user_id){
+                   $tempCollection2->push($report);
+                }
 
+              }
+             
+            }
             $sm = $sem_id;
             $yr = $year;
             $tempCollection = collect();
-            foreach ($reports as $report) {
+            foreach ($tempCollection2 as $report) {
+
                 $user =User::where([
                 ['id', '=', $report->user_id]
                 ])->get()->first();
@@ -425,12 +554,19 @@ class ReportController extends Controller
                 }
             }
             $years = Report::distinct()->get(['year']);
-           /* foreach($years as $year)
-              echo $year;
-          */
-              //dapat yung users ay mafifilter depende sa position
-            /*$reports = collect($reports)->sortByDesc(['total_average']);*/
             $tempCollection = collect($tempCollection)->sortByDesc(['total_average']);
+
+            if($sem_id=1){
+              $term="1st Sem";
+            }
+            else{
+              $term="2nd Sem";
+            }
+            $description = Auth::user()->username.' viewed ranking for permanent employees for '.$term.', '.$year;
+            $log = new Log([
+              'description' => $description
+            ]);
+            $log->save();
             return view('headofoffice.permanentranking', compact('users', 'years','yr', 'sm', 'tempCollection'));
             
         }
@@ -441,34 +577,10 @@ class ReportController extends Controller
     public function template(Request $request,$id)
     {
       if($request->user()->authorizeRoles(['permanent', 'nonpermanent', 'supervisor'])){
-        /*$report = new Report([
-            'duration' => $request->get('duration'),
-            'year' => $request->get('year'),
-            'user_id' => $request->get('user_id'),
-            'forApproval' => $request->get('forApproval'),
-            'Approved' => $request->get('Approved')
-        ]);
-        $report->user_id = Auth::user()->id;
-        $user = User::find($report->user_id);
-          
-        $user->hasActiveReport =true;
-
-        
-        $report->forApproval= false;
-        $report->Approved=false;
-        $report->supervisor_id = $user->supervisor_id;
-        
-        $report->save();
-        $user->latestReportId=$report->id;
-        $user->save();*/
+      
         $report_id = $id;
         return view('employee.templatereport', compact('report_id'));
-        /*if($request->user()->authorizeRoles(['permanent', 'nonpermanent'])){
-            return redirect('/employee/home');
-        }
-        elseif ($request->user()->authorizeRoles(['supervisor'])) {
-            return redirect('/supervisor/add-tasks');
-        }*/
+        
     }
   }
      public function storeTemplate(Request $request, $id)
@@ -489,16 +601,12 @@ class ReportController extends Controller
         $report->approved=false;
         $report->assessed= false;
         $report->supervisor_id = $user->supervisor_id;
-        /*$report
-           ->users()
-           ->attach(User::where('id', $report->user_id)->first());*/
+       
         $report->save();
         $retrievedTasks = Task::where([
                 ['report_id', '=', $id]
             ])->get();
-        /*$newTasks = $retrievedTasks;*/
-        /*$tasksCollection = collect();*/
-      /*  $catIdChanged =false;*/
+
     
         
         foreach ($retrievedTasks as $task1) {
@@ -544,7 +652,7 @@ class ReportController extends Controller
                 ['id', '=', $task1->projname_id]
               ])->first();
               $newProj= new Projname([
-                'name' => $retrievedProjname->name,
+                'name' => $retrievedProjname->name
                
               ]);
               $newProj->user_id = Auth::user()->id;
@@ -560,15 +668,20 @@ class ReportController extends Controller
             else{
               $tempTask->projname_id = $tempholders2->newprojname_id;
             }
-             $tempTask->rating_average = ($tempTask->rating_quantity + $tempTask->rating_timeliness + $tempTask->rating_effort)/3;
-             $tempTask->user_id = Auth::user()->id;
-             $tempTask->report_id = $report->id;
-             $tempTask->save();
+            $tempTask->rating_average = ($tempTask->rating_quantity + $tempTask->rating_timeliness + $tempTask->rating_effort)/3;
+            $tempTask->user_id = Auth::user()->id;
+            $tempTask->report_id = $report->id;
+            $tempTask->save();
         }
      
         $user->latestReportId=$report->id;
         $user->save();
 
+        $description = Auth::user()->username.' used report '.$id.' for template';
+        $log = new Log([
+          'description' => $description
+        ]);
+        $log->save();
         if($request->user()->authorizeRoles(['permanent', 'nonpermanent'])){
             return redirect('/employee/home');
         }
@@ -586,7 +699,19 @@ class ReportController extends Controller
                 $report->disapproved=true;
                 $report->forApproval=false;
                 $report->save();
-             
+                
+                if($report->duration=1){
+                  $term="1st Sem";
+                }
+                else{
+                  $term="2nd Sem";
+                }
+                $description = Auth::user()->username.' disapproved report (id: '.$report->id.', duration: '.$term.', year: '.$report->year.')';
+                $log = new Log([
+                  'description' => $description
+                ]);
+                $log->save();
+
                 if($request->user()->authorizeRoles(['supervisor'])){ 
                     return redirect('/supervisor/home');
                 }
@@ -599,24 +724,6 @@ class ReportController extends Controller
             
         }
 
-/*  public function addComment(Request $request, $id)
-        {
-          if($request->user()->authorizeRoles(['supervisor', 'headofoffice'])){    
-                $report = Report::find($id);
-                $report->comment =$request->get('comment');
-                $report->save();
-              
-                if($request->user()->authorizeRoles(['supervisor'])){ 
-                    return redirect('/supervisor/home');
-                }
-                elseif ($request->user()->authorizeRoles(['headofoffice'])) {
-                    return redirect('/headofoffice/home');
-                }
-          }
-            return redirect('home')->with('error','You do not have access.');
-
-            
-        }*/
 
       public function updateReportDiapproveAssessment(Request $request, $id)
         {
@@ -628,6 +735,17 @@ class ReportController extends Controller
                 $user->hasActiveReport= false;
                 $user->save();*/
                 $report->save();
+                if($report->duration=1){
+                  $term="1st Sem";
+                }
+                else{
+                  $term="2nd Sem";
+                }
+                $description = Auth::user()->username.' disapproved report (id: '.$report->id.', duration: '.$term.', year: '.$report->year.') for final assessment';
+                $log = new Log([
+                  'description' => $description
+                ]);
+                $log->save();
       
               return redirect('/headofoffice/home');
           }

@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Role;
+use App\Log;
+use Auth;
 use App\Employee;
 class RegisterController extends Controller
 {
@@ -121,6 +123,12 @@ class RegisterController extends Controller
           $user->supervisor_id = $headofoffice->id;
         }
         $user->save();
+        $description = Auth::user()->username.' created new account (id:'.$user->id.', username: '.$user->username.' )';
+        $log = new Log([
+          'description' => $description
+        ]);
+        $log->save();
+
        
         return redirect('admin/home');
     }

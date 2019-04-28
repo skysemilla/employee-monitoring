@@ -13,6 +13,7 @@ use App\Comment;
 use DB;
 use DOMDocument;
 use App\User;
+use App\Log;
 class PDFController extends Controller
 {
     //
@@ -104,7 +105,13 @@ class PDFController extends Controller
               }*/
               
           }
-  
+          if($report->duration=1){
+            $term="1st Sem";
+
+          }
+          else{
+            $term="2nd Sem";
+          }
           $tasks = collect($tasks)->sortBy(['projname_id']);
           $tasks = collect($tasks)->sortBy(['category_id']);
           $comments = Comment::where([
@@ -112,8 +119,11 @@ class PDFController extends Controller
             ])->get();
     	   $data= ['tasks'=> $tasks 
           ];
-    	$pdf = PDF::loadView('pdf.employee',compact('tasks', 'report', 'categories', 'total_rating', 'supervisor', 'headofoffice', 'projnames', 'counter', 'comments'));
-		return $pdf->setPaper('a4', 'landscape')->stream('myreport.pdf');
+
+    	$pdf = PDF::loadView('pdf.employee',compact('tasks', 'report', 'categories', 'total_rating', 'supervisor', 'headofoffice', 'projnames', 'counter', 'comments', 'term'));
+      $pdf->getDomPDF()->set_option("enable_php", true);
+
+		return $pdf->setPaper('a4', 'landscape')->stream($term."-".$report->year.".pdf");
     }
 }
 }

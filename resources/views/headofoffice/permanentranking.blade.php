@@ -109,19 +109,30 @@
 				  <tbody id="myTable">
 
 					@if(count($tempCollection)!=0) 
-					
+						<?php $prevAverage = 0;
+						$rankIndex=1;
+						 ?>
 						@foreach($tempCollection as $temp)
 						  
 						  	<tr class="notfirst">
-								
-							<td><b>{{++$loop->index}}</b></td>
+
+							@if($temp->total_average == $prevAverage)	
+								<td></td>
+
+							@else
+								<td><b>{{$rankIndex}}</b></td>
+								<?php $rankIndex++;
+						 		?>
+							@endif
+							<?php $prevAverage = $temp->total_average; ?>
+							
 						  	@foreach($users as $user)
 								@if($user['id'] == $temp['user_id'])
 							 		
 									<td>{{$temp['id']}}</td>
 							
 								
-									<td>{{$user['name']}}</td>
+									<td><a href="/headofoffice/employee/{{$user['id']}}">{{$user['name']}}</a></td>
 							
 						
 
@@ -132,7 +143,7 @@
 									@endif
 									<td>{{$temp['year']}}</td>
 
-									<td><font style="float: right">{{$temp['total_average']}}</font></td>
+									<td><font style="float: right">{{number_format($temp->total_average, 2, '.', '')}}</font></td>
 								
 
 							      

@@ -1,11 +1,18 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+   
+                <div class="panel-body">
+ 
+          
 <!doctype html>
 <html >
 <head>
-<link href="/css/accountform.css" rel="stylesheet">
-<!-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
+
 <link href="/css/table.css" rel="stylesheet">
 <script src="/js/table.js"></script>
+<link href="/css/accountform.css" rel="stylesheet">
 
 
 </head>
@@ -15,7 +22,6 @@
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
 <!-- <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" ><strong>Create Account</strong></button> -->
 
-<button type="button" class="btn" ><a href="{{ route('register') }}"><font color="gray"><strong>Create Account</strong></font></a></button>
 
 </div>
 <hr>
@@ -24,15 +30,15 @@
 <div class="col-lg-12">
 <div class="panel panel-default" >
   
-<div class="panel-heading" style="background-color: #88a097;"><h3><strong>ACCOUNTS</strong>
-    <div class="pull-right">
+<div class="panel-heading" style="background-color: #88a097;"><h3><strong>PERMANENT EMPLOYEES</strong>
+   <!--  <div class="pull-right">
               <div class="btn-group">
                 <a type="button" class="btn btn-success btn-filter" href="/admin/home">All accounts</a>
                 <a type="button" class="btn btn-primary btn-filter" href="/admin/accounts/active">Active</a>
                 <a type="button" class="btn btn-danger btn-filter" href="/admin/accounts/deactivated">Deactivated</a>
-<!--   <button type="button" class="btn btn-default btn-filter" data-target="all">Todos</button> -->
+
               </div>
-    </div>
+    </div> -->
 </h3>
 
 </div>
@@ -47,11 +53,11 @@
 
       <th style="text-align:center;">Username</th>
      <!--  <th>Email</th> -->
-      <th style="width: 1.5%;text-align:center;">Type</th>
+      <th style="width: 1%;text-align:center;">Type</th>
       <th style="text-align:center;">Functional Unit</th>
       <th style="text-align:center;">Supervisor</th>
       <th style="width: 1%;text-align:center;">Status</th>
-      <th style="width: 2.5%;text-align:center;">Action</th>
+
 
 
     </tr>
@@ -59,10 +65,11 @@
   </thead>
 
   <tbody id="myTable" >
-    @foreach($users as $user)
+    @foreach($permanentemployees as $user)
+      @if($user->type == 'supervisor' || $user->type == 'permanent')
       <tr class="notfirst">
         <td style="width: 5%;text-align: center;">{{$user['id']}}</td>
-        <td style="text-align:center;"><a href="/admin/accounts/{{$user['id']}}">{{$user['name']}}</a></td>
+        <td style="text-align:center;"><a href="/headofoffice/employee/{{$user['id']}}">{{$user['name']}}</a></td>
         <td style="text-align:center;">{{$user['username']}}</td>
 
         <td style="text-align:center;">{{$user['type']}}</td>
@@ -98,23 +105,9 @@
         @endif        
 
       
-        <td style="text-align:center;">
-        @if($user['status'] == "inactive" && ($user['type'] != "admin" && $user['type'] != "headofoffice"))
-         <a href="{{action('UserController@activate', $user['id'])}}" class="btn btn-primary" >Activate</a>
-       
-        @else 
-              <button class="btn btn-info" disabled >Activate</button>
-        @endif
-         @if($user['status'] == "active" && ($user['type'] != "admin" && $user['type'] != "headofoffice"))
-         <a href="{{action('UserController@deactivate', $user['id'])}}" class="btn btn-danger" >Deactivate</a>
-       
-         @else 
-              <button class="btn btn-danger" disabled >Deactivate</button>
-        @endif
       
-    
-       </td>
       </tr>
+      @endif
       @endforeach
   </tbody>
 </table>
@@ -122,3 +115,8 @@
 </div>
 
 </html>
+
+</div>
+</div>
+     
+@endsection

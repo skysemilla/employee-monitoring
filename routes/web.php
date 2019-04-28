@@ -30,8 +30,12 @@ Route::resource('category', 'CategoryController');
 Route::resource('report', 'ReportController');
 Route::resource('projname', 'ProjnameController');
 Route::resource('comment', 'CommentController');
+Route::resource('log', 'LogController');
 
+Route::get('employee/edit-before-approval/{id}', 'TaskController@editBeforeRating');
 Route::post('employee/create-report', 'ReportController@store');
+/*Route::post('employee/delete/{$id}', 'TaskController@destroy');
+*/
 Route::get('employee/view-all-reports', 'ReportController@viewAllReports');
 Route::get('employee/view-report/{id}', 'TaskController@viewOwnSpecificReport');
 Route::get('employee/create-report', 'ReportController@index')->name('report');
@@ -49,15 +53,21 @@ Route::get('headofoffice/disapprove/{id}', 'ReportController@updateReportDiappro
 Route::get('supervisor/home', 'ReportController@indexForSupervisor');
 Route::get('headofoffice/home', 'ReportController@indexForHeadOffice');
 Route::get('/home', 'HomeController@index');
+
+Route::get('/admin/accounts/active', 'UserController@viewActiveAccounts');
+Route::get('/admin/logs', 'LogController@viewAllLogs');
+Route::get('/admin/accounts/deactivated', 'UserController@viewDeactivatedAccounts');
 Route::get('admin/activate/{id}', 'UserController@activate');
 Route::get('admin/deactivate/{id}', 'UserController@deactivate');
 Route::get('admin/accounts/{id}', 'UserController@viewSpecificAccount');
+
 Route::get('supervisor/create-report', 'ReportController@index');
 Route::get('supervisor/add-tasks', 'TaskController@indexForSupervisor');
 Route::get('supervisor/view-all-reports', 'ReportController@viewAllReports');
 Route::get('supervisor/view-report/{id}', 'TaskController@viewOwnSpecificReport');
 Route::get('supervisor/view-all-approved-reports', 'ReportController@viewAllApprovedBySupervisor');
 
+Route::get('headofoffice/employee/{id}', 'UserController@viewEmployee');
 Route::get('headofoffice/reports-for-approval', 'ReportController@reportsForApprovalHOO');
 Route::get('headofoffice/approve/{id}', 'ReportController@updateReportAssessed');
 Route::get('headofoffice/report-for-assessment/{id}', 'TaskController@forHOOView');
@@ -71,6 +81,9 @@ Route::get('headofoffice/nonpermanent-employees/ranking', 'ReportController@show
 Route::get('headofoffice/nonpermanent-employees/ranking/{sem_id}/{year}', 'ReportController@filterNonpermanentRanking');
 Route::get('headofoffice/permanent-employees/ranking', 'ReportController@showPermanentRanking');
 Route::get('headofoffice/permanent-employees/ranking/{sem_id}/{year}', 'ReportController@filterPermanentRanking');
+Route::get('headofoffice/all-permanent-employees', 'UserController@viewAllPermanentEmployees');
+Route::get('headofoffice/all-nonpermanent-employees', 'UserController@viewAllNonPermanentEmployees');
+
 
 Route::get('/pdfmaker/{id}', 'PDFController@make');
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');

@@ -48,7 +48,7 @@
 		<td>{{$report['id']}}</td>
 		@foreach($users as $user)
 			@if($user['id'] == $report['user_id'])
-				<td>{{$user['name']}}</td>
+				<td><a href="/headofoffice/employee/{{$user['id']}}">{{$user['name']}}</a></td>
 			@endif
 		@endforeach
 
