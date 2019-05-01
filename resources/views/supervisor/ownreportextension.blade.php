@@ -230,7 +230,7 @@
                             <td>{{$task['rating_effort']}}</td>
                             <td>{{$task['rating_timeliness']}}</td>
                        
-                            <td>{{$task['rating_average']}}</td>
+                            <td>{{number_format($task->rating_average, 2, '.', '')}}</td>
                             <td>{{$task['remarks']}}</td>
                             <td>
                              @if ($report->approved == true && ($report->forAssessment==false || $report->forAssessment == NULL) && $report->assessed==false)
@@ -239,7 +239,7 @@
                             @endif
 
                             @if ($report->approved == false && $report->forApproval==false)
-                            
+                              <a href="{{action('TaskController@editBeforeRating', $task['id'])}}" class="btn btn-warning">Edit</a>
                                <form action="{{action('TaskController@destroy', $task['id'])}}" method="post">
                                 {{csrf_field()}}
                                 <input name="_method" type="hidden" value="DELETE">
@@ -281,14 +281,14 @@
                           <td>{{$task['rating_quantity']}}</td>
                           <td>{{$task['rating_timeliness']}}</td>
                           <td>{{$task['rating_effort']}}</td>
-                          <td>{{$task['rating_average']}}</td>
+                          <td>{{number_format($task->rating_average, 2, '.', '')}}</td>
                           <td>{{$task['remarks']}}</td>
                           <td>
                           @if ($report->approved == true && ($report->forAssessment==false || $report->forAssessment == NULL) && $report->assessed==false)
                            <a href="{{action('TaskController@edit', $task['id'])}}" class="btn btn-warning">Edit</a>
                           @endif
                           @if ($report->approved == false && $report->forApproval==false)
-                             
+                              <a href="{{action('TaskController@editBeforeRating', $task['id'])}}" class="btn btn-warning">Edit</a>
                                <form action="{{action('TaskController@destroy', $task['id'])}}" method="post">
                                 {{csrf_field()}}
                                 <input name="_method" type="hidden" value="DELETE">
@@ -305,7 +305,7 @@
                 <tr>
                   <td colspan="8" class="page-header"><button type="button" class="tbtn" style="float: right"><b>TOTAL AVERAGE</b> </button> </td>
                  
-                  <td colspan="3" class="page-header"><button type="button" class="tbtn"><b>{{$total_rating}}</b> </button> </td>
+                  <td colspan="3" class="page-header"><button type="button" class="tbtn"><b>{{number_format($total_rating, 2, '.', '')}}</b> </button> </td>
                  
                   </tr>
          

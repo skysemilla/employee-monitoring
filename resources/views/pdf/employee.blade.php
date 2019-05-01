@@ -33,7 +33,7 @@ margin-right: 50px;
 <br>
 <hr>
 <p style="text-indent: 83.5%"><b>Ratee</b></p>
-<table  style="width: 100%; table-layout:fixed;" >
+<table  style="width: 100%; table-layout:fixed; >
 	<tbody style="text-align:center; ">
 		 <tr>
 	        <th rowspan="2" style="width: 10%;">MFO/PAP</th>
@@ -79,6 +79,7 @@ margin-right: 50px;
 		          		@if($category['id']==$task['category_id'])
 		            	<tr>
 		                  @if($i ==0)
+
 			                        <th rowspan="<?php echo $category->rowCount; ?>">{{$category['name']}}</th>
 			                        <?php $i = 1; ?>
 		                  @endif
@@ -292,19 +293,19 @@ margin-right: 50px;
 	
 		<tr>
 			<th style="text-align:center; width:50%;" >Discussed with:</th>
-			<th >Date</th>
+			<th style="text-align:center;">Date</th>
 			<th style="text-align:center;">Reviewed/Assessed by:</th>
-			<th >Date</th>
+			<th style="text-align:center;">Date</th>
 			<th style="text-align:center;" >Final Rating by:</th>
-			<th >Date</th>
+			<th style="text-align:center;">Date</th>
 		</tr>
 
 		<tr style="text-align:center;">
-			<td class="name" valign="bottom"><img src="{{ public_path('images/signature.jpg') }}"  alt="Logo" height="50px">{{Auth::user()->name}}</td>
+			<td class="name" valign="bottom"><img src="{{ public_path('images/signature.jpg') }}"  alt="Logo" height="50px"><br>{{Auth::user()->name}}</td>
 			<td rowspan="2"> </td>
-			<td class="name" valign="bottom"><img src="{{ public_path('images/signature.jpg') }}"  alt="Logo" height="50px">{{$supervisor->name}} </td>
+			<td class="name" valign="bottom"><img src="{{ public_path('images/signature.jpg') }}"  alt="Logo" height="50px"><br>{{$supervisor->name}} </td>
 			<td rowspan="2"> </td>
-			<td class="name" valign="bottom"><img src="{{ public_path('images/signature.jpg') }}"  alt="Logo" height="50px">{{$headofoffice->name}}</td>
+			<td class="name" valign="bottom"><img src="{{ public_path('images/signature.jpg') }}"  alt="Logo" height="50px"><br>{{$headofoffice->name}}</td>
 			<td rowspan="2"> </td>
 		</tr>
 

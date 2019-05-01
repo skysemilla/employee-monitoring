@@ -100,14 +100,15 @@
       
         <td style="text-align:center;">
         @if($user['status'] == "inactive" && ($user['type'] != "admin" && $user['type'] != "headofoffice"))
-         <a href="{{action('UserController@activate', $user['id'])}}" class="btn btn-primary" >Activate</a>
-       
+        <a href="{{action('UserController@activate', $user['id'])}}" onclick="return confirm('Are you sure you want to activate account?');" class="btn btn-primary">Activate</a>
+
         @else 
               <button class="btn btn-info" disabled >Activate</button>
         @endif
-         @if($user['status'] == "active" && ($user['type'] != "admin" && $user['type'] != "headofoffice"))
-         <a href="{{action('UserController@deactivate', $user['id'])}}" class="btn btn-danger" >Deactivate</a>
-       
+
+
+        @if($user['status'] == "active" && ($user['type'] != "admin" && $user['type'] != "headofoffice"))
+        <a href="{{action('UserController@deactivate', $user['id'])}}" onclick="return confirm('Are you sure you want to deactivate account?');" class="btn btn-danger">Deactivate</a>
          @else 
               <button class="btn btn-danger" disabled >Deactivate</button>
         @endif

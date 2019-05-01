@@ -1,7 +1,7 @@
 <div class="table-div" style="float: center" >
 <div class="col-lg-12">
 <div class="panel panel-default" >
-<div class="panel-heading" style="background-color: #88a097;"><h3><strong>EDIT REPORT {{$id}}</strong></h3></div>
+<div class="panel-heading" style="background-color: #88a097;"><h3><strong>EDIT TASK {{$id}}</strong></h3></div>
 <div class="panel-body">
 <br>
 <div class="container">
@@ -24,20 +24,46 @@
         <input type="text" class="form-control form-control-lg" id="lgFormGroupInput" placeholder="category_id" name="category_id" value="{{$category->id}}" readonly>
      
       </div>
-      <hr>
+      <!-- <hr>
+      <label for="lgFormGroupInput" class="col-sm-2 col-form-label col-form-label-lg">CATEGORY</label>
+      <div class="col-sm-6">
+        <p type="text" class="form-control form-control-lg" id="lgFormGroupInput" disabled>{{$category->name}}</p>
+      </div> -->
+    </div>
+    <div class="form-group row" >
       <label for="lgFormGroupInput" class="col-sm-2 col-form-label col-form-label-lg">CATEGORY</label>
       <div class="col-sm-6">
         <p type="text" class="form-control form-control-lg" id="lgFormGroupInput" disabled>{{$category->name}}</p>
       </div>
+    </div>
+
+
+    @if($task->projname_id !=NULL)
+    <div class="form-group row" hidden="true">
+   
+      <label for="lgFormGroupInput" class="col-sm-2 col-form-label col-form-label-lg">PROJNAME ID</label>
+      <div class="col-sm-6">
+
+        <input type="text" class="form-control form-control-lg" id="lgFormGroupInput" placeholder="projname_id" name="projname_id" value="{{$projname->id}}" readonly>
+     
+      </div>
+     <!--  <hr>
+      <label for="lgFormGroupInput" class="col-sm-2 col-form-label col-form-label-lg">CATEGORY</label>
+      <div class="col-sm-6">
+        <p type="text" class="form-control form-control-lg" id="lgFormGroupInput" disabled>{{$category->name}}</p>
+      </div> -->
     </div>
     <div class="form-group row" >
    
       
-      <label for="lgFormGroupInput" class="col-sm-2 col-form-label col-form-label-lg">CATEGORY</label>
+      <label for="lgFormGroupInput" class="col-sm-2 col-form-label col-form-label-lg">PROJECT</label>
       <div class="col-sm-6">
-        <p type="text" class="form-control form-control-lg" id="lgFormGroupInput" disabled>{{$category->name}}</p>
+        <p type="text" class="form-control form-control-lg" id="lgFormGroupInput" disabled>{{$projname->name}}</p>
       </div>
     </div>
+
+    @endif
+
      
 
 

@@ -80,9 +80,13 @@
 
           @if(Auth::user()->hasActiveReport==false)
               <td><a href="/employee/template-report/{{$report['id']}}" class="btn btn-warning">Use Template</a>
+
             @else
               <td><a class="btn btn-warning" disabled>Use Template</a>
             @endif
+            
+          <a href="{{action('PDFController@make', $report['id'])}}" class="btn btn-info">Generate PDF</a>
+            </td>
         </tr>
 
 

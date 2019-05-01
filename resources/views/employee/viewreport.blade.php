@@ -289,7 +289,7 @@
                            <a href="{{action('TaskController@edit', $task['id'])}}" class="btn btn-warning" >Edit</a>
                           @endif
                           @if ($report->approved == false && $report->forApproval==false)
-                             
+                              <a href="{{action('TaskController@editBeforeRating', $task['id'])}}" class="btn btn-warning">Edit</a>
                                <form action="{{action('TaskController@destroy', $task['id'])}}" method="post">
                                 {{csrf_field()}}
                                 <input name="_method" type="hidden" value="DELETE">

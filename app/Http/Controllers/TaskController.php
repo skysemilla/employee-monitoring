@@ -44,8 +44,9 @@ class TaskController extends Controller
           $report->total_average = $total_rating;
          
           $report->save();
-          $sortedTasks = collect($tasks)->sortBy(['projname_id']);
-          $sortedTasks = collect($sortedTasks)->sortBy(['category_id']);
+         /* $sortedTasks = collect($tasks)->sortBy(['projname_id']);
+          $sortedTasks = collect($sortedTasks)->sortBy(['category_id']);*/
+          $sortedTasks = collect($tasks)->sortBy('category_id')->sortBy('projname_id');
           $comments = Comment::where([
             ['report_id', '=', $report->id]      
             ])->get();
@@ -95,8 +96,10 @@ class TaskController extends Controller
                   ->avg('rating_average');
           $report->total_average = $total_rating;
           $report->save();
-          $sortedTasks = collect($tasks)->sortBy(['projname_id']);
+          /*$sortedTasks = collect($tasks)->sortBy(['projname_id']);
           $sortedTasks = collect($sortedTasks)->sortBy(['category_id']);
+          $collection->sortBy('Surname')->sortBy('Forename');*/
+          $sortedTasks = collect($tasks)->sortBy('created_at')->sortBy('category_id')->sortBy('projname_id');
           $comments = Comment::where([
                 ['report_id', '=', $report->id]      
           ])->get();
@@ -174,8 +177,8 @@ class TaskController extends Controller
       if(Auth::user()->authorizeRoles(['permanent', 'nonpermanent', 'supervisor'])){
         $task = Task::find($id);
        
-        $cat_id = $task->category_id;
-        $category =  Category::find($cat_id);
+        $category =  Category::find($task->category_id);
+        $projname = Projname::find($task->projname_id);
 
         /*$description = Auth::user()->username.' edited task '.$task->id.' for report '.$task->report_id;
         $log = new Log([
@@ -184,9 +187,9 @@ class TaskController extends Controller
         $log->save();*/
 
         if(Auth::user()->type == 'permanent'|| Auth::user()->type == 'nonpermanent'){
-          return view('employee.editextension', compact('task','id', 'category'));
+          return view('employee.editextension', compact('task','id', 'category','projname'));
         }elseif (Auth::user()->type == 'supervisor'){
-          return view('supervisor.editextension', compact('task','id', 'category'));
+          return view('supervisor.editextension', compact('task','id', 'category', 'projname'));
         }
     }
     }
@@ -198,6 +201,7 @@ class TaskController extends Controller
           $task->title = $request->get('title');
           $task->target_no = $request->get('target_no');
           $task->category_id = $request->get('category_id');
+          $task->projname_id = $request->get('projname_id');
           $task->actual_no = $request->get('actual_no');
           $task->rating_quantity = $request->get('rating_quantity');
           $task->rating_timeliness = $request->get('rating_timeliness');
@@ -264,8 +268,9 @@ class TaskController extends Controller
                   ->where('report_id',$report->id)
                   ->groupBy('report_id')
                   ->avg('rating_average');
-          $tasks = collect($tasks)->sortBy(['projname_id']);
-          $tasks = collect($tasks)->sortBy(['category_id']);
+         /* $tasks = collect($tasks)->sortBy(['projname_id']);
+          $tasks = collect($tasks)->sortBy(['category_id']);*/
+          $tasks = collect($tasks)->sortBy('category_id')->sortBy('projname_id');
           $comments = Comment::where([
                 ['report_id', '=', $id]      
           ])->get();
@@ -310,8 +315,9 @@ class TaskController extends Controller
                   ->where('report_id',$report->id)
                   ->groupBy('report_id')
                   ->avg('rating_average');
-          $tasks = collect($tasks)->sortBy(['projname_id']);
-           $tasks = collect($tasks)->sortBy(['category_id']);
+          /*$tasks = collect($tasks)->sortBy(['projname_id']);
+           $tasks = collect($tasks)->sortBy(['category_id']);*/
+          $tasks = collect($tasks)->sortBy('category_id')->sortBy('projname_id');
           $comments = Comment::where([
                 ['report_id', '=', $id]      
           ])->get();
@@ -358,8 +364,9 @@ class TaskController extends Controller
                   ->where('report_id',$report->id)
                   ->groupBy('report_id')
                   ->avg('rating_average');
-          $tasks = collect($tasks)->sortBy(['projname_id']);
-          $tasks = collect($tasks)->sortBy(['category_id']);
+          /*$tasks = collect($tasks)->sortBy(['projname_id']);
+          $tasks = collect($tasks)->sortBy(['category_id']);*/
+          $tasks = collect($tasks)->sortBy('category_id')->sortBy('projname_id');
           $comments = Comment::where([
             ['report_id', '=', $id]      
             ])->get();
@@ -392,10 +399,13 @@ class TaskController extends Controller
         //
       if(Auth::user()->authorizeRoles(['permanent', 'nonpermanent', 'supervisor'])){
         $task = Task::find($id);
-       
-        $cat_id = $task->category_id;
-        $chosenCategory =  Category::find($cat_id);
+        $chosenCategory =  Category::find($task->category_id);
+        $chosenProjname =  Projname::find($task->projname_id);
         $categories = Category::where([
+            ['user_id', '=', Auth::user()->id],
+            ['report_id', '=', $task->report_id]
+          ])->get();
+        $projnames = Projname::where([
             ['user_id', '=', Auth::user()->id],
             ['report_id', '=', $task->report_id]
           ])->get();
@@ -405,9 +415,9 @@ class TaskController extends Controller
         ]);
         $log->save();*/
         if(Auth::user()->type == 'permanent'|| Auth::user()->type == 'nonpermanent'){
-          return view('employee.editbeforerating', compact('task','id', 'chosenCategory', 'categories'));
+          return view('employee.editbeforerating', compact('task','id', 'chosenCategory', 'categories', 'projnames', 'chosenProjname'));
         }elseif (Auth::user()->type == 'supervisor'){
-          return view('supervisor.editbeforerating', compact('task','id', 'chosenCategory'));
+          return view('supervisor.editbeforerating', compact('task','id', 'chosenCategory', 'categories', 'projnames', 'chosenProjname'));
         }
     }
     }

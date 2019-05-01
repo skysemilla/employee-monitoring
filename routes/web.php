@@ -44,6 +44,7 @@ Route::post('employee/template-report/{id}', 'ReportController@storeTemplate')->
 Route::get('my-profile', 'UserController@employeeProfile');
 
 Route::get('supervisor/report/{id}', 'TaskController@forSupervisorView');
+Route::get('supervisor/edit-before-approval/{id}', 'TaskController@editBeforeRating');
 /*Route::post('supervisor/report/{id}', 'ReportController@addComment');*/
 Route::get('supervisor/approve/{id}', 'ReportController@updateReportApproved');
 Route::get('supervisor/disapprove/{id}', 'ReportController@updateReportDisapproved');

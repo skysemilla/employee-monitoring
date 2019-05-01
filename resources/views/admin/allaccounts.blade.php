@@ -62,6 +62,8 @@
         <td style="text-align:center;">
         @if($user['status'] == "inactive" && ($user['type'] != "admin" && $user['type'] != "headofoffice"))
          <a href="{{action('UserController@activate', $user['id'])}}" class="btn btn-primary" >Activate</a>
+
+         
        
         @else 
               <button class="btn btn-info" disabled >Activate</button>

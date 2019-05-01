@@ -56,7 +56,8 @@
             @else
               <td><a class="btn btn-warning" disabled>Use Template</a>
             @endif
-
+             <a href="{{action('PDFController@make', $report['id'])}}" class="btn btn-info">Generate PDF</a>
+            </td>
              <!-- &nbsp; <a  data-toggle="modal" data-target="#approveReportModal" class="btn btn-success">Approve</a>
              &nbsp; <a  class="btn btn-danger">Disapprove</a></td>
         

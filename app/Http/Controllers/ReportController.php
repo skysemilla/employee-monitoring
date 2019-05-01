@@ -167,6 +167,7 @@ class ReportController extends Controller
               'description' => $description
             ]);
             $log->save();
+            return redirect('/home');
 
         }
         return redirect('home')->with('error','You do not have access.');
@@ -242,6 +243,7 @@ class ReportController extends Controller
             'description' => $description
           ]);
           $log->save();
+          return redirect('/home');
 
       }
       return redirect('home')->with('error','You do not have access.');

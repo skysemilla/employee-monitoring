@@ -12,7 +12,7 @@
                      <div class="table-div" style="float: center" >
                         <div class="col-lg-12">
                         <div class="panel panel-default" >
-                        <div class="panel-heading" style="background-color: #88a097;"><h3><strong>EDIT REPORT {{$id}}</strong></h3></div>
+                        <div class="panel-heading" style="background-color: #88a097;"><h3><strong>EDIT TASK {{$id}}</strong></h3></div>
                         <div class="panel-body">
                         <br>
                         <div class="container">
@@ -41,6 +41,27 @@
                                             @endif
 
                                             <option value=" {{$category['id']}}"> {{$category['name']}}</option>
+                                     
+                                        @endforeach
+                                   </select>
+
+                              </div>
+                            </div>
+
+                            <div class="form-group row">
+                           
+                              <label for="lgFormGroupInput" class="col-sm-2 col-form-label col-form-label-lg">PROJECT</label>
+                              <div class="col-sm-6">
+                            
+                                <select name="projname_id" id="projname_id" class="form-control">
+
+                                       @foreach($projnames as $projname)
+                                            @if($chosenProjname->id == $projname->id)
+                                            <option selected value=" {{$projname['id']}}"> {{$projname['name']}}</option>
+                                            @continue
+                                            @endif
+
+                                            <option value=" {{$projname['id']}}"> {{$projname['name']}}</option>
                                      
                                         @endforeach
                                    </select>
